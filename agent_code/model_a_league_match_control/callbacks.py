@@ -1,3 +1,0 @@
-from agent_code.model_a_league_match_common.callbacks import act_agent, setup_agent
-def setup(self): setup_agent(self, "control")
-def act(self, game_state): return act_agent(self, game_state)

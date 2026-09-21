@@ -1,1 +1,0 @@
-"""League opponent slot three."""
