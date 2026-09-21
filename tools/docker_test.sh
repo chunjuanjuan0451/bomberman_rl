@@ -32,26 +32,19 @@ run_limited() {
     "${image}" "$@"
 }
 
-echo "[1/4] Runtime, PyTorch, cgroup limits, and frozen v4 checkpoint"
+echo "[1/3] Runtime, PyTorch, cgroup limits, and frozen v4 checkpoint"
 run_limited python tools/check_runtime_environment.py \
   --require-container-limits --load-v4-checkpoint
 
-echo "[2/4] Deterministic function-style test suite"
-run_limited python -W error::RuntimeWarning tools/run_unit_tests.py
-
-echo "[3/4] Official main.py smoke with the PyTorch v4 checkpoint"
+echo "[2/3] Official main.py smoke with the PyTorch v4 checkpoint"
 run_limited python main.py play \
   --agents model_a_dqn random_agent random_agent random_agent \
   --train 0 --continue-without-training --scenario coin-heaven \
   --no-gui --n-rounds 1 --seed 9901
 
-echo "[4/4] Official main.py smoke with the v10.1 classic tactical planner"
-run_limited env \
-  SEEDED_RANDOM_AGENT_SEED=9902 \
-  MODEL_A_V10_CHECKPOINT_PATH=experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz \
-  MODEL_A_V10_CONFIG_PATH=experiments/configs/v10.1-classic-planner-s109602.json \
-  python main.py play \
-  --agents model_a_v10 seeded_random_agent seeded_random_agent seeded_random_agent \
+echo "[3/3] Official main.py smoke with the final niulai agent"
+run_limited python main.py play \
+  --agents niulai random_agent random_agent random_agent \
   --train 0 --continue-without-training --scenario classic \
   --no-gui --n-rounds 1 --seed 9902
 

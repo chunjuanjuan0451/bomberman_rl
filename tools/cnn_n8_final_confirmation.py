@@ -31,7 +31,7 @@ from agent_code.model_a_cnn_n8.network import (  # noqa: E402
     ARCHITECTURE, FullBoardDuelingCNN, torch,
 )
 from agent_code.model_a_dqn.callbacks import MODEL_ARCHITECTURE  # noqa: E402
-from tools.v4_task4_duel_training import atomic_json, relative  # noqa: E402
+from tools.experiment_utils import atomic_json, relative  # noqa: E402
 
 
 DEFAULT_PROTOCOL = ROOT / "experiments/configs/model-a-cnn-n8-final-confirmation-s152000.json"

@@ -18,7 +18,7 @@ if str(ROOT) not in sys.path:
 from agent_code.model_a_cnn_n8.network import ARCHITECTURE  # noqa: E402
 from tools.cnn_n8_task1 import _metrics, _torch_load, atomic_json, relative, sha256_file, utc_now  # noqa: E402
 from tools.cnn_n8_task4 import combine_metrics  # noqa: E402
-from tools.v4_task4_duel_training import seed_values  # noqa: E402
+from tools.experiment_utils import seed_values  # noqa: E402
 
 
 DEFAULT_PROTOCOL = ROOT / "experiments/configs/model-a-cnn-n8-d4-symmetry-ab-s170000.json"
