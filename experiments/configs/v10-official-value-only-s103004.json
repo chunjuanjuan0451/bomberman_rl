@@ -1,0 +1,15 @@
+{
+  "variant": "v10-official-value-only-s103004",
+  "scenario": "coin-heaven",
+  "checkpoint_path": "experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz",
+  "checkpoint_sha256": "ea681938f696183132db3a23eb3d47ed4cb9ddb38a5a0105d989d46a6bbb610b",
+  "student_head_weights": {
+    "policy": 0.0,
+    "value": 0.1,
+    "opponent": 0.0,
+    "risk": 0.0
+  },
+  "forbidden_actions": ["BOMB"],
+  "training": false,
+  "h2h": false
+}

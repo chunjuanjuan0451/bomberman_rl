@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-resource-competition-ab",
+  "protocol_id": "model-a-cnn-n8-resource-competition-ab-s165000",
+  "status": "preregistered_stop_after_internal_gate",
+  "question": "Does one fixed resource-competition roster preserve more coin skill than matched continued three-rule training?",
+  "only_primary_variable": "training_opponent_distribution",
+  "parent": {
+    "label": "control-r2-round0150",
+    "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+    "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee",
+    "completed_total_rounds": 2900
+  },
+  "architecture": {
+    "name": "model-a-cnn-n8-full33-v1",
+    "collision_mask": "immediate_opponent_collision_then_known_hazard_survival",
+    "changed_from_parent": false
+  },
+  "learning": {
+    "algorithm": "dueling-double-dqn-uniform-nstep",
+    "n_step": 8,
+    "gamma": 0.99,
+    "batch_size": 256,
+    "update_every": 32,
+    "samples_per_environment_transition": 8,
+    "replay_capacity": 50000,
+    "warmup_transitions": 8192,
+    "learning_rate": 0.0001,
+    "gradient_clip": 10.0,
+    "target_sync_environment_steps": 8000,
+    "epsilon_start": 1.0,
+    "epsilon_final": 0.05,
+    "epsilon_decay_steps": 80000,
+    "checkpoint_every_rounds": 25,
+    "loss": "smooth_l1",
+    "resume_optimizer_target_counters_and_epsilon": true,
+    "clear_replay_at_experiment_boundary": true,
+    "changed_from_parent": false
+  },
+  "reward_contract": {
+    "coin_collected": 1.0,
+    "killed_opponent": 5.0,
+    "survived_round": 1.0,
+    "got_killed": -5.0,
+    "killed_self_exclusive_total": -8.0,
+    "crate_destroyed": 0.2,
+    "invalid_action": -0.2,
+    "bomb_dropped": 0.0,
+    "task4_shaping_multiplier": 0.25,
+    "changed_from_parent": false
+  },
+  "hardware": {
+    "training_device": "mps",
+    "evaluation_device": "cpu",
+    "replica_execution": "sequential",
+    "parallel_mps_training_processes": 1
+  },
+  "training": {
+    "scenario": "classic",
+    "rounds_per_arm_replica": 100,
+    "milestones": [25, 50, 100],
+    "arms": 2,
+    "replicas_per_arm": 3,
+    "total_rounds": 600
+  },
+  "arms": {
+    "control": {
+      "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+    },
+    "resource": {
+      "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+    }
+  },
+  "replicas": {
+    "r1": {"world_seed": 165101, "agent_seed": 265101, "rule_seed": 365101, "coin_seed": 465101, "random_seed": 565101},
+    "r2": {"world_seed": 165102, "agent_seed": 265102, "rule_seed": 365102, "coin_seed": 465102, "random_seed": 565102},
+    "r3": {"world_seed": 165103, "agent_seed": 265103, "rule_seed": 365103, "coin_seed": 465103, "random_seed": 565103}
+  },
+  "validation": {
+    "selection_only": true,
+    "rounds_per_case": 20,
+    "cases": [
+      {"case_id": "rule-a", "stratum": "rule", "world_seed": 165201, "agent_seed": 265201, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rule_seed": 365201},
+      {"case_id": "mixed-a", "stratum": "mixed", "world_seed": 165202, "agent_seed": 265202, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"], "rule_seed": 365202, "coin_seed": 465202, "random_seed": 565202},
+      {"case_id": "rule-b", "stratum": "rule", "world_seed": 165203, "agent_seed": 265203, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rule_seed": 365203},
+      {"case_id": "mixed-b", "stratum": "mixed", "world_seed": 165204, "agent_seed": 265204, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"], "rule_seed": 365204, "coin_seed": 465204, "random_seed": 565204}
+    ],
+    "candidate_checkpoint_evaluations": 18,
+    "parent_evaluations": 1,
+    "rounds_per_identity": 80,
+    "total_rounds": 1520
+  },
+  "selection_rule": {
+    "primary": "pooled official score across all replicas and both strata",
+    "near_best_tolerance_per_round": 0.05,
+    "milestone_tiebreak": "earliest common milestone within tolerance",
+    "replica_tiebreaks": ["higher score", "higher coins", "lower suicides", "higher kills", "lower WAIT", "lower replica index"],
+    "individual_milestone_cherry_picking_allowed": false
+  },
+  "gate": {
+    "minimum_score_gain_per_round": 0.2,
+    "minimum_coin_gain_per_round": 0.4,
+    "maximum_kill_loss_per_round": 0.05,
+    "maximum_suicide_increase_per_round": 0.05,
+    "minimum_paired_replica_score_wins": 2
+  },
+  "external_agents": {
+    "used_for_training": false,
+    "used_for_selection": false,
+    "used_for_gate": false,
+    "automatic_confirmation": false
+  },
+  "checkpoint_directory": "experiments/checkpoints/model-a-cnn-n8-resource-competition-ab-s165000",
+  "training_manifest_directory": "experiments/logs/runs/model-a-cnn-n8-resource-competition-ab-s165000/training",
+  "validation_manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-resource-competition-ab-s165000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-resource-competition-ab-s165000/report.json",
+  "training_allowed": true,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false
+}

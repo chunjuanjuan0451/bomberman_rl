@@ -1,0 +1,64 @@
+{
+  "run_id": "model-a-v10.12-v4-tactical-hybrid-s106300",
+  "phase": "v10.12-no-training-frozen-v4-tactical-hybrid",
+  "scenario": "classic",
+  "training": false,
+  "h2h": false,
+  "checkpoint_path": "experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz",
+  "checkpoint_sha256": "ea681938f696183132db3a23eb3d47ed4cb9ddb38a5a0105d989d46a6bbb610b",
+  "student_head_weights": {
+    "policy": 0.0,
+    "value": 0.1,
+    "opponent": 0.0,
+    "risk": 0.0
+  },
+  "v4_anchor": {
+    "enabled": true,
+    "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+    "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+    "policy_temperature": 0.25,
+    "contract": "Return the exact frozen-v4 masked greedy action outside the preregistered tactical gate and use its masked Q distribution as the search root prior."
+  },
+  "v4_tactical_hybrid": {
+    "enabled": true,
+    "gate": [
+      "active explosion at root",
+      "root in timer<=2 bomb blast",
+      "live opponent within Manhattan distance 3",
+      "frozen v4 proposes BOMB"
+    ],
+    "minimum_completed_simulations": 32,
+    "minimum_action_visits": 8,
+    "minimum_value_advantage": 0.1,
+    "override_contract": "Change a planner-allowed v4 action only when both actions have at least 8 root visits and search mean(candidate)-mean(v4)>=0.10. Planner-unsafe v4 actions use the safe fallback; productive BOMB protection remains authoritative."
+  },
+  "classic_planner": {
+    "enabled": true,
+    "horizon": 8,
+    "prior_weight": 0.8,
+    "temperature": 0.85,
+    "crate_frontier_weight": 0.32,
+    "bomb_efficiency_penalty": 0.0,
+    "persistent_target_enabled": true,
+    "productive_bomb_protection": true,
+    "opponent_model": "wait-plus-one-step-conflict-penalty",
+    "safety_contract": "official-simulator-survival-under-waiting-opponents"
+  },
+  "repetition": {
+    "enabled": true,
+    "history_window": 16,
+    "activation_steps": 8,
+    "lambda": 0.6,
+    "minimum_multiplier": 0.05
+  },
+  "crate_progress_weight": 0.0,
+  "residual_policy": {
+    "enabled": false
+  },
+  "nonlinear_policy": {
+    "enabled": false
+  },
+  "search_budget_profile": "ryzen-safe-v1",
+  "validation_seed": 106300,
+  "notes": "No training. Frozen v4 supplies the default and search root prior; inexpensive v10 auxiliary leaf heads plus the classic planner may intervene only under the narrow tactical gate."
+}

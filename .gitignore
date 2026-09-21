@@ -104,7 +104,12 @@ venv.bak/
 .mypy_cache/
 
 .idea
-/models
+.DS_Store
+.vscode/
+models/*
+!models/final/
+!models/final/d4/
+!models/final/v4/
 screenshots/*.png
 screenshots/*.mp4
 screenshots/*.webm

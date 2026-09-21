@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-d4-symmetry-ab",
+  "protocol_id": "model-a-cnn-n8-d4-symmetry-final-s171000",
+  "status": "preregistered_stop_before_execution",
+  "question": "Does the preregistered eight-view D4 inference candidate confirm its score, safety, and latency gains on fresh seeds without further selection?",
+  "evidence_source": {
+    "path": "experiments/logs/diagnostics/model-a-cnn-n8-d4-symmetry-ab-s170000/report.json",
+    "sha256": "65766479165daa2704e3fc14c2486ba6b3c2195908934326a183582ab6395c4c",
+    "required_decision": "d4_symmetry_supported_for_selection_free_confirmation_stop"
+  },
+  "checkpoint": {
+    "label": "control-r2-round0150",
+    "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+    "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee"
+  },
+  "provenance": {
+    "external_source_imported": false,
+    "external_weights_actions_labels_or_trajectories_used": false,
+    "training_data_added": false,
+    "checkpoint_or_mask_modified": false,
+    "candidate_selected_only_from": "s170000 preregistered A/B result; no s171000 seed has been observed.",
+    "geometry": "Project-owned exact D4 coordinate and action permutations; no external-agent implementation is used."
+  },
+  "arms": {
+    "control": "Frozen control-r2 single-view CNN Q values followed by the unchanged collision-consistent mask.",
+    "treatment": "The single fixed s170 winner: mean of eight aligned D4-view Q vectors from the same frozen network, followed by the same unchanged mask."
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_arm_case": 50,
+    "rounds_per_arm": 400,
+    "total_environment_rounds": 800,
+    "policy_updates": 0,
+    "cases": {
+      "rule-seat0": {"stratum": "rule", "seat": 0, "arm_order": ["treatment", "control"], "world_seed": 171201, "agent_seed": 271201, "rule_seed": 371201, "roster": ["target", "seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-seat1": {"stratum": "rule", "seat": 1, "arm_order": ["control", "treatment"], "world_seed": 171202, "agent_seed": 271202, "rule_seed": 371202, "roster": ["seeded_rule_based_agent", "target", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-seat2": {"stratum": "rule", "seat": 2, "arm_order": ["control", "treatment"], "world_seed": 171203, "agent_seed": 271203, "rule_seed": 371203, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "target", "seeded_rule_based_agent"]},
+      "rule-seat3": {"stratum": "rule", "seat": 3, "arm_order": ["treatment", "control"], "world_seed": 171204, "agent_seed": 271204, "rule_seed": 371204, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent", "target"]},
+      "mixed-seat0": {"stratum": "mixed", "seat": 0, "arm_order": ["control", "treatment"], "world_seed": 171301, "agent_seed": 271301, "rule_seed": 371301, "coin_seed": 471301, "random_seed": 571301, "roster": ["target", "seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-seat1": {"stratum": "mixed", "seat": 1, "arm_order": ["treatment", "control"], "world_seed": 171302, "agent_seed": 271302, "rule_seed": 371302, "coin_seed": 471302, "random_seed": 571302, "roster": ["seeded_rule_based_agent", "target", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-seat2": {"stratum": "mixed", "seat": 2, "arm_order": ["treatment", "control"], "world_seed": 171303, "agent_seed": 271303, "rule_seed": 371303, "coin_seed": 471303, "random_seed": 571303, "roster": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "target", "seeded_random_agent"]},
+      "mixed-seat3": {"stratum": "mixed", "seat": 3, "arm_order": ["control", "treatment"], "world_seed": 171304, "agent_seed": 271304, "rule_seed": 371304, "coin_seed": 471304, "random_seed": 571304, "roster": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent", "target"]}
+    }
+  },
+  "decision_rule": {
+    "minimum_score_gain_per_round": 0.10,
+    "minimum_winning_blocks_out_of_8": 5,
+    "minimum_rule_score_delta_per_round": -0.05,
+    "minimum_mixed_score_delta_per_round": -0.05,
+    "maximum_suicide_increase_per_round": 0.0,
+    "maximum_kill_loss_per_round": 0.02,
+    "maximum_invalid_increase_per_round": 0.0,
+    "maximum_treatment_mean_decision_time_ms": 50.0,
+    "pass_decision": "d4_symmetry_confirmed_as_final_internal_candidate_stop",
+    "fail_decision": "d4_symmetry_not_confirmed_retain_single_view_control_r2_stop"
+  },
+  "manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-d4-symmetry-final-s171000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-d4-symmetry-final-s171000/report.json",
+  "training_allowed": false,
+  "checkpoint_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "candidate_deployment_allowed": false,
+  "automatic_followup": false
+}

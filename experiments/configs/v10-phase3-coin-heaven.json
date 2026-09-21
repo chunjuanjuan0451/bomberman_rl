@@ -1,0 +1,20 @@
+{
+  "run_id": "model-a-v10-expert-iteration-coin-heaven-s103001",
+  "phase": "v10-phase3",
+  "scenario": "coin-heaven",
+  "episodes": 500,
+  "iterations": 2,
+  "episodes_per_iteration": 250,
+  "max_steps": 400,
+  "search_simulations": 50,
+  "search_horizon_plies": 8,
+  "seed": 103001,
+  "validation_seeds": [103501, 103502, 103503],
+  "learning_rate": 0.0005,
+  "epochs_per_iteration": 3,
+  "batch_size": 128,
+  "checkpoint_path": "experiments/checkpoints/model-a-v10-expert-iteration-coin-heaven-s103001.npz",
+  "trajectory_path": "experiments/logs/v10-phase3/model-a-v10-expert-iteration-coin-heaven-s103001-trajectories.npz",
+  "training": true,
+  "h2h": false
+}

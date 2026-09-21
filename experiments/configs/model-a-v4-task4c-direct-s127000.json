@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-task4c-direct",
+  "protocol_id": "model-a-v4-task4c-direct-s127000",
+  "question": "Can source-r2 learn a reproducibly stronger and safe final three-rule policy when only the episode distribution changes?",
+  "scope": "One bounded direct Task4C branch; cheap replicated signal gate first, conditional full retention and fresh outer confirmation second, then stop",
+  "active_subcourse": "task4c_three_rule",
+  "replicas": ["r1", "r2", "r3"],
+  "snapshot_rounds": [25, 50, 75, 100, 125, 150, 175, 200],
+  "single_training_variable": "task4c_episode_distribution",
+  "learning_contract": {
+    "architecture": "unchanged exact-v4 model-a-mlp-v4-global7",
+    "features": "unchanged",
+    "action_mask": "unchanged",
+    "reward_and_shaping": "unchanged",
+    "uniform_replay": "unchanged and reset at the Task4C boundary",
+    "optimizer": "resume source-r2 optimizer state unchanged",
+    "epsilon": "resume source-r2 schedule at the unchanged 0.05 floor"
+  },
+  "checkpoint_directory": "experiments/checkpoints/model-a-v4-task4c-direct-s127000",
+  "confirmed_checkpoint_path": "experiments/checkpoints/model-a-v4-task4c-confirmed-s127000/task4c.pt",
+  "training_manifest_directory": "experiments/logs/runs/model-a-v4-task4c-direct-s127000",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-task4c-direct-s127000",
+  "selection_manifest_path": "experiments/logs/selections/model-a-v4-task4c-direct-s127000.json",
+  "confirmed_selection_manifest_path": "experiments/logs/selections/model-a-v4-task4c-confirmed-s127000.json",
+  "report_path": "experiments/logs/course-reports/model-a-v4-task4-direct-s127000/task4c.json",
+  "training": {
+    "scenario": "classic",
+    "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+    "rounds": 200,
+    "seeds": {
+      "r1": {"world_seed": 127101, "agent_seed": 227101, "opponent_seed": 327101},
+      "r2": {"world_seed": 127102, "agent_seed": 227102, "opponent_seed": 327102},
+      "r3": {"world_seed": 127103, "agent_seed": 227103, "opponent_seed": 327103}
+    }
+  },
+  "inner_signal": {
+    "scenario": "classic",
+    "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+    "rounds_per_case": 10,
+    "cases_by_replica": {
+      "r1": [
+        {"world_seed": 127201, "agent_seed": 227201, "opponent_seed": 327201},
+        {"world_seed": 127202, "agent_seed": 227202, "opponent_seed": 327202}
+      ],
+      "r2": [
+        {"world_seed": 127211, "agent_seed": 227211, "opponent_seed": 327211},
+        {"world_seed": 127212, "agent_seed": 227212, "opponent_seed": 327212}
+      ],
+      "r3": [
+        {"world_seed": 127221, "agent_seed": 227221, "opponent_seed": 327221},
+        {"world_seed": 127222, "agent_seed": 227222, "opponent_seed": 327222}
+      ]
+    },
+    "supportive_replicas_required": 2,
+    "supportive_rule": {
+      "minimum_score_gain_over_source": 0.25,
+      "minimum_score_delta_to_v4": 0.0,
+      "minimum_kills_delta_to_source": 0.0,
+      "maximum_suicide_increase_over_v4": 0.05,
+      "minimum_score_margin_over_rule_mean": 0.0
+    },
+    "selection_order": [
+      "larger minimum score gain over source-r2 and v4",
+      "larger score margin over rule mean",
+      "lower suicide rate",
+      "higher kill rate",
+      "earlier snapshot"
+    ]
+  },
+  "outer_confirmation": {
+    "strata": {
+      "task1": {
+        "scenario": "coin-heaven", "opponents": [], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127301, "agent_seed": 227301, "opponent_seed": 327301},
+          {"world_seed": 127302, "agent_seed": 227302, "opponent_seed": 327302}
+        ]
+      },
+      "task2": {
+        "scenario": "classic", "opponents": [], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127311, "agent_seed": 227311, "opponent_seed": 327311},
+          {"world_seed": 127312, "agent_seed": 227312, "opponent_seed": 327312}
+        ]
+      },
+      "task3_peaceful": {
+        "scenario": "classic", "opponents": ["seeded_peaceful_agent"], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127321, "agent_seed": 227321, "opponent_seed": 327321},
+          {"world_seed": 127322, "agent_seed": 227322, "opponent_seed": 327322}
+        ]
+      },
+      "task3_coin": {
+        "scenario": "classic", "opponents": ["seeded_coin_collector_agent"], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127331, "agent_seed": 227331, "opponent_seed": 327331},
+          {"world_seed": 127332, "agent_seed": 227332, "opponent_seed": 327332}
+        ]
+      },
+      "task4a_open_rule": {
+        "scenario": "coin-heaven", "opponents": ["seeded_rule_based_agent"], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127351, "agent_seed": 227351, "opponent_seed": 327351},
+          {"world_seed": 127352, "agent_seed": 227352, "opponent_seed": 327352}
+        ]
+      },
+      "task4b_classic_duel": {
+        "scenario": "classic", "opponents": ["seeded_rule_based_agent"], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127341, "agent_seed": 227341, "opponent_seed": 327341},
+          {"world_seed": 127342, "agent_seed": 227342, "opponent_seed": 327342}
+        ]
+      },
+      "task4c_three_rule": {
+        "scenario": "classic", "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 127361, "agent_seed": 227361, "opponent_seed": 327361},
+          {"world_seed": 127362, "agent_seed": 227362, "opponent_seed": 327362},
+          {"world_seed": 127363, "agent_seed": 227363, "opponent_seed": 327363},
+          {"world_seed": 127364, "agent_seed": 227364, "opponent_seed": 327364}
+        ]
+      }
+    },
+    "decision_rule": {
+      "minimum_task1_fraction_of_v4": 0.9,
+      "maximum_task2_score_drop_from_source": 0.5,
+      "maximum_task3_score_drop_from_source": 0.5,
+      "maximum_task3_kills_drop_from_source": 0.05,
+      "maximum_task3_suicide_increase_over_source": 0.05,
+      "maximum_duel_score_drop_from_source": 0.25,
+      "maximum_duel_suicide_increase_over_source": 0.05,
+      "minimum_three_rule_score_gain_over_each_baseline": 0.15,
+      "minimum_three_rule_kills_delta_to_source": 0.0,
+      "maximum_three_rule_suicide_increase_over_v4": 0.05,
+      "minimum_three_rule_score_margin_over_rule_mean": 0.0,
+      "minimum_three_rule_case_blocks_not_below_both_baselines": 2,
+      "pass_decision": "task4c_confirmed_complete_stop",
+      "fail_decision": "task4c_candidate_rejected_stop"
+    },
+    "task4a_open_rule_policy": "report only; Task4A was independently attempted and rejected"
+  },
+  "source_parent": {
+    "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+    "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+    "lineage": {
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+      "arm": "curriculum", "replica": "r2", "stage_id": "task2"
+    }
+  },
+  "frozen_v4_baseline": {
+    "path": "agent_code/model_a_dqn/model_a.pt",
+    "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "previous_confirmation_report": {
+    "path": "experiments/logs/diagnostics/model-a-v4-task4-r3-round100-confirmation-s126000.json",
+    "sha256": "2f8bf5586ac1bde1f01082cc3c92b8315d3dfa71dbe6aad8f6a5319cd6d80340"
+  },
+  "automatic_followup": false,
+  "seed_registration": {
+    "namespace": "s127000",
+    "structured_workspace_audit_result": "0 prior uses across all 75 registered seeds",
+    "registered_before_formal_execution": true
+  },
+  "source_bindings": {
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_dqn/train.py": "16cc5ad2d8a7d395161fba71a6d5a255196ee1e73bbb52f2e3d97964674d7620",
+    "agent_code/model_a_dqn/replay_buffer.py": "ecb46494b14cad11ce35ea736271e3fe9cf32595586a08d29ebb6a45094b55a6",
+    "agent_code/model_a_v4_curriculum/config.py": "0ff651fc7e4607c59f74c78cba1a53e7cabfc6d1dc108a139200b063ead596cc",
+    "agent_code/model_a_v4_curriculum/callbacks.py": "f280d6858e276e1ddb0f70091ef5ba9a7e3d71680d38d41e5f99a6d79431fd4b",
+    "agent_code/model_a_v4_task4c/config.py": "48009a6876e2dcf766a43fcb720ea6158cbb92e462fd82b52aadf86b99f4a456",
+    "agent_code/model_a_v4_task4c/callbacks.py": "d2c199cdb126268e6ac4a5f8899fede86ca10c8e0eed6ae0e845539236710f37",
+    "agent_code/model_a_v4_task4c/train.py": "408645ba1bca69a4bb0e21ffdd682922389e3dbdf4a2c5280e0892ad77924644",
+    "agent_code/seeded_peaceful_agent/callbacks.py": "6512ad1a3915f8aeffa3d5974efde5aadcde0351658e4bda2f239769cf94ec2f",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "tools/v4_task4_duel_training.py": "2736a2014771c68ff4c87ae5330fb4aa8061801a713acee5285779a4d3ed4ac3",
+    "tools/v4_task4c_direct.py": "432ddb91e3fa53d71ed8b31dbddc6160b5fc08004d2f79eb7faead25e8e34be3"
+  }
+}

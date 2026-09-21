@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-productive-bomb-ab",
+  "protocol_id": "model-a-cnn-n8-productive-bomb-ab-s168000",
+  "status": "preregistered_selection_free_terminal",
+  "question": "Does independently adding one productive-target condition to the frozen control-r2-round0150 BOMB mask improve official Task4 score without sacrificing kills or either opponent stratum?",
+  "provenance": {
+    "motivation": "The external RUEHL evaluation motivated testing whether avoidable target-free bombs explain part of the remaining score and suicide gap.",
+    "implementation": "Project-native implementation from official game_state and existing blast_positions semantics.",
+    "external_source_imported": false,
+    "external_weights_actions_labels_or_trajectories_used": false
+  },
+  "checkpoint": {
+    "label": "control-r2-round0150",
+    "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+    "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee"
+  },
+  "arms": {
+    "control": "Frozen control-r2 network with its current collision-consistent effective action mask.",
+    "treatment": "The identical frozen policy and mask, except legal BOMB is removed when its current official blast contains neither a crate nor an opponent; if removal empties the action set, fall back to the control mask."
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_arm_case": 25,
+    "rounds_per_arm": 100,
+    "total_environment_rounds": 200,
+    "policy_updates": 0,
+    "cases": {
+      "rule-a": {"stratum": "rule", "arm_order": ["control", "treatment"], "world_seed": 168201, "agent_seed": 268201, "rule_seed": 368201, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "mixed-a": {"stratum": "mixed", "arm_order": ["treatment", "control"], "world_seed": 168202, "agent_seed": 268202, "rule_seed": 368202, "coin_seed": 468202, "random_seed": 568202, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "rule-b": {"stratum": "rule", "arm_order": ["treatment", "control"], "world_seed": 168203, "agent_seed": 268203, "rule_seed": 368203, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "mixed-b": {"stratum": "mixed", "arm_order": ["control", "treatment"], "world_seed": 168204, "agent_seed": 268204, "rule_seed": 368204, "coin_seed": 468204, "random_seed": 568204, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]}
+    }
+  },
+  "decision_rule": {
+    "minimum_score_gain_per_round": 0.10,
+    "minimum_case_score_wins_out_of_4": 3,
+    "minimum_rule_score_delta_per_round": -0.05,
+    "minimum_mixed_score_delta_per_round": -0.05,
+    "maximum_suicide_increase_per_round": 0.0,
+    "maximum_kill_loss_per_round": 0.02,
+    "pass_decision": "productive_bomb_gate_supported_for_mask_consistent_short_training_stop",
+    "fail_decision": "productive_bomb_gate_not_supported_retain_control_r2_round0150_stop"
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-cnn-n8-productive-bomb-ab-s168000/traces",
+  "manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-productive-bomb-ab-s168000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-productive-bomb-ab-s168000/report.json",
+  "training_allowed": false,
+  "checkpoint_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "candidate_deployment_allowed": false,
+  "automatic_followup": false
+}

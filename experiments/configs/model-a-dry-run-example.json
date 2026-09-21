@@ -1,0 +1,16 @@
+{
+  "run_id": "replace-with-unique-run-id",
+  "agent": "model_a_dqn",
+  "agents": [
+    "model_a_dqn",
+    "rule_based_agent",
+    "coin_collector_agent",
+    "peaceful_agent"
+  ],
+  "scenario": "classic",
+  "rounds": 1000,
+  "seed": 7101,
+  "agent_seed": 17101,
+  "checkpoint_path": "experiments/checkpoints/replace-with-unique-run-id.pt",
+  "resume": false
+}

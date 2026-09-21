@@ -1,0 +1,29 @@
+{
+  "variant": "v10-phase3.2-official-s103008-candidate",
+  "scenario": "coin-heaven",
+  "checkpoint_path": "experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz",
+  "checkpoint_sha256": "ea681938f696183132db3a23eb3d47ed4cb9ddb38a5a0105d989d46a6bbb610b",
+  "student_head_weights": {
+    "policy": 0.0,
+    "value": 0.1,
+    "opponent": 0.0,
+    "risk": 0.0
+  },
+  "repetition": {
+    "enabled": true,
+    "history_window": 16,
+    "activation_steps": 8,
+    "lambda": 0.6,
+    "minimum_multiplier": 0.05
+  },
+  "search_runtime": {
+    "normal_simulation_cap": 10000,
+    "normal_deadline_ms": 55.0,
+    "tactical_simulation_cap": 10000,
+    "tactical_deadline_ms": 220.0,
+    "horizon_plies": 8
+  },
+  "forbidden_actions": ["BOMB"],
+  "training": false,
+  "h2h": false
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-d4-symmetry-ab",
+  "protocol_id": "model-a-cnn-n8-d4-rule-10seed-s172000",
+  "status": "preregistered_stop_before_execution",
+  "question": "How does the confirmed D4 candidate score directly against three independently seeded rule-based agents over ten fresh seeds?",
+  "evidence_source": {
+    "path": "experiments/logs/diagnostics/model-a-cnn-n8-d4-symmetry-final-s171000/report.json",
+    "sha256": "5b41a6323943e22511ddbcb507e7dc20c337c406c24d36aebdc6a6b95b2d3071",
+    "required_decision": "d4_symmetry_confirmed_as_final_internal_candidate_stop"
+  },
+  "checkpoint": {
+    "label": "control-r2-round0150-plus-d4-inference",
+    "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+    "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee"
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_seed": 50,
+    "seed_count": 10,
+    "total_environment_rounds": 500,
+    "policy_updates": 0,
+    "cases": {
+      "seed01": {"seat": 1, "world_seed": 172401, "agent_seed": 272401, "rule_seed": 372401, "roster": ["seeded_rule_based_agent", "target", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "seed02": {"seat": 2, "world_seed": 172402, "agent_seed": 272402, "rule_seed": 372402, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "target", "seeded_rule_based_agent"]},
+      "seed03": {"seat": 3, "world_seed": 172403, "agent_seed": 272403, "rule_seed": 372403, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent", "target"]},
+      "seed04": {"seat": 0, "world_seed": 172404, "agent_seed": 272404, "rule_seed": 372404, "roster": ["target", "seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "seed05": {"seat": 1, "world_seed": 172405, "agent_seed": 272405, "rule_seed": 372405, "roster": ["seeded_rule_based_agent", "target", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "seed06": {"seat": 2, "world_seed": 172406, "agent_seed": 272406, "rule_seed": 372406, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "target", "seeded_rule_based_agent"]},
+      "seed07": {"seat": 3, "world_seed": 172407, "agent_seed": 272407, "rule_seed": 372407, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent", "target"]},
+      "seed08": {"seat": 0, "world_seed": 172408, "agent_seed": 272408, "rule_seed": 372408, "roster": ["target", "seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "seed09": {"seat": 1, "world_seed": 172409, "agent_seed": 272409, "rule_seed": 372409, "roster": ["seeded_rule_based_agent", "target", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "seed10": {"seat": 2, "world_seed": 172410, "agent_seed": 272410, "rule_seed": 372410, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "target", "seeded_rule_based_agent"]}
+    }
+  },
+  "manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-d4-rule-10seed-s172000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-d4-rule-10seed-s172000/report.json",
+  "training_allowed": false,
+  "selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "candidate_deployment_allowed": false,
+  "automatic_followup": false
+}

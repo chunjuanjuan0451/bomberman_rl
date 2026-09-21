@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "kind": "task3-v6s2-evaluation-only-promotion-gate-v1",
+  "run_id": "task3-v6s2-s7501-gate-s107300",
+  "task": 3,
+  "includes_task4": false,
+  "scenario": "classic",
+  "training": false,
+  "automatic_training": false,
+  "candidate_selection_rule": "locked-first-pilot-checkpoint-s7501",
+  "candidate_selection_rationale": "Seed 7501 was the sole checkpoint that passed the original v6s2 pilot before the 7502/7503 replication results existed; locking it avoids selecting the highest observed replication score.",
+  "evaluation_design": "Two-agent matches, evaluated separately against deterministic behavior-preserving copies of peaceful_agent and coin_collector_agent. Task-4 and rule_based_agent results are excluded.",
+  "arms": {
+    "v4": {
+      "agent": "model_a_dqn",
+      "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+      "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+    },
+    "candidate": {
+      "agent": "model_a_v6_stable",
+      "checkpoint_path": "experiments/checkpoints/model-a-v6s2-d4-consistency-s7501.pt",
+      "checkpoint_sha256": "bbc3e395c00313ee18295fb48002e7d16c60af27807e3425e80a5509a358b54b",
+      "config_path": "experiments/configs/v6s2-d4-consistency.json",
+      "config_sha256": "a6c3dc1e83eed014016f2d321d557185f72b5c17c7d18fa5d284a19fe9491533"
+    }
+  },
+  "strata": {
+    "peaceful": {
+      "supplied_policy": "peaceful_agent",
+      "opponent": "seeded_peaceful_agent",
+      "rounds_per_seed": 50,
+      "cases": [
+        {"world_seed": 107300, "agent_seed": 207300, "opponent_seed": 307300},
+        {"world_seed": 107301, "agent_seed": 207301, "opponent_seed": 307301},
+        {"world_seed": 107302, "agent_seed": 207302, "opponent_seed": 307302},
+        {"world_seed": 107303, "agent_seed": 207303, "opponent_seed": 307303},
+        {"world_seed": 107304, "agent_seed": 207304, "opponent_seed": 307304},
+        {"world_seed": 107305, "agent_seed": 207305, "opponent_seed": 307305}
+      ]
+    },
+    "coin_collector": {
+      "supplied_policy": "coin_collector_agent",
+      "opponent": "seeded_coin_collector_agent",
+      "rounds_per_seed": 50,
+      "cases": [
+        {"world_seed": 107400, "agent_seed": 207400, "opponent_seed": 307400},
+        {"world_seed": 107401, "agent_seed": 207401, "opponent_seed": 307401},
+        {"world_seed": 107402, "agent_seed": 207402, "opponent_seed": 307402},
+        {"world_seed": 107403, "agent_seed": 207403, "opponent_seed": 307403},
+        {"world_seed": 107404, "agent_seed": 207404, "opponent_seed": 307404},
+        {"world_seed": 107405, "agent_seed": 207405, "opponent_seed": 307405}
+      ]
+    }
+  },
+  "gate": {
+    "primary_metric": "official score per round",
+    "required_task3_metric": "kills per round",
+    "minimum_stratum_score_per_round_delta": 0.0,
+    "minimum_stratum_kills_per_round_delta": 0.0,
+    "minimum_overall_score_per_round_delta": 0.15,
+    "minimum_overall_kills_per_round_delta": 0.03,
+    "maximum_overall_coins_per_round_regression": 0.1,
+    "minimum_paired_net_wins": 2,
+    "maximum_single_cell_score_per_round_regression": 0.5,
+    "maximum_suicides_per_round_increase": 0.02,
+    "maximum_invalid_actions_per_round_increase": 0.05,
+    "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "bindings": {
+    "tools/task3_v6s2_gate.py": "e4cb3bbb24e85c7722c970ee0f6ebbbfcc8b96e6c35212ba772d72a5c7073111",
+    "main.py": "1cce39f6af66a1714231dc51cf7af5cd80375cc0ecf5212a4bb88928b5048e55",
+    "environment.py": "75b40b8bc5dd1fec7d584ba1dc3a15de060e0bfe1afcfed769d553f5d5d0fd36",
+    "agents.py": "582a96cc27ba7dd246f248b316e7808d82a07b29fd0139dc44a6ec9a696a49a8",
+    "settings.py": "f0b97a16aae57bfc0131d76fca064749435e4d82c23fb967f7e09bd1ace9603a",
+    "events.py": "8d7633de52d7abdc021e1ccfbf759f3fbc71c84be96445665fcdd82910739ed5",
+    "items.py": "49805da4d490d54ec410ce34e5dcdc763e3c8d9b212055b0f83b0972da02df0e",
+    "agent_code/seeded_peaceful_agent/__init__.py": "0367349c0d837e1a2b7ea44babe713d076ac5ffc6f734cdc525b2760bf14f194",
+    "agent_code/seeded_peaceful_agent/callbacks.py": "6512ad1a3915f8aeffa3d5974efde5aadcde0351658e4bda2f239769cf94ec2f",
+    "agent_code/seeded_coin_collector_agent/__init__.py": "e1e9eae76dd0bcc2dcd65a1c6f3a3093e5bc250e399f9fb5341fc7937150f859",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "agent_code/model_a_v6_stable/callbacks.py": "28083d1b7d7fa92f6f479d435fa8906352e2af990aab73c8a2584bbe3925ead0",
+    "agent_code/model_a_v6_stable/config.py": "79642f8c3e36ac44660ebcfde2609da34b455ad21b15e819da93de800b9c0e01",
+    "agent_code/model_a_v6_stable/network.py": "54b0eb2d1b995059905f3199650e14bae67633fe3df486e1c98164aa3f6aea42",
+    "agent_code/model_a_v6/features.py": "248cc2ad91188d5d377642fd2e49799d7aeafd5417f5d711d88d559a35416cad",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "experiments/configs/v6s2-d4-consistency.json": "a6c3dc1e83eed014016f2d321d557185f72b5c17c7d18fa5d284a19fe9491533",
+    "agent_code/model_a_dqn/model_a.pt": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+    "experiments/checkpoints/model-a-v6s2-d4-consistency-s7501.pt": "bbc3e395c00313ee18295fb48002e7d16c60af27807e3425e80a5509a358b54b"
+  },
+  "evaluation_output_directory": "experiments/logs/evaluations/task3-v6s2-s7501-gate-s107300",
+  "output_path": "experiments/logs/evaluations/task3-v6s2-s7501-gate-s107300.json",
+  "decision_branches": {
+    "select_v6s2_task3_incumbent": "Freeze v6s2-s7501 as the Task-3 incumbent. Stop; do not start Task 4. Prepare a separate supplied-opponent confirmation before declaring Task 3 complete.",
+    "retain_v4_prepare_task3_training": "Retain frozen v4. Stop; do not start Task 4. Prepare the separately preregistered Task-3 learned-residual A/B/C training experiment using new seeds."
+  }
+}

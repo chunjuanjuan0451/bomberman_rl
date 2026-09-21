@@ -1,0 +1,78 @@
+{
+  "kind": "v10-task2-teacher-budget-gate-preregistration-v1",
+  "run_id": "v10.9-task2-teacher-budget-gate-s106140",
+  "purpose": "Determine whether the 128-to-256 search-budget action instability yields a material Task 2 teacher-performance improvement.",
+  "repeatability_report": "experiments/logs/diagnostics/v10.8.1-task2-teacher-repeatability-s106120.json",
+  "repeatability_report_sha256": "a7c5edfd4c3eff28e8e8fc094aa228b02527904abfa0ed1609ac2cbd1c605858",
+  "required_repeatability_decision": "search_budget_instability",
+  "base_teacher_config": "experiments/configs/v10.6-task2-target-aware-correction-s105200.json",
+  "base_teacher_config_sha256": "35b6f3b4a9cac4f063d5babb389764a203adfc47e21221de76cdc7a198b39e5d",
+  "episode_seeds": [
+    106140,
+    106141,
+    106142,
+    106143,
+    106144,
+    106145,
+    106146,
+    106147,
+    106148,
+    106149,
+    106150,
+    106151
+  ],
+  "opponent_count": 0,
+  "state_sample_stride": 4,
+  "arms": [
+    {
+      "name": "control_128",
+      "simulations": 128
+    },
+    {
+      "name": "candidate_256",
+      "simulations": 256
+    }
+  ],
+  "controlled_variables": {
+    "persistent_target": true,
+    "productive_bomb_protection": true,
+    "search_horizon_plies": 8,
+    "teacher_crate_progress_weight": 0.08,
+    "teacher_crate_frontier_weight": 0.32,
+    "maximum_steps": 400,
+    "search_seed_rule": "episode_seed * 1000 + step",
+    "only_difference_between_arms": "root search simulations"
+  },
+  "teacher_gate": {
+    "control_arm": "control_128",
+    "candidate_arm": "candidate_256",
+    "minimum_survival_rate": 1.0,
+    "maximum_mean_crate_regression": 0.25,
+    "maximum_mean_score_regression": 0.25,
+    "maximum_single_seed_crate_regression": 3,
+    "maximum_candidate_worst_seed_crates": 12,
+    "minimum_clear_count_gain": 1,
+    "minimum_absolute_mean_crate_gain": 0.5,
+    "minimum_paired_crate_wins": 7,
+    "material_gain_rule": "Pass when safeguards all pass and either candidate_256 clears at least one additional episode or reduces mean remaining crates by at least 0.5 with at least 7 paired crate wins."
+  },
+  "decision_branches": {
+    "select_256_teacher": "Stop. Use 256 simulations only in a separately preregistered teacher-data or student experiment; do not start it automatically.",
+    "keep_128_no_material_gain": "Stop. Keep the 128-simulation teacher and next preregister a planner-preserving correction/advantage target that excludes or downweights low-margin WAIT overrides.",
+    "reject_256_regression": "Stop. Reject 256 simulations and next redesign the correction target around planner preservation and low-margin WAIT filtering; do not train from the unstable target."
+  },
+  "source_sha256": {
+    "agent_code/model_a_v10/interfaces.py": "fd775edd5c9426416709656080de6cb844b14b6b6d028377a963ece052c69fd2",
+    "agent_code/model_a_v10/planner.py": "b8cd90a9e7421c00db92ba88db5c672effb9ad614e2146bde5b97c386b19a760",
+    "agent_code/model_a_v10/runtime.py": "e09c109a83881d91508960ce17ac26a58ed3e5152c7340f1f318ff2ed1262b4d",
+    "agent_code/model_a_v10/search.py": "b85d8afe0cab792de130d166351efcede4b4cda80a1ff7bbf1b82ac48e68454b",
+    "agent_code/model_a_v10/simulator.py": "dc9e01fdd89c991f75d18188ff8662648447f70aefeeb3d35b7df48f3e7d1f49",
+    "tools/v10_classic_residual_train.py": "ac54f2011f5cde9d8bd8596872e21305f2d94a5a25fa45b3848b66314657c41f",
+    "tools/v10_teacher_repeatability.py": "a7f9ac3d2762e983d4195cd83d41db9587778358a3cf5e545de9bc9a7d63bc30",
+    "tools/v10_teacher_budget_gate.py": "95d17774e070377d3f47be716580dee808eb5437c05642dc66a00d51a0ab8bfa"
+  },
+  "output_path": "experiments/logs/diagnostics/v10.9-task2-teacher-budget-gate-s106140.json",
+  "automatic_training": false,
+  "training": false,
+  "h2h": false
+}

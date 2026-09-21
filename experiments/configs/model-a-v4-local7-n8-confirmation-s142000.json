@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-local7-n8-confirmation",
+  "protocol_id": "model-a-v4-local7-n8-confirmation-s142000",
+  "status": "preregistered_stop_before_execution",
+  "question": "Does the post-hoc local7-n8 family signal from s141000 reproduce on untouched Task1/Task2 seeds while remaining score-safe in Task4B and Task4C?",
+  "selection_free": true,
+  "training_allowed": false,
+  "individual_replica_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "automatic_followup": false,
+  "labels": ["frozen-v4", "source-r2", "local7-r1", "local7-r2", "local7-r3"],
+  "fixed_candidate_family": ["local7-r1", "local7-r2", "local7-r3"],
+  "historical_discovery": {
+    "protocol": {
+      "path": "experiments/configs/model-a-v4-global-resource-n8-pilot-s141000.json",
+      "sha256": "b5250fbf4764d830e2d83319d89f5cab491ac93c44fcd1fd76793b6133f49e8f"
+    },
+    "terminal_report": {
+      "path": "experiments/logs/diagnostics/model-a-v4-global-resource-n8-pilot-s141000/report.json",
+      "sha256": "4954e784007a43b3cc0996d24aee0a554e99bf101eb781b089034db188a3f6e3",
+      "decision": "n8_does_not_rescue_fullboard_signal_stop"
+    },
+    "post_hoc_observation": {
+      "frozen_v4_task2_score_per_round": 2.38,
+      "local7_family_task2_score_per_round": 2.8,
+      "local7_replica_task2_score_per_round": {"r1": 2.38, "r2": 3.3, "r3": 2.72},
+      "local7_family_task1_score_per_round": 35.333333333333336
+    },
+    "revealed_s141000_seeds_reused": false
+  },
+  "checkpoint_inventory": {
+    "frozen-v4": {
+      "kind": "v4",
+      "path": "agent_code/model_a_dqn/model_a.pt",
+      "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+      "required_metadata": {}
+    },
+    "source-r2": {
+      "kind": "source",
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "required_metadata": {
+        "architecture": "model-a-mlp-v4-global7",
+        "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+        "arm": "curriculum",
+        "replica": "r2",
+        "stage_id": "task2"
+      }
+    },
+    "local7-r1": {
+      "kind": "local7",
+      "replica": "r1",
+      "path": "experiments/checkpoints/model-a-v4-global-resource-n8-pilot-s141000/local7/r1/round-0200.pt",
+      "sha256": "489212a433a8a16a8f6942fda1bb6f55d543ab896b151e4127cc12f060e0c157"
+    },
+    "local7-r2": {
+      "kind": "local7",
+      "replica": "r2",
+      "path": "experiments/checkpoints/model-a-v4-global-resource-n8-pilot-s141000/local7/r2/round-0200.pt",
+      "sha256": "f194ae7e3ff1a9f80d3a6a37d7b1e2648834a7a19577ba470914fa4338ffdada"
+    },
+    "local7-r3": {
+      "kind": "local7",
+      "replica": "r3",
+      "path": "experiments/checkpoints/model-a-v4-global-resource-n8-pilot-s141000/local7/r3/round-0200.pt",
+      "sha256": "360e6178e96d4f861541bd04473b7e2cec4e670aeb8e3bf446df18ffd5a59c04"
+    }
+  },
+  "evaluation": {
+    "strata": {
+      "task1": {
+        "scenario": "coin-heaven",
+        "opponents": [],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 142101, "agent_seed": 242101}
+        ]
+      },
+      "task2": {
+        "scenario": "classic",
+        "opponents": [],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 142201, "agent_seed": 242201},
+          {"world_seed": 142202, "agent_seed": 242202},
+          {"world_seed": 142203, "agent_seed": 242203},
+          {"world_seed": 142204, "agent_seed": 242204}
+        ]
+      },
+      "task4b_duel": {
+        "scenario": "classic",
+        "opponents": ["seeded_rule_based_agent"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"world_seed": 142301, "agent_seed": 242301, "opponent_seed": 342301},
+          {"world_seed": 142302, "agent_seed": 242302, "opponent_seed": 342302},
+          {"world_seed": 142303, "agent_seed": 242303, "opponent_seed": 342303},
+          {"world_seed": 142304, "agent_seed": 242304, "opponent_seed": 342304}
+        ]
+      },
+      "task4c_three_rule": {
+        "scenario": "classic",
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"world_seed": 142401, "agent_seed": 242401, "opponent_seed": 342401},
+          {"world_seed": 142402, "agent_seed": 242402, "opponent_seed": 342402},
+          {"world_seed": 142403, "agent_seed": 242403, "opponent_seed": 342403},
+          {"world_seed": 142404, "agent_seed": 242404, "opponent_seed": 342404}
+        ]
+      }
+    },
+    "total_manifests": 65,
+    "rounds_per_label": 525,
+    "total_observed_rounds": 2625,
+    "external_opponent_used": false,
+    "reason_external_deferred": "This gate confirms the local7 family and fixed-rule competition safety only; mixed/external rosters are reserved for a later final-score confirmation."
+  },
+  "confirmation_gate": {
+    "minimum_task2_replica_score_gain_over_v4": 0.1,
+    "minimum_positive_task2_replicas": 2,
+    "minimum_family_task2_score_ratio_vs_v4": 1.1,
+    "minimum_family_task2_coin_ratio_vs_v4": 1.1,
+    "minimum_family_task1_score_ratio_vs_v4": 0.95,
+    "maximum_family_task2_suicide_increase_vs_v4": 0.02,
+    "maximum_family_task2_invalid_increase_vs_v4": 0.1,
+    "maximum_family_pooled_task4_score_drop_vs_v4": 0.1,
+    "maximum_family_pooled_task4_margin_drop_vs_v4": 0.15,
+    "maximum_family_task4_stratum_score_drop_vs_v4": 0.25,
+    "maximum_family_pooled_task4_suicide_increase_vs_v4": 0.03,
+    "maximum_family_task4_stratum_suicide_increase_vs_v4": 0.05,
+    "minimum_task4_safe_replicas": 2,
+    "replica_maximum_pooled_task4_score_drop_vs_v4": 0.25,
+    "kills_used_for_gate": false
+  },
+  "decision_branches": {
+    "pass": "local7_n8_family_confirmed_competition_safe_stop_before_paired_training",
+    "task2_only": "local7_n8_task2_confirmed_but_competition_unsafe_reject_stop",
+    "fail": "local7_n8_family_not_confirmed_reject_stop"
+  },
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-local7-n8-confirmation-s142000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-local7-n8-confirmation-s142000.json"
+}

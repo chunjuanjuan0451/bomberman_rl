@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-productive-bomb-ab",
+  "protocol_id": "model-a-cnn-n8-productive-bomb-final-s169000",
+  "status": "preregistered_selection_free_terminal",
+  "question": "Does the fixed s168 productive-BOMB treatment reproduce its score and safety advantage over unchanged control-r2-round0150 on a larger fresh-seed rule/mixed confirmation?",
+  "selection_source": {
+    "path": "experiments/logs/diagnostics/model-a-cnn-n8-productive-bomb-ab-s168000/report.json",
+    "sha256": "bf9e805178bc928094bea5d08d1fc209e04f2491b3edc11e1ad48a48cd5340d9",
+    "required_protocol_sha256": "b8e075c303b7ed888f9e125ac8178f05f761e8ea0366f9e78c96725892af40eb",
+    "required_decision": "productive_bomb_gate_supported_for_mask_consistent_short_training_stop"
+  },
+  "provenance": {
+    "candidate_fixed_after_s168": true,
+    "mask_definition_changed_after_selection": false,
+    "external_source_imported": false,
+    "external_weights_actions_labels_or_trajectories_used": false
+  },
+  "checkpoint": {
+    "label": "control-r2-round0150",
+    "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+    "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee"
+  },
+  "arms": {
+    "control": "Frozen control-r2 network with its current collision-consistent effective action mask.",
+    "treatment": "The fixed s168 mask: remove a legal BOMB exactly when its official current blast contains neither a crate nor an opponent; fall back to control only if removal would empty the action set."
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_arm_case": 25,
+    "rounds_per_arm": 200,
+    "total_environment_rounds": 400,
+    "policy_updates": 0,
+    "cases": {
+      "rule-a": {"stratum": "rule", "arm_order": ["control", "treatment"], "world_seed": 169201, "agent_seed": 269201, "rule_seed": 369201, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-b": {"stratum": "rule", "arm_order": ["treatment", "control"], "world_seed": 169202, "agent_seed": 269202, "rule_seed": 369202, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-c": {"stratum": "rule", "arm_order": ["treatment", "control"], "world_seed": 169203, "agent_seed": 269203, "rule_seed": 369203, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-d": {"stratum": "rule", "arm_order": ["control", "treatment"], "world_seed": 169204, "agent_seed": 269204, "rule_seed": 369204, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "mixed-a": {"stratum": "mixed", "arm_order": ["control", "treatment"], "world_seed": 169301, "agent_seed": 269301, "rule_seed": 369301, "coin_seed": 469301, "random_seed": 569301, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-b": {"stratum": "mixed", "arm_order": ["treatment", "control"], "world_seed": 169302, "agent_seed": 269302, "rule_seed": 369302, "coin_seed": 469302, "random_seed": 569302, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-c": {"stratum": "mixed", "arm_order": ["treatment", "control"], "world_seed": 169303, "agent_seed": 269303, "rule_seed": 369303, "coin_seed": 469303, "random_seed": 569303, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-d": {"stratum": "mixed", "arm_order": ["control", "treatment"], "world_seed": 169304, "agent_seed": 269304, "rule_seed": 369304, "coin_seed": 469304, "random_seed": 569304, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]}
+    }
+  },
+  "decision_rule": {
+    "minimum_score_gain_per_round": 0.10,
+    "minimum_winning_blocks_out_of_8": 5,
+    "minimum_rule_score_delta_per_round": 0.0,
+    "minimum_mixed_score_delta_per_round": 0.0,
+    "maximum_suicide_increase_per_round": 0.0,
+    "maximum_kill_loss_per_round": 0.02,
+    "maximum_invalid_increase_per_round": 0.0,
+    "maximum_mean_decision_time_ms": 500.0,
+    "pass_decision": "productive_bomb_mask_confirmed_as_final_internal_candidate_stop",
+    "fail_decision": "productive_bomb_mask_not_confirmed_retain_control_r2_round0150_stop"
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-cnn-n8-productive-bomb-final-s169000/traces",
+  "manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-productive-bomb-final-s169000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-productive-bomb-final-s169000/report.json",
+  "training_allowed": false,
+  "checkpoint_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "candidate_deployment_allowed": false,
+  "automatic_followup": false
+}

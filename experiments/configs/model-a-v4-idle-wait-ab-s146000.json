@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-idle-wait-ab",
+  "protocol_id": "model-a-v4-idle-wait-ab-s146000",
+  "status": "preregistered_stop_before_execution",
+  "question": "Does a tiny penalty for clearly idle WAIT reduce frozen-v4 Task2 stalling and improve score without damaging bomb use, crate destruction, or Task1?",
+  "single_changed_variable": {
+    "name": "conditional idle-WAIT reward",
+    "control_penalty": 0.0,
+    "candidate_penalty": -0.01,
+    "definition": "action is WAIT, at least one legal survivable movement exists, bombs list is empty, current explosion_map cell is zero, and current danger time is infinite"
+  },
+  "unchanged": [
+    "exact v4 MLP architecture and feature representation",
+    "one-step Double-DQN and uniform replay",
+    "all official-event rewards and danger shaping",
+    "optimizer state, learning rate, batch size, replay capacity, update cadence, target sync and gradient clipping",
+    "epsilon schedule state and 0.05 floor",
+    "Task2 classic opponent-free training distribution",
+    "100-round dose and paired world/agent seeds"
+  ],
+  "parent_checkpoint": {
+    "path": "agent_code/model_a_dqn/model_a.pt",
+    "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+    "completed_rounds": 10300,
+    "training_steps": 772588,
+    "gradient_steps": 173200,
+    "epsilon": 0.050000000000000044
+  },
+  "audit_lineage": {
+    "task4_report": {
+      "path": "experiments/logs/diagnostics/model-a-v4-wait-qgap-audit-s144000/report.json",
+      "sha256": "2c722a9ab71f71dd5e1ccbdcc11b9c50f477beaf124b8bd623ee55f7c6da80e0"
+    },
+    "task2_report": {
+      "path": "experiments/logs/diagnostics/model-a-v4-task2-wait-qgap-audit-s145000/report.json",
+      "sha256": "09f8daae789df129e59ba4f631a0e4f51e54338edecf835082772c240b853ad9",
+      "recommendation": "test_conditional_idle_wait_penalty_from_task2"
+    }
+  },
+  "training": {
+    "arms": ["control", "idle-wait-001"],
+    "replicas": ["r1", "r2", "r3"],
+    "scenario": "classic",
+    "opponents": [],
+    "rounds_per_arm": 100,
+    "total_rounds": 600,
+    "seeds": {
+      "r1": {"world_seed": 146101, "agent_seed": 246101},
+      "r2": {"world_seed": 146102, "agent_seed": 246102},
+      "r3": {"world_seed": 146103, "agent_seed": 246103}
+    }
+  },
+  "evaluation": {
+    "labels": ["frozen-v4", "control-r1", "control-r2", "control-r3", "idle-wait-001-r1", "idle-wait-001-r2", "idle-wait-001-r3"],
+    "strata": {
+      "task1": {
+        "scenario": "coin-heaven",
+        "rounds_per_case": 25,
+        "cases": [{"world_seed": 146301, "agent_seed": 246301}]
+      },
+      "task2": {
+        "scenario": "classic",
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 146201, "agent_seed": 246201},
+          {"world_seed": 146202, "agent_seed": 246202},
+          {"world_seed": 146203, "agent_seed": 246203},
+          {"world_seed": 146204, "agent_seed": 246204}
+        ]
+      }
+    },
+    "rounds_per_label": 125,
+    "total_rounds": 875
+  },
+  "gate": {
+    "minimum_candidate_task2_score_gain_over_control": 0.1,
+    "minimum_replica_task2_score_gain": 0.1,
+    "minimum_supportive_replica_pairs": 2,
+    "minimum_task2_wait_fraction_reduction": 0.05,
+    "minimum_task2_crate_retention_ratio": 0.9,
+    "minimum_task2_bomb_retention_ratio": 0.9,
+    "minimum_task1_score_retention_ratio": 0.95,
+    "maximum_task2_suicide_increase": 0.01,
+    "maximum_task2_invalid_increase": 0.05
+  },
+  "decision_branches": {
+    "pass": "idle_wait_001_supported_stop_before_competition_confirmation",
+    "fail": "idle_wait_001_not_supported_retain_frozen_v4_stop"
+  },
+  "checkpoint_directory": "experiments/checkpoints/model-a-v4-idle-wait-ab-s146000",
+  "training_manifest_directory": "experiments/logs/runs/model-a-v4-idle-wait-ab-s146000",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-idle-wait-ab-s146000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-idle-wait-ab-s146000/report.json",
+  "training_allowed": true,
+  "checkpoint_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "automatic_followup": false,
+  "source_bindings": {
+    "base_callbacks": {
+      "path": "agent_code/model_a_dqn/callbacks.py",
+      "sha256": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9"
+    },
+    "base_train": {
+      "path": "agent_code/model_a_dqn/train.py",
+      "sha256": "16cc5ad2d8a7d395161fba71a6d5a255196ee1e73bbb52f2e3d97964674d7620"
+    },
+    "base_features": {
+      "path": "agent_code/model_a_dqn/features.py",
+      "sha256": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de"
+    },
+    "base_network": {
+      "path": "agent_code/model_a_dqn/network.py",
+      "sha256": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28"
+    },
+    "base_replay_buffer": {
+      "path": "agent_code/model_a_dqn/replay_buffer.py",
+      "sha256": "ecb46494b14cad11ce35ea736271e3fe9cf32595586a08d29ebb6a45094b55a6"
+    },
+    "experiment_callbacks": {
+      "path": "agent_code/model_a_v4_idle_wait/callbacks.py",
+      "sha256": "8f6ecda5d79fa541e14c13d61d81d267ecf0252280d783a2ba9b8428559d3864"
+    },
+    "experiment_train": {
+      "path": "agent_code/model_a_v4_idle_wait/train.py",
+      "sha256": "38185ada1b65216e0337fa7a426d41bbf46dad60714bb8e8f50a766f3232425a"
+    },
+    "runner": {
+      "path": "tools/v4_idle_wait_ab.py",
+      "sha256": "f814d131b1f973a66a801fff18cbdcc56b6b3ea95fbd30c07f03ac69a09f1a29"
+    }
+  }
+}

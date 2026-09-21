@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-final-confirmation",
+  "protocol_id": "model-a-cnn-n8-final-confirmation-s152000",
+  "question": "Does the fixed task4-r3-round0800 CNN reproducibly replace frozen-v4 on untouched six-layer confirmation seeds, and how large is the remaining gap to a pinned external strong reference?",
+  "fixed_candidate": "candidate-cnn",
+  "internal_labels": ["candidate-cnn", "frozen-v4", "source-r2"],
+  "selection_free": true,
+  "training_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "automatic_followup": false,
+  "external_reference_is_diagnostic_only": true,
+  "external_reference_used_for_gate": false,
+  "selection_source": {
+    "path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s151000/task4.json",
+    "sha256": "31ba7893bf59a19f16074ccb9c5367904bdd900b163aedc2ea9ab98b10bc9552",
+    "selected_label": "task4-r3-round0800"
+  },
+  "checkpoint_inventory": {
+    "candidate-cnn": {
+      "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt",
+      "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332",
+      "protocol_path": "experiments/configs/model-a-cnn-n8-task4-s151000.json",
+      "required_metadata": {
+        "architecture": "model-a-cnn-n8-full33-v1",
+        "protocol_sha256": "f113a6fb1c0edd2935ce4a9e7b1420a828468746aa38a265548d995732fe47d9",
+        "stage": "task4",
+        "replica": "r3",
+        "stage_rounds": 800,
+        "completed_total_rounds": 2750,
+        "n_step": 8,
+        "parent_sha256": "55a49a401a3fb5484fb93d116047740226dab7b7a6ca2439f7e9a2c5f7776d26"
+      }
+    },
+    "frozen-v4": {
+      "path": "agent_code/model_a_dqn/model_a.pt",
+      "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+      "required_metadata": {}
+    },
+    "source-r2": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "required_metadata": {
+        "architecture": "model-a-mlp-v4-global7",
+        "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+        "arm": "curriculum",
+        "replica": "r2",
+        "stage_id": "task2"
+      }
+    }
+  },
+  "external_stress_opponent": {
+    "repository": "https://github.com/Li-Jesse-Jiaze/MLE_project_bomberman.git",
+    "commit": "a7fe5041b02548ce4438e502ca3adb11576bae75",
+    "agent_subdirectory": "agent_code/feature_is_everything",
+    "known_previous_opponent": true,
+    "training_or_teacher_use_allowed": false,
+    "license_file_present": false,
+    "submission_candidate": false,
+    "file_sha256": {
+      "callbacks.py": "cadc00f69e4b0e04a1063e6760deea1ed48e23855992201c3edcebe6284071fe",
+      "features.py": "8baf96ae76f685a5dbfb74bae644e2cbb816952103859081801888ebe6b9f620",
+      "model.py": "27736c5afa4ccf50582141b6aea57740699365e35879ad6d5cb4842b3fc7829c",
+      "my-saved-model.pt": "0fb1df0b3c3f255db121e8ba7c6061d1293f55d3e7ae12772259643ee2060577",
+      "symmetry.py": "cac8ad3d8b197d1cca6fa67ca35d3db00d45c4c81afa549d797bb8b45657f82e"
+    }
+  },
+  "evaluation": {
+    "standard_strata": {
+      "task1": {
+        "scenario": "coin-heaven",
+        "opponents": [],
+        "target_labels": ["candidate-cnn", "frozen-v4", "source-r2"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"case_id": "task1-c1", "world_seed": 152101, "agent_seeds": {"candidate-cnn": 252101, "frozen-v4": 352101, "source-r2": 452101}, "opponent_seeds": {}},
+          {"case_id": "task1-c2", "world_seed": 152102, "agent_seeds": {"candidate-cnn": 252102, "frozen-v4": 352102, "source-r2": 452102}, "opponent_seeds": {}},
+          {"case_id": "task1-c3", "world_seed": 152103, "agent_seeds": {"candidate-cnn": 252103, "frozen-v4": 352103, "source-r2": 452103}, "opponent_seeds": {}},
+          {"case_id": "task1-c4", "world_seed": 152104, "agent_seeds": {"candidate-cnn": 252104, "frozen-v4": 352104, "source-r2": 452104}, "opponent_seeds": {}}
+        ]
+      },
+      "task2": {
+        "scenario": "classic",
+        "opponents": [],
+        "target_labels": ["candidate-cnn", "frozen-v4", "source-r2"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"case_id": "task2-c1", "world_seed": 152201, "agent_seeds": {"candidate-cnn": 252201, "frozen-v4": 352201, "source-r2": 452201}, "opponent_seeds": {}},
+          {"case_id": "task2-c2", "world_seed": 152202, "agent_seeds": {"candidate-cnn": 252202, "frozen-v4": 352202, "source-r2": 452202}, "opponent_seeds": {}},
+          {"case_id": "task2-c3", "world_seed": 152203, "agent_seeds": {"candidate-cnn": 252203, "frozen-v4": 352203, "source-r2": 452203}, "opponent_seeds": {}},
+          {"case_id": "task2-c4", "world_seed": 152204, "agent_seeds": {"candidate-cnn": 252204, "frozen-v4": 352204, "source-r2": 452204}, "opponent_seeds": {}}
+        ]
+      },
+      "task3_peaceful": {
+        "scenario": "classic",
+        "opponents": ["seeded_peaceful_agent"],
+        "target_labels": ["candidate-cnn", "frozen-v4", "source-r2"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"case_id": "task3p-c1", "world_seed": 152301, "agent_seeds": {"candidate-cnn": 252301, "frozen-v4": 352301, "source-r2": 452301}, "opponent_seeds": {"peaceful": 652301}},
+          {"case_id": "task3p-c2", "world_seed": 152302, "agent_seeds": {"candidate-cnn": 252302, "frozen-v4": 352302, "source-r2": 452302}, "opponent_seeds": {"peaceful": 652302}},
+          {"case_id": "task3p-c3", "world_seed": 152303, "agent_seeds": {"candidate-cnn": 252303, "frozen-v4": 352303, "source-r2": 452303}, "opponent_seeds": {"peaceful": 652303}},
+          {"case_id": "task3p-c4", "world_seed": 152304, "agent_seeds": {"candidate-cnn": 252304, "frozen-v4": 352304, "source-r2": 452304}, "opponent_seeds": {"peaceful": 652304}}
+        ]
+      },
+      "task3_coin": {
+        "scenario": "classic",
+        "opponents": ["seeded_coin_collector_agent"],
+        "target_labels": ["candidate-cnn", "frozen-v4", "source-r2"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"case_id": "task3c-c1", "world_seed": 152401, "agent_seeds": {"candidate-cnn": 252401, "frozen-v4": 352401, "source-r2": 452401}, "opponent_seeds": {"coin": 752401}},
+          {"case_id": "task3c-c2", "world_seed": 152402, "agent_seeds": {"candidate-cnn": 252402, "frozen-v4": 352402, "source-r2": 452402}, "opponent_seeds": {"coin": 752402}},
+          {"case_id": "task3c-c3", "world_seed": 152403, "agent_seeds": {"candidate-cnn": 252403, "frozen-v4": 352403, "source-r2": 452403}, "opponent_seeds": {"coin": 752403}},
+          {"case_id": "task3c-c4", "world_seed": 152404, "agent_seeds": {"candidate-cnn": 252404, "frozen-v4": 352404, "source-r2": 452404}, "opponent_seeds": {"coin": 752404}}
+        ]
+      },
+      "task4_rule": {
+        "scenario": "classic",
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+        "target_labels": ["candidate-cnn", "frozen-v4", "source-r2", "external-strong"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"case_id": "task4r-c1", "world_seed": 152501, "agent_seeds": {"candidate-cnn": 252501, "frozen-v4": 352501, "source-r2": 452501, "external-strong": 552501}, "opponent_seeds": {"rule": 652501}},
+          {"case_id": "task4r-c2", "world_seed": 152502, "agent_seeds": {"candidate-cnn": 252502, "frozen-v4": 352502, "source-r2": 452502, "external-strong": 552502}, "opponent_seeds": {"rule": 652502}},
+          {"case_id": "task4r-c3", "world_seed": 152503, "agent_seeds": {"candidate-cnn": 252503, "frozen-v4": 352503, "source-r2": 452503, "external-strong": 552503}, "opponent_seeds": {"rule": 652503}},
+          {"case_id": "task4r-c4", "world_seed": 152504, "agent_seeds": {"candidate-cnn": 252504, "frozen-v4": 352504, "source-r2": 452504, "external-strong": 552504}, "opponent_seeds": {"rule": 652504}}
+        ]
+      },
+      "task4_mixed": {
+        "scenario": "classic",
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"],
+        "target_labels": ["candidate-cnn", "frozen-v4", "source-r2", "external-strong"],
+        "rounds_per_case": 50,
+        "cases": [
+          {"case_id": "task4m-c1", "world_seed": 152601, "agent_seeds": {"candidate-cnn": 252601, "frozen-v4": 352601, "source-r2": 452601, "external-strong": 552601}, "opponent_seeds": {"rule": 652601, "coin": 752601, "random": 852601}},
+          {"case_id": "task4m-c2", "world_seed": 152602, "agent_seeds": {"candidate-cnn": 252602, "frozen-v4": 352602, "source-r2": 452602, "external-strong": 552602}, "opponent_seeds": {"rule": 652602, "coin": 752602, "random": 852602}},
+          {"case_id": "task4m-c3", "world_seed": 152603, "agent_seeds": {"candidate-cnn": 252603, "frozen-v4": 352603, "source-r2": 452603, "external-strong": 552603}, "opponent_seeds": {"rule": 652603, "coin": 752603, "random": 852603}},
+          {"case_id": "task4m-c4", "world_seed": 152604, "agent_seeds": {"candidate-cnn": 252604, "frozen-v4": 352604, "source-r2": 452604, "external-strong": 552604}, "opponent_seeds": {"rule": 652604, "coin": 752604, "random": 852604}}
+        ]
+      }
+    },
+    "direct_shared": {
+      "scenario": "classic",
+      "rounds_per_case": 25,
+      "cases": [
+        {"case_id": "direct-c1", "world_seed": 152701, "agent_seeds": {"candidate-cnn": 252701, "frozen-v4": 352701, "source-r2": 452701, "external-strong": 552701}, "roster": ["candidate-cnn", "frozen-v4", "source-r2", "external-strong"]},
+        {"case_id": "direct-c2", "world_seed": 152702, "agent_seeds": {"candidate-cnn": 252702, "frozen-v4": 352702, "source-r2": 452702, "external-strong": 552702}, "roster": ["frozen-v4", "source-r2", "external-strong", "candidate-cnn"]},
+        {"case_id": "direct-c3", "world_seed": 152703, "agent_seeds": {"candidate-cnn": 252703, "frozen-v4": 352703, "source-r2": 452703, "external-strong": 552703}, "roster": ["source-r2", "external-strong", "candidate-cnn", "frozen-v4"]},
+        {"case_id": "direct-c4", "world_seed": 152704, "agent_seeds": {"candidate-cnn": 252704, "frozen-v4": 352704, "source-r2": 452704, "external-strong": 552704}, "roster": ["external-strong", "candidate-cnn", "frozen-v4", "source-r2"]},
+        {"case_id": "direct-c5", "world_seed": 152705, "agent_seeds": {"candidate-cnn": 252705, "frozen-v4": 352705, "source-r2": 452705, "external-strong": 552705}, "roster": ["candidate-cnn", "frozen-v4", "source-r2", "external-strong"]},
+        {"case_id": "direct-c6", "world_seed": 152706, "agent_seeds": {"candidate-cnn": 252706, "frozen-v4": 352706, "source-r2": 452706, "external-strong": 552706}, "roster": ["frozen-v4", "source-r2", "external-strong", "candidate-cnn"]},
+        {"case_id": "direct-c7", "world_seed": 152707, "agent_seeds": {"candidate-cnn": 252707, "frozen-v4": 352707, "source-r2": 452707, "external-strong": 552707}, "roster": ["source-r2", "external-strong", "candidate-cnn", "frozen-v4"]},
+        {"case_id": "direct-c8", "world_seed": 152708, "agent_seeds": {"candidate-cnn": 252708, "frozen-v4": 352708, "source-r2": 452708, "external-strong": 552708}, "roster": ["external-strong", "candidate-cnn", "frozen-v4", "source-r2"]}
+      ]
+    },
+    "budget": {
+      "standard_manifests": 80,
+      "direct_manifests": 8,
+      "total_manifests": 88,
+      "standard_identity_rounds": 4000,
+      "direct_shared_rounds": 200,
+      "total_environment_rounds": 4200
+    }
+  },
+  "replacement_gate": {
+    "minimum_pooled_task4_score_gain_over_v4": 0.15,
+    "minimum_task4_rule_score_delta_over_v4": 0.0,
+    "minimum_task4_mixed_score_delta_over_v4": 0.0,
+    "minimum_task4_block_wins_out_of_8": 5,
+    "maximum_pooled_task4_suicide_increase_over_v4": 0.03,
+    "maximum_pooled_task4_invalid_increase_over_v4": 0.05,
+    "maximum_cpu_forward_p99_ms": 100.0,
+    "maximum_cpu_forward_max_ms": 250.0
+  },
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-final-confirmation-s152000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-final-confirmation-s152000.json",
+  "source_bindings": {
+    "tools/cnn_n8_final_confirmation.py": "da515dea256a403eac934d8bd89bfa46f25ef3418cfaf5718e0c649c09eea613",
+    "agent_code/feature_is_everything_confirm/callbacks.py": "280f58f9420da9e936268d09eed2cb8e0e1b488e8df13903f26a57fc96753291",
+    "agent_code/model_a_cnn_n8/callbacks.py": "6f741cb370d217e4ebcb26cd9cb2d7430a8c07d7e9bd03c56416a8f4f49168b2",
+    "agent_code/model_a_cnn_n8/features.py": "3d31fff209b140830e7badf2665de87ee613a2b0e27e554e7ae6e50c2434a606",
+    "agent_code/model_a_cnn_n8/network.py": "b3cc72364f66f3d65cdc0d6aaffba45c6438521a85146bc3c8272335e12e4343",
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_v4_curriculum/callbacks.py": "f280d6858e276e1ddb0f70091ef5ba9a7e3d71680d38d41e5f99a6d79431fd4b",
+    "agent_code/model_a_v4_curriculum/config.py": "0ff651fc7e4607c59f74c78cba1a53e7cabfc6d1dc108a139200b063ead596cc",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "agent_code/seeded_peaceful_agent/callbacks.py": "6512ad1a3915f8aeffa3d5974efde5aadcde0351658e4bda2f239769cf94ec2f",
+    "agent_code/seeded_random_agent/callbacks.py": "2ea4723b985481cc37807221558e3dec6f459e65cdb4ce085090d723ff9f11a7"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-kill-probe-audit",
+  "protocol_id": "model-a-v4-kill-probe-audit-s128000",
+  "question": "Does the frozen source-r2 latent contain held-out, action-specific signal for a future opponent kill that is not merely a generic combat-state or self-death signal?",
+  "scope": "task4c_offline_learnability_only",
+  "hypothesis": "A bounded action-conditioned kill residual is worth policy training only if a fixed offline probe predicts future kills across held-out world-seed groups, beats a matched-capacity state-only control, and enriches kills faster than self-kill risk.",
+  "source_parent": {
+    "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+    "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+    "lineage": {
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+      "arm": "curriculum",
+      "replica": "r2",
+      "stage_id": "task2"
+    }
+  },
+  "previous_task4c_report": {
+    "path": "experiments/logs/course-reports/model-a-v4-task4-direct-s127000/task4c.json",
+    "sha256": "1b4dff1f1269c1979380062a81d5475738699372f2d51ebeae7de3c4bab3d222"
+  },
+  "collection": {
+    "scenario": "classic",
+    "opponents": [
+      "seeded_rule_based_agent",
+      "seeded_rule_based_agent",
+      "seeded_rule_based_agent"
+    ],
+    "rounds_per_case": 50,
+    "epsilon": 0.1,
+    "policy_updates": 0,
+    "cases": {
+      "c1": {"world_seed": 128101, "agent_seed": 228101, "opponent_seed": 328101},
+      "c2": {"world_seed": 128102, "agent_seed": 228102, "opponent_seed": 328102},
+      "c3": {"world_seed": 128103, "agent_seed": 228103, "opponent_seed": 328103},
+      "c4": {"world_seed": 128104, "agent_seed": 228104, "opponent_seed": 328104},
+      "c5": {"world_seed": 128105, "agent_seed": 228105, "opponent_seed": 328105},
+      "c6": {"world_seed": 128106, "agent_seed": 228106, "opponent_seed": 328106}
+    }
+  },
+  "labeling": {
+    "horizon_steps": 6,
+    "positive": "KILLED_OPPONENT occurs in the current or next five recorded transitions of the same episode",
+    "risk": "KILLED_SELF occurs in the current or next five recorded transitions of the same episode; GOT_KILLED is not double-counted",
+    "terminal_transition_deduplication": "one row per observed (round, step, action)"
+  },
+  "probe": {
+    "latent_size": 96,
+    "action_count": 6,
+    "hidden_size": 48,
+    "epochs": 40,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "positive_weight_cap": 100.0,
+    "top_fraction": 0.1,
+    "folds": {
+      "f1": {"validation": ["c1", "c2"], "training": ["c3", "c4", "c5", "c6"]},
+      "f2": {"validation": ["c3", "c4"], "training": ["c1", "c2", "c5", "c6"]},
+      "f3": {"validation": ["c5", "c6"], "training": ["c1", "c2", "c3", "c4"]}
+    },
+    "probe_seeds": {"f1": 428101, "f2": 428102, "f3": 428103},
+    "controls": ["action_conditioned", "state_only_matched_capacity"]
+  },
+  "decision_gate": {
+    "minimum_total_distinct_kill_events": 30,
+    "minimum_validation_distinct_kill_events_per_fold": 8,
+    "minimum_action_auprc_lift_over_prevalence": 2.0,
+    "minimum_top_decile_kill_lift": 2.0,
+    "minimum_action_vs_state_auprc_ratio": 1.1,
+    "minimum_top_decile_kill_self_odds_lift": 1.25,
+    "minimum_supportive_folds": 2,
+    "pass_decision": "kill_head_signal_supported_stop_before_policy_training",
+    "fail_decision": "kill_head_signal_not_supported_stop"
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-v4-kill-probe-audit-s128000/traces",
+  "collection_manifest_directory": "experiments/logs/runs/model-a-v4-kill-probe-audit-s128000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-kill-probe-audit-s128000/report.json",
+  "automatic_followup": false,
+  "source_bindings": {
+    "environment.py": "75b40b8bc5dd1fec7d584ba1dc3a15de060e0bfe1afcfed769d553f5d5d0fd36",
+    "settings.py": "f0b97a16aae57bfc0131d76fca064749435e4d82c23fb967f7e09bd1ace9603a",
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_v4_kill_probe/config.py": "f68963ab2cf590d28b2217098d193fd34b611b042f038c3531fc11ee9377288d",
+    "agent_code/model_a_v4_kill_probe/callbacks.py": "93432abe5bc2f404ea229038637ff2ab2f244e76221e0a4fbca6330be8146f62",
+    "agent_code/model_a_v4_kill_probe/train.py": "e62ffd55ae895fb4d745694735307d133bb73e8ec4ac34ff2c3ee0b96fa48eb7",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "tools/v4_task4_kill_probe_audit.py": "93a1bf8f065ba804cbaac0d4bf9b7bbf75da6d58a9fba247d09e87ca00fbaef4"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-clean-curriculum",
+  "protocol_id": "model-a-cnn-n8-task1-s147000",
+  "status": "preregistered_stop_before_task1_execution",
+  "authorized_course": "task1",
+  "stage_order": ["task1", "task2", "task3_peaceful", "task3_coin", "task4"],
+  "question": "Can a compact end-to-end full-board CNN learn a stable Task1 foundation without inheriting frozen-v4's WAIT-local optimum?",
+  "architecture": {
+    "name": "model-a-cnn-n8-full33-v1",
+    "spatial_shape": [11, 33, 33],
+    "scalar_size": 6,
+    "parameter_count": 367863,
+    "random_initialization": true,
+    "inherits_v4_weights": false
+  },
+  "learning": {
+    "algorithm": "dueling-double-dqn-uniform-nstep",
+    "n_step": 8,
+    "gamma": 0.99,
+    "batch_size": 256,
+    "update_every": 32,
+    "samples_per_environment_transition": 8,
+    "replay_capacity": 50000,
+    "warmup_transitions": 8192,
+    "learning_rate": 0.0001,
+    "gradient_clip": 10.0,
+    "target_sync_environment_steps": 8000,
+    "epsilon_start": 1.0,
+    "epsilon_final": 0.05,
+    "epsilon_decay_steps": 80000,
+    "checkpoint_every_rounds": 100,
+    "loss": "smooth_l1"
+  },
+  "hardware": {
+    "training_device": "mps",
+    "evaluation_device": "cpu",
+    "replica_execution": "sequential",
+    "torch_cpu_threads_per_process": 1,
+    "mps_high_watermark_override_allowed": false,
+    "parallel_mps_training_processes": 1,
+    "spatial_replay_dtype": "uint8",
+    "reason": "Use the M4 GPU while keeping one bounded MPS process and a 50k uint8 replay to avoid unified-memory pressure on the fanless 24GB host."
+  },
+  "reward_contract": {
+    "official": {
+      "COIN_COLLECTED": 1.0,
+      "KILLED_OPPONENT": 5.0,
+      "SURVIVED_ROUND": 1.0,
+      "GOT_KILLED": -5.0,
+      "KILLED_SELF": -8.0,
+      "CRATE_DESTROYED": 0.2,
+      "INVALID_ACTION": -0.2,
+      "BOMB_DROPPED": 0.0
+    },
+    "self_kill_is_exclusive_total": true,
+    "ordinary_move_reward": 0.0,
+    "maximum_no_official_event_shaping_absolute_sum": 0.2,
+    "task1_shaping_multiplier": 1.0
+  },
+  "task1": {
+    "scenario": "coin-heaven",
+    "opponents": [],
+    "rounds_per_replica": 400,
+    "milestones": [100, 200, 300, 400],
+    "replicas": {
+      "r1": {"world_seed": 147101, "agent_seed": 247101},
+      "r2": {"world_seed": 147102, "agent_seed": 247102},
+      "r3": {"world_seed": 147103, "agent_seed": 247103}
+    },
+    "total_training_rounds": 1200
+  },
+  "validation": {
+    "scenario": "coin-heaven",
+    "opponents": [],
+    "rounds_per_case": 25,
+    "cases": [
+      {"world_seed": 147201, "agent_seed": 247201},
+      {"world_seed": 147202, "agent_seed": 247202},
+      {"world_seed": 147203, "agent_seed": 247203},
+      {"world_seed": 147204, "agent_seed": 247204}
+    ],
+    "baseline_labels": ["frozen-v4", "source-r2"],
+    "cnn_labels_per_replica": 4,
+    "total_labels": 14,
+    "total_rounds": 1400
+  },
+  "selection": {
+    "unit": "one common milestone shared by all three replicas",
+    "primary_metric": "pooled official score_per_round across three replicas and four validation cases",
+    "near_best_tolerance_per_round": 0.1,
+    "rule": "choose the earliest milestone within 0.10 score/round of the best pooled milestone; ties use lower pooled idle-WAIT fraction then lower milestone",
+    "individual_replica_checkpoint_cherry_picking_allowed": false,
+    "confirmation_seeds_visible": false
+  },
+  "baselines": {
+    "frozen-v4": {
+      "path": "agent_code/model_a_dqn/model_a.pt",
+      "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+    },
+    "source-r2": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"
+    }
+  },
+  "checkpoint_directory": "experiments/checkpoints/model-a-cnn-n8-task1-s147000",
+  "training_manifest_directory": "experiments/logs/runs/model-a-cnn-n8-task1-s147000",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-task1-s147000",
+  "report_path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s147000/task1.json",
+  "training_allowed": true,
+  "next_course_started": false,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false,
+  "source_bindings": {
+    "agent_code/model_a_cnn_n8/__init__.py": "8562eaf29805c38edb08f56189b39452bf9917515bd4cf03d60d5c3cab9ef8ea",
+    "agent_code/model_a_cnn_n8/callbacks.py": "0b1d18a90e6f22a1ed44ae8ac179bd1d09f1ba6bbbc9da8725b172c798be416d",
+    "agent_code/model_a_cnn_n8/features.py": "3d31fff209b140830e7badf2665de87ee613a2b0e27e554e7ae6e50c2434a606",
+    "agent_code/model_a_cnn_n8/network.py": "b3cc72364f66f3d65cdc0d6aaffba45c6438521a85146bc3c8272335e12e4343",
+    "agent_code/model_a_cnn_n8/replay.py": "971577a167aa277d431e358aaeb4754e9953f27868dce8d5eb636d01b98fb27f",
+    "agent_code/model_a_cnn_n8/rewards.py": "c760f526780f74b18777bb8ef0909dbe8b5c546e474fdc941793bdffa26364ac",
+    "agent_code/model_a_cnn_n8/train.py": "141d6a224ea6cc1d987f034f695da677f1ad9aa2c3461ca4670054e854e77961",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "tools/cnn_n8_task1.py": "9b710121f3c57bb9d9dc674193a4f183932f7ccc9fadebeb305383004e0d69ba"
+  }
+}

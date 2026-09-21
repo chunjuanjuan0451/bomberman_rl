@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-opponent-shift",
+  "protocol_id": "model-a-v4-local7-r3-final-roster-confirmation-s143000",
+  "status": "preregistered_stop_before_execution",
+  "question": "Does the post-hoc local7-n8 r3 candidate retain its s142000 competition advantage over frozen-v4 in a fresh, position-balanced four-player match containing source-r2 and the pinned external strong agent?",
+  "training_allowed": false,
+  "selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "automatic_followup": false,
+  "post_hoc_candidate_fixed_before_s143000": "local7-r3",
+  "labels": ["v4", "source-r2", "local7-r3", "external-strong"],
+  "checkpoint_inventory": {
+    "v4": {
+      "path": "agent_code/model_a_dqn/model_a.pt",
+      "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+      "required_metadata": {}
+    },
+    "source-r2": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "required_metadata": {
+        "architecture": "model-a-mlp-v4-global7",
+        "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+        "arm": "curriculum",
+        "replica": "r2",
+        "stage_id": "task2"
+      }
+    },
+    "local7-r3": {
+      "path": "experiments/checkpoints/model-a-v4-global-resource-n8-pilot-s141000/local7/r3/round-0200.pt",
+      "sha256": "360e6178e96d4f861541bd04473b7e2cec4e670aeb8e3bf446df18ffd5a59c04",
+      "training_protocol_path": "experiments/configs/model-a-v4-global-resource-n8-pilot-s141000.json",
+      "required_metadata": {
+        "architecture": "model-a-v4-frozen-global-resource-residual-n8-v1",
+        "protocol_sha256": "b5250fbf4764d830e2d83319d89f5cab491ac93c44fcd1fd76793b6133f49e8f",
+        "parent_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+        "arm": "local7",
+        "replica": "r3",
+        "completed_rounds": 200,
+        "n_step": 8
+      }
+    }
+  },
+  "candidate_discovery_reference": {
+    "path": "experiments/logs/diagnostics/model-a-v4-local7-n8-confirmation-s142000.json",
+    "sha256": "b533b43de8187a8d014444174ea667475bae2e6984243cba9a941ba3389f4ad9",
+    "formal_decision": "local7_n8_family_not_confirmed_reject_stop",
+    "selection_status": "r3 chosen post-hoc for competition performance; s143000 is the required fresh-seed confirmation",
+    "revealed_seeds_reused": false,
+    "observed_r3_minus_v4": {
+      "task1_score_per_round": 0.0,
+      "task2_score_per_round": 0.08999999999999986,
+      "pooled_task4_score_per_round": 0.36,
+      "pooled_task4_margin": 0.5125000000000001,
+      "pooled_task4_suicides_per_round": -0.03
+    }
+  },
+  "external_stress_opponent": {
+    "repository": "https://github.com/Li-Jesse-Jiaze/MLE_project_bomberman.git",
+    "commit": "a7fe5041b02548ce4438e502ca3adb11576bae75",
+    "agent_subdirectory": "agent_code/feature_is_everything",
+    "known_previous_opponent": true,
+    "training_or_teacher_use_allowed": false,
+    "submission_candidate": false,
+    "license_file_present": false,
+    "file_sha256": {
+      "callbacks.py": "cadc00f69e4b0e04a1063e6760deea1ed48e23855992201c3edcebe6284071fe",
+      "features.py": "8baf96ae76f685a5dbfb74bae644e2cbb816952103859081801888ebe6b9f620",
+      "model.py": "27736c5afa4ccf50582141b6aea57740699365e35879ad6d5cb4842b3fc7829c",
+      "my-saved-model.pt": "0fb1df0b3c3f255db121e8ba7c6061d1293f55d3e7ae12772259643ee2060577",
+      "symmetry.py": "cac8ad3d8b197d1cca6fa67ca35d3db00d45c4c81afa549d797bb8b45657f82e"
+    }
+  },
+  "evaluation": {
+    "scenario": "classic",
+    "rounds_per_case": 50,
+    "shared_games_total": 400,
+    "rounds_observed_per_label": 400,
+    "case_order_is_fixed": true,
+    "cases": [
+      {"case_id": "c1", "world_seed": 143001, "agent_seeds": {"v4": 243001, "source-r2": 343001, "local7-r3": 443001, "external-strong": 543001}, "roster": ["v4", "source-r2", "local7-r3", "external-strong"]},
+      {"case_id": "c2", "world_seed": 143002, "agent_seeds": {"v4": 243002, "source-r2": 343002, "local7-r3": 443002, "external-strong": 543002}, "roster": ["source-r2", "local7-r3", "external-strong", "v4"]},
+      {"case_id": "c3", "world_seed": 143003, "agent_seeds": {"v4": 243003, "source-r2": 343003, "local7-r3": 443003, "external-strong": 543003}, "roster": ["local7-r3", "external-strong", "v4", "source-r2"]},
+      {"case_id": "c4", "world_seed": 143004, "agent_seeds": {"v4": 243004, "source-r2": 343004, "local7-r3": 443004, "external-strong": 543004}, "roster": ["external-strong", "v4", "source-r2", "local7-r3"]},
+      {"case_id": "c5", "world_seed": 143005, "agent_seeds": {"v4": 243005, "source-r2": 343005, "local7-r3": 443005, "external-strong": 543005}, "roster": ["v4", "source-r2", "local7-r3", "external-strong"]},
+      {"case_id": "c6", "world_seed": 143006, "agent_seeds": {"v4": 243006, "source-r2": 343006, "local7-r3": 443006, "external-strong": 543006}, "roster": ["source-r2", "local7-r3", "external-strong", "v4"]},
+      {"case_id": "c7", "world_seed": 143007, "agent_seeds": {"v4": 243007, "source-r2": 343007, "local7-r3": 443007, "external-strong": 543007}, "roster": ["local7-r3", "external-strong", "v4", "source-r2"]},
+      {"case_id": "c8", "world_seed": 143008, "agent_seeds": {"v4": 243008, "source-r2": 343008, "local7-r3": 443008, "external-strong": 543008}, "roster": ["external-strong", "v4", "source-r2", "local7-r3"]}
+    ]
+  },
+  "confirmation_gate": {
+    "primary_metric": "candidate minus frozen-v4 pooled score per round in shared games",
+    "minimum_candidate_score_gain_over_v4": 0.1,
+    "minimum_candidate_lead_blocks_over_v4": 5,
+    "candidate_must_be_internal_score_leader": true,
+    "maximum_candidate_suicide_increase_over_v4": 0.03,
+    "maximum_candidate_invalid_increase_over_v4": 0.1,
+    "coins_kills_wait_bombs_and_external_gap_are_diagnostic_only": true
+  },
+  "decision_branches": {
+    "pass": "local7_r3_confirmed_freeze_for_submission_stop",
+    "fail": "local7_r3_not_confirmed_retain_frozen_v4_stop"
+  },
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-local7-r3-final-roster-confirmation-s143000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-local7-r3-final-roster-confirmation-s143000.json",
+  "source_bindings": {
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_opponent_shift/common.py": "beb74f3d3fb0c955007b1d559b6841f97105f1df0dbae4dae8dd1fbf745a799a",
+    "agent_code/model_a_oppshift_v4/callbacks.py": "9a59d72c380a734823d048016cd25d10c0257a05eb7764219ae7413bef9a67ba",
+    "agent_code/model_a_oppshift_source/callbacks.py": "85f16587901083f75afce0b7471f95d5bf8b0e29e05763c798e785a3ba38bc41",
+    "agent_code/model_a_v4_global_resource_n8/config.py": "e48fbe42327d09b28d6e149b13a39b0e3d5f66f7896049dff0deb99da05f349b",
+    "agent_code/model_a_v4_global_resource_n8/features.py": "64384c9703b06db82636ee092706d039fe0cb33a8723045449116558910d2ddf",
+    "agent_code/model_a_v4_global_resource_n8/network.py": "146993e19a6b8f72cde107eee8a13132b0bdf154a7748038090bf1d3a36be07e",
+    "agent_code/model_a_v4_global_resource_n8/callbacks.py": "3ed85caa53e27500140bbb8d4eb9e0f483e77e5638c46464c50849af2b45515d",
+    "agent_code/model_a_v4_global_resource/features.py": "36dc4cef87b22db6a944633300a4a13e5e62153ce7bcafa65da542df00c2a03e",
+    "agent_code/model_a_v4_global_resource/network.py": "1540efc371342dfdda9afdd21e1d761d0e0a703ebf71ff48353d0f6d2a631cef",
+    "agent_code/feature_is_everything_eval/callbacks.py": "d4b3c38ea6928a8bff26ab6e851085c2d9c4defab3f1766638b0b0005d7b8b15",
+    "tools/v4_opponent_shift.py": "cc5743e4b318802214344bfedbfdeb53074a057c63028a55e80c83fb3e37880f",
+    "tools/v4_task4_duel_training.py": "2736a2014771c68ff4c87ae5330fb4aa8061801a713acee5285779a4d3ed4ac3",
+    "tools/v4_local7_r3_final_roster_confirmation.py": "5bb7889b46f2f2af8476f5f7f994e3f498a0426dcd203c22986cc522a3de848b"
+  }
+}

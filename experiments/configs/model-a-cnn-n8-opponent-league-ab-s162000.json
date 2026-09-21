@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-opponent-league-ab",
+  "protocol_id": "model-a-cnn-n8-opponent-league-ab-s162000",
+  "status": "preregistered_stop_before_execution",
+  "question": "Does fixed-pool per-game opponent diversity improve official score and survival beyond matched continued Task4 training?",
+  "only_primary_variable": "training_opponent_distribution",
+  "parent": {
+    "label": "collision-cnn-task4-r3-round0800",
+    "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt",
+    "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332",
+    "completed_total_rounds": 2750
+  },
+  "architecture": {
+    "name": "model-a-cnn-n8-full33-v1",
+    "parameter_count": 367863,
+    "collision_mask": "immediate_opponent_collision_then_known_hazard_survival",
+    "mask_applies_to": ["epsilon_greedy_behaviour", "greedy_behaviour", "double_dqn_next_action_selection"],
+    "fallback": "original legal action set if collision filter is empty"
+  },
+  "learning": {
+    "algorithm": "dueling-double-dqn-uniform-nstep",
+    "n_step": 8,
+    "gamma": 0.99,
+    "batch_size": 256,
+    "update_every": 32,
+    "samples_per_environment_transition": 8,
+    "replay_capacity": 50000,
+    "warmup_transitions": 8192,
+    "learning_rate": 0.0001,
+    "gradient_clip": 10.0,
+    "target_sync_environment_steps": 8000,
+    "epsilon_start": 1.0,
+    "epsilon_final": 0.05,
+    "epsilon_decay_steps": 80000,
+    "checkpoint_every_rounds": 50,
+    "loss": "smooth_l1",
+    "resume_optimizer_target_counters_and_epsilon": true,
+    "clear_replay_at_experiment_boundary": true
+  },
+  "reward_contract": {
+    "coin_collected": 1.0,
+    "killed_opponent": 5.0,
+    "survived_round": 1.0,
+    "got_killed": -5.0,
+    "killed_self_exclusive_total": -8.0,
+    "crate_destroyed": 0.2,
+    "invalid_action": -0.2,
+    "bomb_dropped": 0.0,
+    "ordinary_move": 0.0,
+    "task4_shaping_multiplier": 0.25,
+    "changed_from_parent": false
+  },
+  "hardware": {
+    "training_device": "mps",
+    "evaluation_device": "cpu",
+    "replica_execution": "sequential",
+    "parallel_mps_training_processes": 1,
+    "torch_cpu_threads_per_process": 1,
+    "mps_high_watermark_override_allowed": false
+  },
+  "training": {
+    "scenario": "classic",
+    "rounds_per_arm_replica": 200,
+    "milestones": [50, 100, 150, 200],
+    "arms": 2,
+    "replicas_per_arm": 3,
+    "total_rounds": 1200
+  },
+  "arms": {
+    "control": {
+      "description": "Matched continuation with three independently seeded rule policies through the same scheduler",
+      "pool": ["rule-a", "rule-b", "rule-c"]
+    },
+    "league": {
+      "description": "Uniform sampling without replacement of three policies every round from the fixed internal league",
+      "pool": ["frozen-v4", "original-cnn", "source-r2", "rule-based", "coin-collector", "random", "task4-r1-0400", "task4-r2-1200", "task4-r3-1600"]
+    }
+  },
+  "replicas": {
+    "r1": {"world_seed": 162101, "agent_seed": 262101, "schedule_seed": 362101, "opponent_seed": 462101},
+    "r2": {"world_seed": 162102, "agent_seed": 262102, "schedule_seed": 362102, "opponent_seed": 462102},
+    "r3": {"world_seed": 162103, "agent_seed": 262103, "schedule_seed": 362103, "opponent_seed": 462103}
+  },
+  "opponent_inventory": {
+    "rule-a": {"kind": "rule"},
+    "rule-b": {"kind": "rule"},
+    "rule-c": {"kind": "rule"},
+    "rule-based": {"kind": "rule"},
+    "coin-collector": {"kind": "coin"},
+    "random": {"kind": "random"},
+    "frozen-v4": {"kind": "mlp", "path": "agent_code/model_a_dqn/model_a.pt", "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"},
+    "source-r2": {"kind": "mlp", "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt", "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"},
+    "original-cnn": {"kind": "cnn", "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt", "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332"},
+    "task4-r1-0400": {"kind": "cnn", "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r1/round-0400.pt", "sha256": "faf8e7c385de0ee2a8cfa2f8100a59bfb822b2673d574307e7dfd02f416405cc"},
+    "task4-r2-1200": {"kind": "cnn", "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r2/round-1200.pt", "sha256": "a34016814ff5a603920d2f8266d8d3e32b942eb01ef8e9a4620563eeb0af106e"},
+    "task4-r3-1600": {"kind": "cnn", "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-1600.pt", "sha256": "ce4adee2f626e247f7edae9e333e1ee8d1a1318c5b30428ccee61b70c8edda58"}
+  },
+  "inner_validation": {
+    "selection_only": true,
+    "rounds_per_case": 20,
+    "cases": [
+      {"case_id": "rule", "world_seed": 162201, "agent_seed": 262201, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rule_seed": 362201},
+      {"case_id": "mixed", "world_seed": 162202, "agent_seed": 262202, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"], "rule_seed": 362202, "coin_seed": 462202, "random_seed": 562202}
+    ],
+    "candidate_checkpoint_evaluations": 24,
+    "parent_evaluations": 1,
+    "total_rounds": 1000
+  },
+  "selection_rule": {
+    "unit": "one common milestone per arm, pooled across all three replicas and both validation strata",
+    "eligibility": "suicides_per_round must not exceed the frozen collision-CNN parent",
+    "primary": "highest official score_per_round",
+    "near_best_tolerance_per_round": 0.05,
+    "milestone_tiebreak": "earliest eligible milestone within tolerance of the arm best",
+    "replica_tiebreaks_at_selected_milestone": ["higher official score", "lower suicides", "higher coins", "lower WAIT", "lower replica index"],
+    "league_success": "league pooled score is at least control pooled score and parent pooled score, with suicide eligibility",
+    "individual_milestone_cherry_picking_allowed": false,
+    "blind_confirmation_seeds_visible_to_selection": false
+  },
+  "blind_confirmation": {
+    "description": "One selection-free, seat-balanced direct match after inner selection",
+    "labels": ["league", "control", "parent", "external"],
+    "rounds_per_case": 20,
+    "cases": [
+      {"case_id": "c1", "world_seed": 162301, "roster": ["league", "control", "parent", "external"], "agent_seeds": {"league": 262301, "control": 362301, "parent": 462301, "external": 562301}},
+      {"case_id": "c2", "world_seed": 162302, "roster": ["control", "parent", "external", "league"], "agent_seeds": {"league": 262302, "control": 362302, "parent": 462302, "external": 562302}},
+      {"case_id": "c3", "world_seed": 162303, "roster": ["parent", "external", "league", "control"], "agent_seeds": {"league": 262303, "control": 362303, "parent": 462303, "external": 562303}},
+      {"case_id": "c4", "world_seed": 162304, "roster": ["external", "league", "control", "parent"], "agent_seeds": {"league": 262304, "control": 362304, "parent": 462304, "external": 562304}}
+    ],
+    "shared_games": 80,
+    "rounds_observed_per_identity": 80,
+    "not_used_for_checkpoint_selection": true
+  },
+  "external_strong_agent": {
+    "repository": "https://github.com/Li-Jesse-Jiaze/MLE_project_bomberman.git",
+    "commit": "a7fe5041b02548ce4438e502ca3adb11576bae75",
+    "agent_subdirectory": "agent_code/feature_is_everything",
+    "training_or_teacher_use_allowed": false,
+    "file_sha256": {
+      "callbacks.py": "cadc00f69e4b0e04a1063e6760deea1ed48e23855992201c3edcebe6284071fe",
+      "features.py": "8baf96ae76f685a5dbfb74bae644e2cbb816952103859081801888ebe6b9f620",
+      "model.py": "27736c5afa4ccf50582141b6aea57740699365e35879ad6d5cb4842b3fc7829c",
+      "my-saved-model.pt": "0fb1df0b3c3f255db121e8ba7c6061d1293f55d3e7ae12772259643ee2060577",
+      "symmetry.py": "cac8ad3d8b197d1cca6fa67ca35d3db00d45c4c81afa549d797bb8b45657f82e"
+    }
+  },
+  "checkpoint_directory": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000",
+  "training_manifest_directory": "experiments/logs/runs/model-a-cnn-n8-opponent-league-ab-s162000/training",
+  "validation_manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-opponent-league-ab-s162000/inner",
+  "confirmation_manifest_directory": "experiments/logs/runs/model-a-cnn-n8-opponent-league-ab-s162000/confirmation",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-opponent-league-ab-s162000/report.json",
+  "source_bindings": {
+    "agent_code/model_a_cnn_n8_league_train/callbacks.py": "baf075435f725b0ef08d339ad4dd2a25c4c1d5104425d5c083c67b3208a22579",
+    "agent_code/model_a_cnn_n8_league_train/train.py": "23509c85c43cd35f428cbc186d5a9e8fc46a2e8bce23e6b8c7713791661637d8",
+    "agent_code/model_a_league_opponent_common/callbacks.py": "402ba37a6441a92d878b3ebe2f755030497bc9d5132279e90ad2ed46c515b340",
+    "agent_code/model_a_league_opponent_1/callbacks.py": "d4753f0faec30a3767ef489f4b417e93619c9a9d7ec584c9428e025ce0716ecf",
+    "agent_code/model_a_league_opponent_2/callbacks.py": "59c3216b90bd9b6494e258bcb770a1a1313b72d7f85bf701346fb67955c15867",
+    "agent_code/model_a_league_opponent_3/callbacks.py": "302d01a69a1e859e0cbb3211018ff3bd7bdc91e8bafb8deadb40c4a11391ce1c",
+    "agent_code/model_a_cnn_n8_league_eval/callbacks.py": "44e3bba532c3450461814d76bdf8fae08f18608ebef069c126a15a4fd1e4f123",
+    "agent_code/model_a_league_match_common/callbacks.py": "25c005fe7674272fea7edbf66de547345cd5dd9a87a338c4177e63f0d8708b5e",
+    "agent_code/model_a_league_match_league/callbacks.py": "f38223a19fd60a1da6a3bc98de82ac82ff528e60989989ff8cd2b14cb4049b5d",
+    "agent_code/model_a_league_match_control/callbacks.py": "e94558a14afc84c01c4683915cd2d8a76d03ef3c9cb65eaaf4bfd87181aa0020",
+    "agent_code/model_a_league_match_parent/callbacks.py": "7b7856c707a68acc524e10c3759febaf268a163622f7e6a331bd4f64329ed4c0",
+    "agent_code/feature_is_everything_league_eval/callbacks.py": "db0fa502c7d8667d5dfeb455b573a09cc2a7de8251647264527da72cb32b3210",
+    "agent_code/model_a_cnn_n8/callbacks.py": "6f741cb370d217e4ebcb26cd9cb2d7430a8c07d7e9bd03c56416a8f4f49168b2",
+    "agent_code/model_a_cnn_n8/train.py": "c1884d17bde96c8c80537b350d8828ebc4f4f9398fef4f048e696aceb0ba3de0",
+    "agent_code/model_a_cnn_n8/features.py": "3d31fff209b140830e7badf2665de87ee613a2b0e27e554e7ae6e50c2434a606",
+    "agent_code/model_a_cnn_n8/network.py": "b3cc72364f66f3d65cdc0d6aaffba45c6438521a85146bc3c8272335e12e4343",
+    "agent_code/model_a_cnn_n8/replay.py": "971577a167aa277d431e358aaeb4754e9953f27868dce8d5eb636d01b98fb27f",
+    "agent_code/model_a_cnn_n8/rewards.py": "c760f526780f74b18777bb8ef0909dbe8b5c546e474fdc941793bdffa26364ac",
+    "agent_code/model_a_cnn_n8_postbomb_movement_audit/callbacks.py": "144bc23d741ce1054606cbfdc5cf5ec25aee47992ef82053a6c40b815923cf98",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "agent_code/seeded_random_agent/callbacks.py": "2ea4723b985481cc37807221558e3dec6f459e65cdb4ce085090d723ff9f11a7",
+    "tools/cnn_n8_opponent_league_ab.py": "e36d847e91ef7b341d388c98824948a53da0a8c3ccfd3cd91842399c0bd9ffcf"
+  },
+  "training_allowed": true,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false
+}

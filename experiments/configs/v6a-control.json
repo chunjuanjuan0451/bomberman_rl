@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "agent": "model_a_v6",
+  "agents": [
+    "model_a_v6",
+    "rule_based_agent",
+    "coin_collector_agent",
+    "peaceful_agent"
+  ],
+  "scenario": "classic",
+  "rounds": 300,
+  "seed": 7101,
+  "agent_seed": 17101,
+  "resume": false,
+  "training_seed_set": [
+    7101,
+    7102,
+    7103
+  ],
+  "evaluation_seed_set": [
+    7201,
+    7202,
+    7203
+  ],
+  "hyperparameters": {
+    "gamma": 0.99,
+    "learning_rate": 0.0003,
+    "batch_size": 64,
+    "replay_capacity": 50000,
+    "warmup_transitions": 2000,
+    "update_every": 4,
+    "target_update_every": 1000,
+    "epsilon_start": 1,
+    "epsilon_final": 0.05,
+    "epsilon_decay_steps": 80000,
+    "checkpoint_every_rounds": 50
+  },
+  "rewards": {
+    "COIN_COLLECTED": 8,
+    "CRATE_DESTROYED": 1.5,
+    "KILLED_OPPONENT": 12,
+    "KILLED_SELF": -20,
+    "GOT_KILLED": -20,
+    "INVALID_ACTION": -2,
+    "BOMB_DROPPED": -0.05,
+    "SURVIVED_ROUND": 3
+  },
+  "shaping": {
+    "danger_exit_reward": 0.4,
+    "danger_entry_penalty": -0.8
+  },
+  "run_id": "model-a-v6a-control-s7101",
+  "variant": "v6a-control",
+  "augmentation": "none",
+  "tactical_residual": false,
+  "enabled_for_training": true,
+  "checkpoint_path": "experiments/checkpoints/model-a-v6a-control-s7101.pt"
+}

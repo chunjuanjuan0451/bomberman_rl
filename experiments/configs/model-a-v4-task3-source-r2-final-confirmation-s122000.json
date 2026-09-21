@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-task3-source-r2-final-confirmation",
+  "protocol_id": "model-a-v4-task3-source-r2-final-confirmation-s122000",
+  "question": "Does the post-hoc nominated source-r2 checkpoint independently satisfy the unchanged Task3 joint gates on a fresh, untouched outer suite?",
+  "scope": "selection-free terminal confirmation of one fixed candidate against frozen v4; no training, alternative selection, threshold changes or Task4",
+  "labels": ["v4", "source-r2"],
+  "fixed_candidate": "source-r2",
+  "candidate_count": 1,
+  "selection_free": true,
+  "training_allowed": false,
+  "automatic_task4": false,
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-task3-source-r2-final-confirmation-s122000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-task3-source-r2-final-confirmation-s122000.json",
+  "evaluation": {
+    "strata": {
+      "task1": {
+        "scenario": "coin-heaven",
+        "opponents": [],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 122101, "agent_seed": 222101, "opponent_seed": 322101},
+          {"world_seed": 122102, "agent_seed": 222102, "opponent_seed": 322102}
+        ]
+      },
+      "task2": {
+        "scenario": "classic",
+        "opponents": [],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 122201, "agent_seed": 222201, "opponent_seed": 322201},
+          {"world_seed": 122202, "agent_seed": 222202, "opponent_seed": 322202}
+        ]
+      },
+      "task3_peaceful": {
+        "scenario": "classic",
+        "opponents": ["seeded_peaceful_agent"],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 122301, "agent_seed": 222301, "opponent_seed": 322301},
+          {"world_seed": 122302, "agent_seed": 222302, "opponent_seed": 322302}
+        ]
+      },
+      "task3_coin": {
+        "scenario": "classic",
+        "opponents": ["seeded_coin_collector_agent"],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 122401, "agent_seed": 222401, "opponent_seed": 322401},
+          {"world_seed": 122402, "agent_seed": 222402, "opponent_seed": 322402}
+        ]
+      }
+    }
+  },
+  "decision_rule": {
+    "minimum_task1_retained_fraction_vs_v4": 0.9,
+    "maximum_task2_score_gap_to_v4": 0.25,
+    "minimum_peaceful_score_gain_over_v4": 0.25,
+    "minimum_peaceful_kills_per_round": 0.1,
+    "minimum_peaceful_kills_delta_to_v4": 0.0,
+    "maximum_coin_score_gap_to_v4": 0.25,
+    "minimum_coin_kills_per_round": 0.05,
+    "minimum_coin_kills_delta_to_v4": 0.0,
+    "maximum_task3_suicide_increase_over_v4": 0.05,
+    "maximum_task3_invalid_increase_over_v4": 0.05,
+    "pass_decision": "source_r2_confirmed_task3_complete",
+    "fail_decision": "source_r2_rejected_task3_unresolved_stop",
+    "any_decision_action": "write the terminal report and stop; pass freezes source-r2 as Task3, failure freezes nothing; never start Task4"
+  },
+  "checkpoint_inventory": {
+    "v4": {
+      "path": "agent_code/model_a_dqn/model_a.pt",
+      "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+    },
+    "source_r2": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"
+    }
+  },
+  "confirmed_checkpoint": {
+    "copy_on_pass": true,
+    "source_label": "source-r2",
+    "path": "experiments/checkpoints/model-a-v4-task3-source-r2-final-confirmation-s122000/task3.pt",
+    "selection_manifest_path": "experiments/logs/selections/model-a-v4-task3-source-r2-final-confirmation-s122000.json",
+    "task3_terminal": true,
+    "default_checkpoint_replacement": false
+  },
+  "source_evidence": {
+    "candidate_nomination_policy": "source-r2 was nominated only after reading s120000, so none of the revealed s120000 or s121000 results are admissible as final confirmation data",
+    "rejected_b1_outer_report": {
+      "path": "experiments/logs/diagnostics/model-a-v4-task3-b1-outer-confirmation-s120000.json",
+      "sha256": "830cdc5c0fc15e7f2986fc83b2c0ef2591d1beeb56a16c016a104aeb5941fa12"
+    },
+    "clean_protocol": {
+      "path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4"
+    },
+    "source_r2_training_manifest": {
+      "path": "experiments/logs/runs/model-a-v4-clean-curriculum-s114000/curriculum-r2-task2.json",
+      "sha256": "5aa64d9dde3791ec12cd45316c4f5e8cb275fa9804e292192c89fabf29256dfa"
+    },
+    "source_r2_task2_report": {
+      "path": "experiments/logs/course-reports/model-a-v4-clean-curriculum-s114000/task2.json",
+      "sha256": "d640434f1af6064cb7985728d23025fba16b85395a5a3b8bae74426fe1c9b3c7"
+    },
+    "source_r2_checkpoint": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"
+    }
+  },
+  "seed_registration": {
+    "namespace": "s122000",
+    "registered_before_formal_execution": true,
+    "structured_workspace_audit_result": "0 prior uses across all 24 registered world/agent/opponent seeds",
+    "forbidden_reuse": ["s120000 revealed outer data", "s121000 coin-salvage data"],
+    "future_data_policy": "No extra seeds, retries after a completed report, candidate replacement or threshold changes are permitted"
+  },
+  "source_bindings": {
+    "tools/v4_task3_source_r2_final_confirmation.py": "837f62d8e7380d36ace263a9d03c640194f142f84955708de2f951785015d76f"
+  }
+}

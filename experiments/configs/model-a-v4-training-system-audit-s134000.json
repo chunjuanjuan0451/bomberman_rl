@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-training-system-audit",
+  "protocol_id": "model-a-v4-training-system-audit-s134000",
+  "question": "On unchanged source-r2 trajectories, which diagnosed failure dominates: temporal credit horizon, replay rarity, or reward-ledger misalignment?",
+  "scope": "phase_a_passive_ledger_and_phase_b_offline_horizon_only",
+  "single_intervention": "measurement only; the source-r2 policy, actions, rewards, replay and parameters are unchanged",
+  "hypothesis": "source-r2 already bombs and escapes frequently, but kill-bearing transitions are rare under uniform replay and one-step targets cannot credit the earlier approach-positioning-threat chain; crate reward may additionally dominate the realized reward ledger",
+  "source_parent": {
+    "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+    "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+    "lineage": {
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+      "arm": "curriculum",
+      "replica": "r2",
+      "stage_id": "task2"
+    }
+  },
+  "prior_counterfactual_report": {
+    "path": "experiments/logs/diagnostics/model-a-v4-counterfactual-signal-s129000/report.json",
+    "sha256": "ae9b39e624f5d6239a5bf665d84f664b3684d13e42231db78a6a63cba60f529a"
+  },
+  "prior_safe500_report": {
+    "path": "experiments/logs/diagnostics/model-a-v4-task4-bomb-safe500-s133000/report.json",
+    "sha256": "491063e75a99ced19bd2051cef57f279dc5dd86f685035089778498d4d678ebc"
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_case": 50,
+    "epsilon": 0.05,
+    "oracle_deadline_seconds": 0.03,
+    "policy_updates": 0,
+    "actions_overridden": 0,
+    "strata": {
+      "task4b_duel": {
+        "opponents": ["seeded_rule_based_agent"],
+        "cases": ["duel_c1", "duel_c2"]
+      },
+      "task4c_three_rule": {
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+        "cases": ["three_c1", "three_c2"]
+      }
+    },
+    "cases": {
+      "duel_c1": {"world_seed": 134101, "agent_seed": 234101, "opponent_seed": 334101},
+      "duel_c2": {"world_seed": 134102, "agent_seed": 234102, "opponent_seed": 334102},
+      "three_c1": {"world_seed": 134201, "agent_seed": 234201, "opponent_seed": 334201},
+      "three_c2": {"world_seed": 134202, "agent_seed": 234202, "opponent_seed": 334202}
+    }
+  },
+  "audit_contract": {
+    "horizons": [1, 4, 8, 16, 32],
+    "gamma": 0.99,
+    "batch_size": 64,
+    "loss": "smooth_l1_beta_1_mean",
+    "event_names": [
+      "MOVED_LEFT", "MOVED_RIGHT", "MOVED_UP", "MOVED_DOWN", "WAITED",
+      "INVALID_ACTION", "BOMB_DROPPED", "BOMB_EXPLODED", "CRATE_DESTROYED",
+      "COIN_FOUND", "COIN_COLLECTED", "KILLED_OPPONENT", "KILLED_SELF",
+      "GOT_KILLED", "OPPONENT_ELIMINATED", "SURVIVED_ROUND"
+    ],
+    "custom_events_confirmed_absent": [
+      "MOVE_TO_DEAD", "MOVE_TO_TARGET", "ATTACK_TARGET", "ATTACK_ENEMY", "KILL_ENEMY"
+    ],
+    "attack_stages": ["approach", "positioning", "threat", "bomb", "trap", "escape", "kill"],
+    "positioning_definition": "BOMB legal and counterfactual max_space_reduction >= 0.5",
+    "threat_definition": "actual BOMB with affected_opponents >= 1",
+    "trap_definition": "actual BOMB with max_space_reduction >= 0.5",
+    "escape_definition": "actual BOMB followed by no KILLED_SELF in same-episode eight-step window",
+    "kill_definition": "official KILLED_OPPONENT uniquely linked to previous BOMB at lag 4 or 5",
+    "horizon_mode": "offline reconstruction on identical frozen-policy trajectories; no optimizer step"
+  },
+  "interpretation_rules": [
+    "Do not infer causality from a horizon with fewer than five unique linked kills; report insufficient coverage.",
+    "Prefer the smallest horizon that covers at least 95 percent of uniquely linked BOMB-to-kill events, but do not authorize training from this report alone.",
+    "Report coin, crate, bomb, invalid, kill, self-death, external death, survival and danger shaping separately; never merge kill and suicide.",
+    "Treat approach, positioning, threat, bomb, trap, escape and kill as diagnostic labels only, never as policy modules or new rewards.",
+    "A longer horizon is suspect when its kill-bearing targets are increasingly contaminated by coin, crate or death events or its TD error is broadly saturated.",
+    "Any later shaping reward must be separately preregistered as temporary curriculum scaffolding with an annealing plan."
+  ],
+  "decision": "diagnostic_complete_stop_before_any_training",
+  "training_enabled": false,
+  "automatic_followup": false,
+  "trace_directory": "experiments/logs/diagnostics/model-a-v4-training-system-audit-s134000/traces",
+  "collection_manifest_directory": "experiments/logs/runs/model-a-v4-training-system-audit-s134000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-training-system-audit-s134000/report.json",
+  "source_bindings": {
+    "agents.py": "582a96cc27ba7dd246f248b316e7808d82a07b29fd0139dc44a6ec9a696a49a8",
+    "environment.py": "75b40b8bc5dd1fec7d584ba1dc3a15de060e0bfe1afcfed769d553f5d5d0fd36",
+    "events.py": "8d7633de52d7abdc021e1ccfbf759f3fbc71c84be96445665fcdd82910739ed5",
+    "settings.py": "f0b97a16aae57bfc0131d76fca064749435e4d82c23fb967f7e09bd1ace9603a",
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_dqn/train.py": "16cc5ad2d8a7d395161fba71a6d5a255196ee1e73bbb52f2e3d97964674d7620",
+    "agent_code/model_a_dqn/replay_buffer.py": "ecb46494b14cad11ce35ea736271e3fe9cf32595586a08d29ebb6a45094b55a6",
+    "agent_code/model_a_v4_curriculum/config.py": "0ff651fc7e4607c59f74c78cba1a53e7cabfc6d1dc108a139200b063ead596cc",
+    "agent_code/model_a_v4_curriculum/callbacks.py": "f280d6858e276e1ddb0f70091ef5ba9a7e3d71680d38d41e5f99a6d79431fd4b",
+    "agent_code/model_a_v7a/planner.py": "a9c846f844d458f9b386b280b5ce3402f51b4a538f875ff0b138027a5169fa9c",
+    "agent_code/model_a_v7b/tactical.py": "55e79d5ddcbe59fe994de388295dc02e8c06baa49f58c8261e83d71206c90b56",
+    "agent_code/model_a_v4_system_audit/config.py": "2493a658b0bdfc4f8dca5072a7052f5d53363241de05c1f6a436f8236079273c",
+    "agent_code/model_a_v4_system_audit/callbacks.py": "7f6b014b1dafdb855a01195b9498517dc4c72fab40cd917d54c4efacecce8c2a",
+    "agent_code/model_a_v4_system_audit/train.py": "4c7b2ee8b2d9d651f37504ee3021020be98f1c56690b356c4cd292c9eb777791",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "tools/v4_task4_duel_training.py": "2736a2014771c68ff4c87ae5330fb4aa8061801a713acee5285779a4d3ed4ac3",
+    "tools/v4_training_system_audit.py": "612fd3298b5cce14ec747746e56d3736a1d89a4c26144aa619835e2cf0f4385d"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-postbomb-movement-audit",
+  "protocol_id": "model-a-cnn-n8-postbomb-immediate-collision-audit-s158000",
+  "question": "Can a next-step opponent-collision exclusion retain the self-kill signal without suppressing productive kill placements?",
+  "status": "preregistered",
+  "posthoc_origin": "The full-horizon s157000 rule captured 72% of self-kills but flagged 33.33% of kill placements; this new rule is fixed before observing any 158xxx outcome.",
+  "checkpoint": {
+    "label": "task4-r3-round0800",
+    "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt",
+    "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332"
+  },
+  "candidate_rule": {
+    "name": "immediate_opponent_collision_then_known_hazard_survival",
+    "description": "While an own bomb is active, a MOVE or WAIT is retained only if its next destination is outside every current opponent's one-step reachable set and at least one continuation survives all currently known explosions under the existing ordinary hazard model; opponent reachability is not propagated beyond that next step.",
+    "action_override": false,
+    "horizon_sweep": false,
+    "threshold_sweep": false
+  },
+  "collection": {
+    "rounds_per_case": 50,
+    "policy_updates": 0,
+    "actions_overridden": 0,
+    "cases": {
+      "task4_rule_c1": {
+        "stratum": "task4_rule", "world_seed": 158201, "agent_seed": 258201,
+        "rule_seed": 358201,
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+      },
+      "task4_rule_c2": {
+        "stratum": "task4_rule", "world_seed": 158202, "agent_seed": 258202,
+        "rule_seed": 358202,
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+      },
+      "task4_mixed_c1": {
+        "stratum": "task4_mixed", "world_seed": 158301, "agent_seed": 258301,
+        "rule_seed": 358301, "coin_seed": 458301, "random_seed": 558301,
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+      },
+      "task4_mixed_c2": {
+        "stratum": "task4_mixed", "world_seed": 158302, "agent_seed": 258302,
+        "rule_seed": 358302, "coin_seed": 458302, "random_seed": 558302,
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+      }
+    }
+  },
+  "decision_rule": {
+    "minimum_resolved_placements": 1000,
+    "minimum_selfkill_placements": 20,
+    "minimum_selfkill_capture_fraction": 0.7,
+    "maximum_safe_placement_intervention_fraction": 0.25,
+    "maximum_kill_placement_intervention_fraction": 0.25,
+    "maximum_overall_placement_intervention_fraction": 0.35
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-cnn-n8-postbomb-immediate-collision-audit-s158000/traces",
+  "manifest_directory": "experiments/logs/runs/model-a-cnn-n8-postbomb-immediate-collision-audit-s158000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-postbomb-immediate-collision-audit-s158000/report.json",
+  "training_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false
+}

@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-task3-retention",
+  "protocol_id": "model-a-v4-task3-retention-s119000",
+  "question": "Can exact-v4 learn the two separated Task3 stages from the joint-capable Task2-r2 parent when immutable snapshots are selected with prior-task retention constraints?",
+  "scope": "Task3 only; no Task4, no replay rehearsal, no architecture/reward/optimizer/exploration change",
+  "branches": ["b1", "b2", "b3"],
+  "stage_order": ["task3_peaceful", "task3_coin"],
+  "snapshot_every_rounds": 50,
+  "checkpoint_directory": "experiments/checkpoints/model-a-v4-task3-retention-s119000",
+  "training_manifest_directory": "experiments/logs/runs/model-a-v4-task3-retention-s119000",
+  "selection_manifest_directory": "experiments/logs/selections/model-a-v4-task3-retention-s119000",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-task3-retention-s119000",
+  "report_path": "experiments/logs/evaluations/model-a-v4-task3-retention-s119000.json",
+  "training": {
+    "task3_peaceful": {
+      "scenario": "classic",
+      "opponents": ["seeded_peaceful_agent"],
+      "rounds": 600,
+      "branches": {
+        "b1": {"world_seed": 119001, "agent_seed": 219001, "opponent_seed": 319001},
+        "b2": {"world_seed": 119002, "agent_seed": 219002, "opponent_seed": 319002},
+        "b3": {"world_seed": 119003, "agent_seed": 219003, "opponent_seed": 319003}
+      }
+    },
+    "task3_coin": {
+      "scenario": "classic",
+      "opponents": ["seeded_coin_collector_agent"],
+      "rounds": 600,
+      "branches": {
+        "b1": {"world_seed": 119011, "agent_seed": 219011, "opponent_seed": 319011},
+        "b2": {"world_seed": 119012, "agent_seed": 219012, "opponent_seed": 319012},
+        "b3": {"world_seed": 119013, "agent_seed": 219013, "opponent_seed": 319013}
+      }
+    }
+  },
+  "inner_selection": {
+    "current_task_best_fraction": 0.9,
+    "current_task_metrics": ["score_per_round", "kills_per_round"],
+    "retention_normalization": "(snapshot_score - parent_score) / max(abs(parent_score), 1.0)",
+    "tie_break_order": [
+      "maximum worst normalized prior-task retention delta",
+      "maximum mean normalized prior-task retention delta",
+      "maximum current-task kills_per_round",
+      "maximum current-task score_per_round",
+      "earliest stage round"
+    ],
+    "stages": {
+      "task3_peaceful": {
+        "strata": ["task1", "task2", "task3_peaceful"],
+        "current_stratum": "task3_peaceful",
+        "prior_retention_metrics": {
+          "task1": ["score_per_round"],
+          "task2": ["score_per_round"]
+        }
+      },
+      "task3_coin": {
+        "strata": ["task1", "task2", "task3_peaceful", "task3_coin"],
+        "current_stratum": "task3_coin",
+        "prior_retention_metrics": {
+          "task1": ["score_per_round"],
+          "task2": ["score_per_round"],
+          "task3_peaceful": ["score_per_round", "kills_per_round"]
+        }
+      }
+    },
+    "strata": {
+      "task1": {
+        "scenario": "coin-heaven",
+        "opponents": [],
+        "rounds_per_case": 10,
+        "cases": [{"world_seed": 119101, "agent_seed": 219101, "opponent_seed": 319101}]
+      },
+      "task2": {
+        "scenario": "classic",
+        "opponents": [],
+        "rounds_per_case": 10,
+        "cases": [{"world_seed": 119201, "agent_seed": 219201, "opponent_seed": 319201}]
+      },
+      "task3_peaceful": {
+        "scenario": "classic",
+        "opponents": ["seeded_peaceful_agent"],
+        "rounds_per_case": 10,
+        "cases": [{"world_seed": 119301, "agent_seed": 219301, "opponent_seed": 319301}]
+      },
+      "task3_coin": {
+        "scenario": "classic",
+        "opponents": ["seeded_coin_collector_agent"],
+        "rounds_per_case": 10,
+        "cases": [{"world_seed": 119401, "agent_seed": 219401, "opponent_seed": 319401}]
+      }
+    }
+  },
+  "outer_evaluation": {
+    "selection_free": true,
+    "strata": {
+      "task1": {
+        "scenario": "coin-heaven",
+        "opponents": [],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 120101, "agent_seed": 220101, "opponent_seed": 320101},
+          {"world_seed": 120102, "agent_seed": 220102, "opponent_seed": 320102}
+        ]
+      },
+      "task2": {
+        "scenario": "classic",
+        "opponents": [],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 120201, "agent_seed": 220201, "opponent_seed": 320201},
+          {"world_seed": 120202, "agent_seed": 220202, "opponent_seed": 320202}
+        ]
+      },
+      "task3_peaceful": {
+        "scenario": "classic",
+        "opponents": ["seeded_peaceful_agent"],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 120301, "agent_seed": 220301, "opponent_seed": 320301},
+          {"world_seed": 120302, "agent_seed": 220302, "opponent_seed": 320302}
+        ]
+      },
+      "task3_coin": {
+        "scenario": "classic",
+        "opponents": ["seeded_coin_collector_agent"],
+        "rounds_per_case": 25,
+        "cases": [
+          {"world_seed": 120401, "agent_seed": 220401, "opponent_seed": 320401},
+          {"world_seed": 120402, "agent_seed": 220402, "opponent_seed": 320402}
+        ]
+      }
+    }
+  },
+  "source_parent": {
+    "selection_reason": "Only curriculum-r2 retained Task1 across 75 held-out rounds while exceeding frozen v4 on Task2; it is the common parent for all three new Task3 branches.",
+    "clean_protocol": {
+      "path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4"
+    },
+    "task2_report": {
+      "path": "experiments/logs/course-reports/model-a-v4-clean-curriculum-s114000/task2.json",
+      "sha256": "d640434f1af6064cb7985728d23025fba16b85395a5a3b8bae74426fe1c9b3c7"
+    },
+    "retention_audit_report": {
+      "path": "experiments/logs/diagnostics/model-a-v4-task1-retention-audit-s118100.json",
+      "sha256": "61b45637f6038867c6b3dfcdec979866428a936535c3feaec238b10901e46642"
+    },
+    "checkpoint": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"
+    }
+  },
+  "frozen_v4_baseline": {
+    "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+    "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "source_bindings": {
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_dqn/train.py": "16cc5ad2d8a7d395161fba71a6d5a255196ee1e73bbb52f2e3d97964674d7620",
+    "agent_code/model_a_dqn/replay_buffer.py": "ecb46494b14cad11ce35ea736271e3fe9cf32595586a08d29ebb6a45094b55a6",
+    "agent_code/model_a_v4_curriculum/config.py": "0ff651fc7e4607c59f74c78cba1a53e7cabfc6d1dc108a139200b063ead596cc",
+    "agent_code/model_a_v4_curriculum/callbacks.py": "f280d6858e276e1ddb0f70091ef5ba9a7e3d71680d38d41e5f99a6d79431fd4b",
+    "agent_code/model_a_v4_task3_retention/config.py": "7d6c667a2c34c4998a1f3e94e1989ef0d340ed9d5925e55b6fea682989eb7a5b",
+    "agent_code/model_a_v4_task3_retention/callbacks.py": "874e2ba0f96a1ca7dd88e15fb3d22a78558820375626c8a19327ac1f3423150f",
+    "agent_code/model_a_v4_task3_retention/train.py": "5ae7e3c71da0f0a61fc370c6afb617a1c1eeaf6e262ac6e283f4918a7c5480de",
+    "agent_code/seeded_peaceful_agent/callbacks.py": "6512ad1a3915f8aeffa3d5974efde5aadcde0351658e4bda2f239769cf94ec2f",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "tools/v4_task3_retention.py": "e84b6645ad21cd67c49d0f417fccf9d5a0981b09328330be23293f26e4bdd10b"
+  }
+}

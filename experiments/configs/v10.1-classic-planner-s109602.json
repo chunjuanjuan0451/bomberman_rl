@@ -1,0 +1,36 @@
+{
+  "run_id": "model-a-v10.1-classic-planner-s109602",
+  "phase": "v10.1-no-training-classic-planner-utilized-budget",
+  "scenario": "classic",
+  "training": false,
+  "h2h": false,
+  "checkpoint_path": "experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz",
+  "checkpoint_sha256": "ea681938f696183132db3a23eb3d47ed4cb9ddb38a5a0105d989d46a6bbb610b",
+  "student_head_weights": {
+    "policy": 0.0,
+    "value": 0.1,
+    "opponent": 0.0,
+    "risk": 0.0
+  },
+  "classic_planner": {
+    "enabled": true,
+    "horizon": 8,
+    "prior_weight": 0.8,
+    "temperature": 0.85,
+    "opponent_model": "wait-plus-one-step-conflict-penalty",
+    "safety_contract": "official-simulator-survival-under-waiting-opponents"
+  },
+  "repetition": {
+    "enabled": true,
+    "history_window": 16,
+    "activation_steps": 8,
+    "lambda": 0.6,
+    "minimum_multiplier": 0.05
+  },
+  "nonlinear_policy": {
+    "enabled": false
+  },
+  "search_budget_profile": "ryzen-utilized-v2",
+  "validation_seed": 109602,
+  "notes": "No-training planner candidate with 240/400 ms tiered deadlines; 100 ms remains below the official 500 ms action limit."
+}

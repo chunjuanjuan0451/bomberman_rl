@@ -1,0 +1,67 @@
+{
+  "kind": "v10-task2-teacher-three-arm-preregistration-v1",
+  "protocol_version": 1,
+  "run_id": "v10.5-task2-teacher-three-arm-s103420",
+  "purpose": "Teacher-only fixed-seed gate before any new Task 2 residual training",
+  "base_training_config": "experiments/configs/v10.4-task2-frontier-residual-s103372.json",
+  "base_training_config_sha256": "416229a31921f4dea69b4e3993e66cdebf72f16f0eddf7c5e7daa8b9be4c9f1e",
+  "source_sha256": {
+    "agent_code/model_a_v10/planner.py": "c6060baa5fad86c327acfa260932eb2d78c2c6aa31914ffd5c9076585053c8d6",
+    "tools/v10_classic_residual_train.py": "ef6eeb01c46069ca57ecf2498ac288a1e3f8f13a3802dba5920406084ab3d49b",
+    "tools/v10_task2_teacher_diagnostics.py": "843054c8afec739a849c65014cae3c72e3d73c34fbea4bd70993dfde2165ff1d"
+  },
+  "seeds": [
+    103420,
+    103421,
+    103422,
+    103423,
+    103424,
+    103425,
+    103426,
+    103427,
+    103428,
+    103429,
+    103430,
+    103431
+  ],
+  "arms": [
+    {
+      "name": "stride4_control",
+      "tactical_stride": 4,
+      "productive_bomb_protection": false,
+      "persistent_target": false
+    },
+    {
+      "name": "productive_bomb_protection",
+      "tactical_stride": 4,
+      "productive_bomb_protection": true,
+      "persistent_target": false
+    },
+    {
+      "name": "persistent_target",
+      "tactical_stride": 4,
+      "productive_bomb_protection": true,
+      "persistent_target": true
+    }
+  ],
+  "teacher_gate": {
+    "control_arm": "stride4_control",
+    "candidate_arms": [
+      "productive_bomb_protection",
+      "persistent_target"
+    ],
+    "minimum_survival_rate": 1.0,
+    "minimum_clear_rate": 0.08333333333333333,
+    "maximum_mean_crates_remaining": 12.0,
+    "maximum_worst_seed_crates_remaining": 25,
+    "minimum_paired_wins_vs_control": 8,
+    "minimum_relative_mean_crate_improvement": 0.1,
+    "maximum_single_seed_crate_regression": 8,
+    "persistent_minimum_absolute_mean_crate_gain": 1.0,
+    "persistent_minimum_paired_wins_vs_bomb_protection": 7
+  },
+  "selection_rule": "Choose productive_bomb_protection when it passes. Choose persistent_target only when it passes and either raises clear rate or lowers mean remaining crates by at least 1.0 with at least 7 paired wins versus productive_bomb_protection.",
+  "output_path": "experiments/logs/diagnostics/v10.5-task2-teacher-three-arm-s103420.json",
+  "training": false,
+  "h2h": false
+}

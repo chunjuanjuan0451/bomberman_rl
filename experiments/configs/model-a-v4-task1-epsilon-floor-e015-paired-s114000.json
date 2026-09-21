@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-task1-epsilon-floor-gate",
+  "protocol_id": "model-a-v4-task1-epsilon-floor-e015-paired-s114000",
+  "protocol_path": "experiments/configs/model-a-v4-task1-epsilon-floor-e015-paired-s114000.json",
+  "question": "Does changing only the exact-v4 action-selection epsilon lower bound from 0.05 to 0.15 prevent the observed Task1 late-training collapse?",
+  "single_changed_variable": "action-selection epsilon lower bound: 0.05 control versus 0.15 candidate",
+  "scope": "Task1 signal gate only; no Task2 and no automatic full-curriculum restart",
+  "training_rounds_per_replica": 400,
+  "total_training_rounds": 1200,
+  "epsilon": {
+    "start": 1.0,
+    "original_target": 0.05,
+    "original_decay_steps": 80000,
+    "original_decay_per_transition": 0.000011875,
+    "floor": 0.15,
+    "floor_first_applies_at_transition": 71579,
+    "semantics": "original 0.95/80000 linear slope, clamped at 0.15"
+  },
+  "unchanged": [
+    "final-v4 network, features and inference action mask",
+    "one-step Double-DQN, uniform replay, Smooth-L1 and gradient clipping",
+    "reward and danger shaping",
+    "optimizer, batch, warmup, update cadence and target sync",
+    "Task1 coin-heaven distribution, 400-round budget and paired training seeds"
+  ],
+  "checkpoint_directory": "experiments/checkpoints/model-a-v4-task1-epsilon-floor-e015-paired-s114000",
+  "snapshot_directory": "experiments/checkpoints/model-a-v4-task1-epsilon-floor-e015-paired-s114000/snapshots",
+  "training_manifest_directory": "experiments/logs/runs/model-a-v4-task1-epsilon-floor-e015-paired-s114000",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-task1-epsilon-floor-e015-paired-s114000",
+  "report_path": "experiments/logs/evaluations/model-a-v4-task1-epsilon-floor-e015-paired-s114000.json",
+  "replicas": {
+    "r1": {"world_seed": 114001, "agent_seed": 214001, "opponent_seed": 314001},
+    "r2": {"world_seed": 114002, "agent_seed": 214002, "opponent_seed": 314002},
+    "r3": {"world_seed": 114003, "agent_seed": 214003, "opponent_seed": 314003}
+  },
+  "baseline": {
+    "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+    "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+    "task1_report_path": "experiments/logs/course-reports/model-a-v4-clean-curriculum-s114000/task1.json",
+    "task1_report_sha256": "be9e8e2b1ffc962ef63f4a79a7aa1bb6d51db3e91675dea1aeae869c33002aa1",
+    "curriculum_checkpoints": {
+      "r1": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r1/task1.pt", "sha256": "050e1628221bd4bc9ed1a4453592acd024efff61e60ddae6fef01a3f9b04369a"},
+      "r2": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task1.pt", "sha256": "0a87d278052d3ff5409de67171c28a46f09d43ef0acd63ee4cf6a62151c3fa21"},
+      "r3": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r3/task1.pt", "sha256": "49ed4e121bc015211dbc623c38cd034cc090b383c3f9d6dd81fbc10d0934d799"}
+    }
+  },
+  "frozen_v4_baseline": {
+    "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+    "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "evaluation": {
+    "paired_seen": {
+      "role": "paired mechanism diagnostic only; these seeds were already inspected in s114000",
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 116101, "agent_seed": 216101, "opponent_seed": 316101},
+        {"world_seed": 116102, "agent_seed": 216102, "opponent_seed": 316102}
+      ]
+    },
+    "fresh_confirmation": {
+      "role": "unseen confirmation used by the quality gates",
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 117101, "agent_seed": 217101, "opponent_seed": 317101},
+        {"world_seed": 117102, "agent_seed": 217102, "opponent_seed": 317102}
+      ]
+    }
+  },
+  "gate": {
+    "curve_windows": "four fixed non-overlapping 100-round windows",
+    "minimum_final_to_best_100_round_ratio": 0.9,
+    "minimum_stable_replicas": 2,
+    "minimum_paired_score_improvement": 2.0,
+    "minimum_supportive_replicas": 2,
+    "minimum_paired_family_score_improvement": 5.0,
+    "minimum_each_replica_fresh_score_per_round": 10.0,
+    "minimum_fresh_family_score_per_round": 30.0,
+    "pass_action": "stop and ask the user whether to preregister a matched two-arm restart from Task1",
+    "fail_action": "stop; do not start Task2, scan another epsilon floor, or start intermittent resets"
+  },
+  "source_bindings": {
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_dqn/train.py": "16cc5ad2d8a7d395161fba71a6d5a255196ee1e73bbb52f2e3d97964674d7620",
+    "agent_code/model_a_dqn/replay_buffer.py": "ecb46494b14cad11ce35ea736271e3fe9cf32595586a08d29ebb6a45094b55a6",
+    "agent_code/model_a_v4_curriculum/config.py": "0ff651fc7e4607c59f74c78cba1a53e7cabfc6d1dc108a139200b063ead596cc",
+    "agent_code/model_a_v4_curriculum/callbacks.py": "f280d6858e276e1ddb0f70091ef5ba9a7e3d71680d38d41e5f99a6d79431fd4b",
+    "agent_code/model_a_v4_epsilon_gate/config.py": "63e92daa303c8c7d5e9f2846c1c1f0a05603239b3e6fea2972288425bad4be03",
+    "agent_code/model_a_v4_epsilon_gate/callbacks.py": "48433fc2201b5b7231bcbe9fd42f9a84c4c5d6926b31ee74637fbd7ea7155c47",
+    "agent_code/model_a_v4_epsilon_gate/train.py": "248616defb5aa4d58397b866b429c46f4c31336234277935eeb4ef9b20427644",
+    "tools/v4_task1_epsilon_floor_gate.py": "46a3dc1c2411df67964fff4624321542396bc8754e37b4c384063c82024c1bc2"
+  }
+}

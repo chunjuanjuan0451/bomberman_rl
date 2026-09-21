@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-collision-mask-ab",
+  "protocol_id": "model-a-cnn-n8-collision-mask-final-s160000",
+  "question": "Does the fixed immediate-collision candidate selection-free confirm as the best final Task4 policy against both its original CNN and frozen-v4?",
+  "status": "preregistered",
+  "selection_free": true,
+  "selection_source": {
+    "path": "experiments/logs/diagnostics/model-a-cnn-n8-collision-mask-ab-s159000/report.json",
+    "sha256": "6408d80868a8930d417c92a9a86104a7e3f0c6ab1b1225a6f4c087015d405c53",
+    "required_decision": "collision_mask_supported_freeze_candidate"
+  },
+  "checkpoint": {
+    "label": "task4-r3-round0800",
+    "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt",
+    "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332"
+  },
+  "frozen_v4": {
+    "path": "agent_code/model_a_dqn/model_a.pt",
+    "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "identities": ["collision-candidate", "original-cnn", "frozen-v4"],
+  "arms": {
+    "collision-candidate": "The exact s159 treatment: original legal mask intersected with immediate-collision and ordinary-hazard survival only while an own bomb is active, with exact original-mask fallback.",
+    "original-cnn": "The unchanged task4-r3-round0800 CNN policy.",
+    "frozen-v4": "The immutable tournament incumbent model_a.pt."
+  },
+  "collection": {
+    "rounds_per_block": 50,
+    "policy_updates": 0,
+    "blocks": {
+      "task4_rule_b1": {"stratum": "task4_rule", "world_seed": 160201, "cnn_agent_seed": 260201, "v4_agent_seed": 360201, "rule_seed": 460201, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "task4_rule_b2": {"stratum": "task4_rule", "world_seed": 160202, "cnn_agent_seed": 260202, "v4_agent_seed": 360202, "rule_seed": 460202, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "task4_rule_b3": {"stratum": "task4_rule", "world_seed": 160203, "cnn_agent_seed": 260203, "v4_agent_seed": 360203, "rule_seed": 460203, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "task4_rule_b4": {"stratum": "task4_rule", "world_seed": 160204, "cnn_agent_seed": 260204, "v4_agent_seed": 360204, "rule_seed": 460204, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "task4_mixed_b1": {"stratum": "task4_mixed", "world_seed": 160301, "cnn_agent_seed": 260301, "v4_agent_seed": 360301, "rule_seed": 460301, "coin_seed": 560301, "random_seed": 660301, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "task4_mixed_b2": {"stratum": "task4_mixed", "world_seed": 160302, "cnn_agent_seed": 260302, "v4_agent_seed": 360302, "rule_seed": 460302, "coin_seed": 560302, "random_seed": 660302, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "task4_mixed_b3": {"stratum": "task4_mixed", "world_seed": 160303, "cnn_agent_seed": 260303, "v4_agent_seed": 360303, "rule_seed": 460303, "coin_seed": 560303, "random_seed": 660303, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "task4_mixed_b4": {"stratum": "task4_mixed", "world_seed": 160304, "cnn_agent_seed": 260304, "v4_agent_seed": 360304, "rule_seed": 460304, "coin_seed": 560304, "random_seed": 660304, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]}
+    }
+  },
+  "decision_rule": {
+    "minimum_score_gain_over_original_per_round": 0.10,
+    "minimum_score_gain_over_v4_per_round": 0.10,
+    "minimum_block_wins_over_each_out_of_8": 5,
+    "minimum_rule_score_delta_over_v4": 0.0,
+    "minimum_mixed_score_delta_over_v4": 0.0,
+    "maximum_suicide_increase_over_original_per_round": 0.0,
+    "maximum_suicide_increase_over_v4_per_round": 0.10,
+    "maximum_kill_loss_per_round": 0.02,
+    "maximum_mean_decision_time_ms": 500.0
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-cnn-n8-collision-mask-final-s160000/traces",
+  "manifest_directory": "experiments/logs/runs/model-a-cnn-n8-collision-mask-final-s160000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-collision-mask-final-s160000/report.json",
+  "training_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false
+}

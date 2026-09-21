@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-postbomb-movement-audit",
+  "protocol_id": "model-a-cnn-n8-postbomb-movement-audit-s157000",
+  "question": "Do stepwise robust movement labels after own-bomb placement capture self-kill chains without intervening on too many safe or kill-producing bombs?",
+  "status": "preregistered",
+  "checkpoint": {
+    "label": "task4-r3-round0800",
+    "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt",
+    "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332"
+  },
+  "candidate_rule": {
+    "name": "full_horizon_postbomb_movement_reachability",
+    "description": "While an own bomb is active, label the selected MOVE or WAIT as an avoidable deviation exactly when at least one alternative MOVE or WAIT retains a complete route through all known explosions while avoiding every tile any current opponent can occupy at each matching future offset, but the selected action does not.",
+    "action_override": false,
+    "horizon_sweep": false,
+    "threshold_sweep": false
+  },
+  "collection": {
+    "rounds_per_case": 50,
+    "policy_updates": 0,
+    "actions_overridden": 0,
+    "cases": {
+      "task4_rule_c1": {
+        "stratum": "task4_rule", "world_seed": 157201, "agent_seed": 257201,
+        "rule_seed": 357201,
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+      },
+      "task4_rule_c2": {
+        "stratum": "task4_rule", "world_seed": 157202, "agent_seed": 257202,
+        "rule_seed": 357202,
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+      },
+      "task4_mixed_c1": {
+        "stratum": "task4_mixed", "world_seed": 157301, "agent_seed": 257301,
+        "rule_seed": 357301, "coin_seed": 457301, "random_seed": 557301,
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+      },
+      "task4_mixed_c2": {
+        "stratum": "task4_mixed", "world_seed": 157302, "agent_seed": 257302,
+        "rule_seed": 357302, "coin_seed": 457302, "random_seed": 557302,
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+      }
+    }
+  },
+  "decision_rule": {
+    "minimum_resolved_placements": 1000,
+    "minimum_selfkill_placements": 20,
+    "minimum_selfkill_capture_fraction": 0.7,
+    "maximum_safe_placement_intervention_fraction": 0.25,
+    "maximum_kill_placement_intervention_fraction": 0.25,
+    "maximum_overall_placement_intervention_fraction": 0.35
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-cnn-n8-postbomb-movement-audit-s157000/traces",
+  "manifest_directory": "experiments/logs/runs/model-a-cnn-n8-postbomb-movement-audit-s157000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-postbomb-movement-audit-s157000/report.json",
+  "training_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false
+}

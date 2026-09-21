@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-opponent-shift",
+  "protocol_id": "model-a-v4-opponent-shift-s139000",
+  "question": "Does frozen v4 remain the strongest internal checkpoint when the rule-based opponent family is replaced by a pinned external strong policy in a direct four-player match?",
+  "labels": ["v4", "source-r2", "candidate-r3", "external-strong"],
+  "training_allowed": false,
+  "selection_allowed": false,
+  "automatic_followup": false,
+  "external_agent_is_stress_reference_not_submission_candidate": true,
+  "checkpoint_inventory": {
+    "v4": {
+      "path": "agent_code/model_a_dqn/model_a.pt",
+      "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+      "required_metadata": {}
+    },
+    "source-r2": {
+      "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+      "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+      "required_metadata": {
+        "architecture": "model-a-mlp-v4-global7",
+        "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+        "arm": "curriculum",
+        "replica": "r2",
+        "stage_id": "task2"
+      }
+    },
+    "candidate-r3": {
+      "path": "experiments/checkpoints/model-a-v4-rehearsal-pilot-s137000/endpoints/rehearsal25/r3/round-0100.pt",
+      "sha256": "bf440488b6b55c07ac1735843a861b1e6e6365336d4272b585205ae2b27030fa",
+      "required_metadata": {
+        "architecture": "model-a-mlp-v4-global7",
+        "protocol_sha256": "2c8c82cedc455178bb6ba95e46ef4d908ce7c108338651ccf56c55ab6b59f1a3",
+        "arm": "rehearsal25",
+        "replica": "r3",
+        "stage_id": "task4c_rehearsal_pilot",
+        "stage_completed_rounds": 100,
+        "all_action_return_horizon": 8,
+        "rehearsal_fraction": 0.25
+      }
+    }
+  },
+  "external_stress_opponent": {
+    "repository": "https://github.com/Li-Jesse-Jiaze/MLE_project_bomberman.git",
+    "commit": "a7fe5041b02548ce4438e502ca3adb11576bae75",
+    "agent_subdirectory": "agent_code/feature_is_everything",
+    "known_previous_opponent": true,
+    "training_or_teacher_use_allowed": false,
+    "license_file_present": false,
+    "file_sha256": {
+      "callbacks.py": "cadc00f69e4b0e04a1063e6760deea1ed48e23855992201c3edcebe6284071fe",
+      "features.py": "8baf96ae76f685a5dbfb74bae644e2cbb816952103859081801888ebe6b9f620",
+      "model.py": "27736c5afa4ccf50582141b6aea57740699365e35879ad6d5cb4842b3fc7829c",
+      "my-saved-model.pt": "0fb1df0b3c3f255db121e8ba7c6061d1293f55d3e7ae12772259643ee2060577",
+      "symmetry.py": "cac8ad3d8b197d1cca6fa67ca35d3db00d45c4c81afa549d797bb8b45657f82e"
+    }
+  },
+  "evaluation": {
+    "scenario": "classic",
+    "rounds_per_case": 50,
+    "shared_games_total": 400,
+    "rounds_observed_per_label": 400,
+    "case_order_is_fixed": true,
+    "cases": [
+      {
+        "case_id": "c1",
+        "world_seed": 139001,
+        "agent_seeds": {"v4": 239001, "source-r2": 339001, "candidate-r3": 439001, "external-strong": 539001},
+        "roster": ["v4", "source-r2", "candidate-r3", "external-strong"]
+      },
+      {
+        "case_id": "c2",
+        "world_seed": 139002,
+        "agent_seeds": {"v4": 239002, "source-r2": 339002, "candidate-r3": 439002, "external-strong": 539002},
+        "roster": ["source-r2", "candidate-r3", "external-strong", "v4"]
+      },
+      {
+        "case_id": "c3",
+        "world_seed": 139003,
+        "agent_seeds": {"v4": 239003, "source-r2": 339003, "candidate-r3": 439003, "external-strong": 539003},
+        "roster": ["candidate-r3", "external-strong", "v4", "source-r2"]
+      },
+      {
+        "case_id": "c4",
+        "world_seed": 139004,
+        "agent_seeds": {"v4": 239004, "source-r2": 339004, "candidate-r3": 439004, "external-strong": 539004},
+        "roster": ["external-strong", "v4", "source-r2", "candidate-r3"]
+      },
+      {
+        "case_id": "c5",
+        "world_seed": 139005,
+        "agent_seeds": {"v4": 239005, "source-r2": 339005, "candidate-r3": 439005, "external-strong": 539005},
+        "roster": ["v4", "source-r2", "candidate-r3", "external-strong"]
+      },
+      {
+        "case_id": "c6",
+        "world_seed": 139006,
+        "agent_seeds": {"v4": 239006, "source-r2": 339006, "candidate-r3": 439006, "external-strong": 539006},
+        "roster": ["source-r2", "candidate-r3", "external-strong", "v4"]
+      },
+      {
+        "case_id": "c7",
+        "world_seed": 139007,
+        "agent_seeds": {"v4": 239007, "source-r2": 339007, "candidate-r3": 439007, "external-strong": 539007},
+        "roster": ["candidate-r3", "external-strong", "v4", "source-r2"]
+      },
+      {
+        "case_id": "c8",
+        "world_seed": 139008,
+        "agent_seeds": {"v4": 239008, "source-r2": 339008, "candidate-r3": 439008, "external-strong": 539008},
+        "roster": ["external-strong", "v4", "source-r2", "candidate-r3"]
+      }
+    ]
+  },
+  "interpretation_rule": {
+    "primary_metric": "pooled score per round in the shared four-player match",
+    "minimum_v4_internal_lead_blocks": 5,
+    "external_score_gap_effect_size": 0.5,
+    "block_support_is_stability_diagnostic_not_a_selection_gate": true,
+    "kills_suicides_coins_invalid_actions_wait_and_episode_length_are_secondary_diagnostics": true,
+    "allowed_decisions": [
+      "v4_internal_lead_retained_external_gap_stop",
+      "v4_internal_lead_retained_no_large_external_gap_stop",
+      "v4_internal_lead_unstable_stop",
+      "v4_not_internal_leader_under_shift_stop"
+    ]
+  },
+  "s138_reference": {
+    "path": "experiments/logs/diagnostics/model-a-v4-rehearsal-r3-task4-confirmation-s138000.json",
+    "sha256": "a8bc7e1558ed28974c6517daf330161abbd52ab4f49b0b2874fc623363a8f0bf",
+    "use": "historical rule-family reference only; not a matched causal delta"
+  },
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-opponent-shift-s139000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-opponent-shift-s139000.json",
+  "source_bindings": {
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_opponent_shift/common.py": "beb74f3d3fb0c955007b1d559b6841f97105f1df0dbae4dae8dd1fbf745a799a",
+    "agent_code/model_a_oppshift_v4/callbacks.py": "9a59d72c380a734823d048016cd25d10c0257a05eb7764219ae7413bef9a67ba",
+    "agent_code/model_a_oppshift_source/callbacks.py": "85f16587901083f75afce0b7471f95d5bf8b0e29e05763c798e785a3ba38bc41",
+    "agent_code/model_a_oppshift_r3/callbacks.py": "fe29062e67a5e3460962b1f3dedd5e1864acbd9338a127cfc4e1d9816f08280d",
+    "agent_code/feature_is_everything_eval/callbacks.py": "d4b3c38ea6928a8bff26ab6e851085c2d9c4defab3f1766638b0b0005d7b8b15",
+    "tools/v4_task4_duel_training.py": "2736a2014771c68ff4c87ae5330fb4aa8061801a713acee5285779a4d3ed4ac3",
+    "tools/v4_opponent_shift.py": "cc5743e4b318802214344bfedbfdeb53074a057c63028a55e80c83fb3e37880f"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "kind": "v10-task2-teacher-wait-filter-confirmation-preregistration-v1",
+  "run_id": "v10.11-task2-teacher-wait-filter-confirmation-s106180",
+  "purpose": "Independently confirm the fixed v10.10 low-margin WAIT correction rule on a larger fresh-seed sample without pooling discovery outcomes.",
+  "discovery_report": "experiments/logs/diagnostics/v10.10-task2-teacher-wait-filter-s106160.json",
+  "discovery_report_sha256": "ca50cc9c4670e156fe28fc2b40115c0cd5c50b5dd551c121f826be4dabe06628",
+  "registered_discovery_interpretation": {
+    "mechanical_decision": "reject_wait_filter_regression",
+    "reason_for_confirmation": "The candidate passed all target-repair checks and improved mean remaining crates by 1.75, but exchanged one clear upgrade for one clear downgrade; 12 paired seeds were insufficient to establish robustness.",
+    "discovery_data_used_for_selection": false,
+    "no_posthoc_rule_change": true
+  },
+  "base_teacher_config": "experiments/configs/v10.6-task2-target-aware-correction-s105200.json",
+  "base_teacher_config_sha256": "35b6f3b4a9cac4f063d5babb389764a203adfc47e21221de76cdc7a198b39e5d",
+  "episode_seeds": [
+    106180,
+    106181,
+    106182,
+    106183,
+    106184,
+    106185,
+    106186,
+    106187,
+    106188,
+    106189,
+    106190,
+    106191,
+    106192,
+    106193,
+    106194,
+    106195,
+    106196,
+    106197,
+    106198,
+    106199,
+    106200,
+    106201,
+    106202,
+    106203
+  ],
+  "opponent_count": 0,
+  "teacher_search_simulations": 128,
+  "state_sample_stride": 4,
+  "wait_filter_margin_threshold": 0.15,
+  "wait_filter_rule": "After productive-BOMB protection, replace the protected search action with the planner action iff the protected search action is WAIT, the planner action is not WAIT, and the root visit margin is strictly below 0.15.",
+  "arms": [
+    {
+      "name": "control_128",
+      "low_margin_wait_filter": false
+    },
+    {
+      "name": "candidate_wait_margin_015",
+      "low_margin_wait_filter": true
+    }
+  ],
+  "controlled_variables": {
+    "persistent_target": true,
+    "productive_bomb_protection": true,
+    "search_horizon_plies": 8,
+    "teacher_crate_progress_weight": 0.08,
+    "teacher_crate_frontier_weight": 0.32,
+    "maximum_steps": 400,
+    "search_seed_rule": "episode_seed * 1000 + step",
+    "only_difference_between_arms": "whether the unchanged v10.10 low-margin WAIT correction filter is enabled"
+  },
+  "teacher_gate": {
+    "control_arm": "control_128",
+    "candidate_arm": "candidate_wait_margin_015",
+    "minimum_survival_rate": 1.0,
+    "minimum_clear_count_difference": 0,
+    "maximum_mean_score_regression": 0.25,
+    "maximum_mean_collectable_coin_regression": 0.25,
+    "maximum_single_seed_crate_regression": 3,
+    "maximum_candidate_worst_seed_crates": 12,
+    "minimum_wait_filter_activations": 24,
+    "minimum_search_wait_fraction_reduction": 0.01,
+    "minimum_search_planner_agreement_gain": 0.01,
+    "minimum_mean_crate_improvement": 0.75,
+    "minimum_paired_net_wins": 3,
+    "selection_rule": "Select only if every safeguard passes on the 24 fresh pairs, at least 24 interventions occur, search WAIT falls by at least 1 point, planner agreement rises by at least 1 point, mean remaining crates improve by at least 0.75, and paired wins exceed losses by at least 3. Individual clear identities may swap, but aggregate clear count may not regress."
+  },
+  "decision_branches": {
+    "select_confirmed_wait_filter_teacher": "Stop. Freeze the confirmed WAIT-filter teacher and next preregister a student-only filtered-target experiment; do not start it automatically.",
+    "keep_control_no_confirmed_benefit": "Stop. The fixed WAIT filter did not replicate its material benefit; retain the unfiltered 128-simulation teacher and do not train from the candidate.",
+    "reject_wait_filter_confirmation_regression": "Stop. The fixed WAIT filter violated a confirmation safeguard; reject this route, retain the unfiltered 128-simulation teacher, and do not train from the candidate."
+  },
+  "source_sha256": {
+    "agent_code/model_a_v10/interfaces.py": "fd775edd5c9426416709656080de6cb844b14b6b6d028377a963ece052c69fd2",
+    "agent_code/model_a_v10/planner.py": "b8cd90a9e7421c00db92ba88db5c672effb9ad614e2146bde5b97c386b19a760",
+    "agent_code/model_a_v10/runtime.py": "e09c109a83881d91508960ce17ac26a58ed3e5152c7340f1f318ff2ed1262b4d",
+    "agent_code/model_a_v10/search.py": "b85d8afe0cab792de130d166351efcede4b4cda80a1ff7bbf1b82ac48e68454b",
+    "agent_code/model_a_v10/simulator.py": "dc9e01fdd89c991f75d18188ff8662648447f70aefeeb3d35b7df48f3e7d1f49",
+    "tools/v10_classic_residual_train.py": "ac54f2011f5cde9d8bd8596872e21305f2d94a5a25fa45b3848b66314657c41f",
+    "tools/v10_teacher_repeatability.py": "a7f9ac3d2762e983d4195cd83d41db9587778358a3cf5e545de9bc9a7d63bc30",
+    "tools/v10_teacher_wait_filter_gate.py": "897f0049a0f5ba57ec1f4ecd27e4cbf789beedb5a745bab24f63ced2e40fa3b0",
+    "tools/v10_teacher_wait_filter_confirmation.py": "fe5489ee47b046c8288206e2682ef565a76ea888174265899a934f5a4dbfb34c"
+  },
+  "output_path": "experiments/logs/diagnostics/v10.11-task2-teacher-wait-filter-confirmation-s106180.json",
+  "automatic_training": false,
+  "training": false,
+  "h2h": false
+}

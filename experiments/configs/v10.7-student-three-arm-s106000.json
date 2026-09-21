@@ -1,0 +1,84 @@
+{
+  "protocol_version": 1,
+  "run_id": "model-a-v10.7-student-three-arm-s106000",
+  "phase": "task2-student-only-planner-awareness-ablation",
+  "source_run_id": "model-a-v10.6-task2-target-aware-correction-s105200",
+  "source_config": "experiments/configs/v10.6-task2-target-aware-correction-s105200.json",
+  "source_config_sha256": "35b6f3b4a9cac4f063d5babb389764a203adfc47e21221de76cdc7a198b39e5d",
+  "source_manifest": "experiments/logs/runs/model-a-v10.6-task2-target-aware-correction-s105200.json",
+  "source_manifest_sha256": "4a35cbf6c6bf2c4108151fa0362f7069631249001b83c8e2199c62346f1518e4",
+  "source_dataset_sha256": "8fe08dc0696bd8f09e49af1b62844ed00159a22e2f5147c38113dabe8b32a632",
+  "source_trajectory_dir": "experiments/logs/v10.6/model-a-v10.6-task2-target-aware-correction-s105200-trajectories",
+  "development_episode_seed_range": [105200, 105237],
+  "inner_train_episode_seed_range": [105200, 105229],
+  "inner_dev_episode_seed_range": [105230, 105237],
+  "excluded_outer_validation_seed_range": [105238, 105247],
+  "arms": [
+    {
+      "id": "A_loss_repair",
+      "architecture": "target-aware-action-conditioned-residual-policy-v4"
+    },
+    {
+      "id": "B_planner_aware",
+      "architecture": "planner-aware-action-conditioned-residual-policy-v5"
+    },
+    {
+      "id": "C_selective_gate",
+      "architecture": "planner-aware-gated-residual-policy-v6"
+    }
+  ],
+  "model_seeds": [106000, 106001, 106002],
+  "model": {
+    "channels": 32,
+    "blocks": 3,
+    "residual_logit_bound": 0.5,
+    "feature_schema": "padded-centered-33x33-target-distance-v3"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "batch_size": 128,
+    "epochs": 40,
+    "patience": 8,
+    "min_delta": 0.0001,
+    "gradient_clip": 1.0,
+    "random_d4_probability": 0.5,
+    "action_balance_power": 0.5,
+    "search_confidence_margin": 0.15,
+    "soft_label_weight": 1.0,
+    "hard_correction_weight": 0.25,
+    "planner_agreement_kl_weight": 0.75,
+    "agreement_rank_weight": 1.0,
+    "wait_agreement_rank_weight": 2.0,
+    "correction_rank_weight": 0.25,
+    "rank_margin": 0.02,
+    "residual_l2_weight": 0.02,
+    "preservation_residual_weight": 0.1,
+    "gate_bce_weight": 0.5,
+    "gate_preservation_weight": 0.25
+  },
+  "inner_dev_gate": {
+    "minimum_relative_ce_gain": 0.05,
+    "minimum_nonwait_top1_gain_points": 0.03,
+    "maximum_wait_top1_drop_points": 0.02,
+    "maximum_bomb_top1_drop_points": 0.0,
+    "minimum_high_confidence_relative_ce_gain": 0.05,
+    "maximum_planner_agreement_top1_drop_points": 0.01,
+    "maximum_unsafe_probability": 0.0,
+    "minimum_residual_state_std_mean": 0.001,
+    "maximum_residual_saturation_fraction": 0.05,
+    "all_three_model_seeds_must_pass": true
+  },
+  "selection_rule": "all-three-seeds-pass-then-highest-mean-relative-ce-gain",
+  "environment_rollout": false,
+  "student_only_training": true,
+  "automatic_full_training": false,
+  "checkpoint_dir": "experiments/checkpoints/v10.7-student-three-arm-s106000",
+  "manifest_path": "experiments/logs/runs/model-a-v10.7-student-three-arm-s106000.json",
+  "report_path": "experiments/logs/diagnostics/v10.7-student-three-arm-s106000.json",
+  "source_sha256": {
+    "agent_code/model_a_v10/residual_policy.py": "09fe0264b225d044c22b5f11f8461fac18208fe15bee8d49fb980d2681c8038d",
+    "tools/v10_student_ablation.py": "91e5f02a3b6ee49d6f18f757470a56b93b481f876110301efec74094704254ac"
+  }
+}

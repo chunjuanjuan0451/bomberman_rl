@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-rehearsal-pilot",
+  "protocol_id": "model-a-v4-rehearsal-pilot-s137000",
+  "question": "Can one fixed 25 percent source-task rehearsal share reduce the catastrophic Task1-3 forgetting seen in s136000 while preserving its Task4 sampling signal?",
+  "single_training_variable": "fixed_25pct_source_task1_to_task3_rehearsal",
+  "arms": ["no_rehearsal", "rehearsal25"],
+  "replicas": ["r1", "r2", "r3"],
+  "stage0_adjudication": "complete: s136000 has only comparable round-100 endpoints; historical 25/50/150/300 checkpoints use incompatible horizon, reward, or course contracts and are ineligible",
+  "stage1_adjudication": "complete: s136000 already supplied the fixed 100-round n=8 stratified pilot and showed provisional Task4 gain plus severe old-task forgetting; do not repeat it",
+  "source_parent": {
+    "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+    "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+    "lineage": {"protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json", "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4", "arm": "curriculum", "replica": "r2", "stage_id": "task2"}
+  },
+  "frozen_v4_baseline": {"path": "agent_code/model_a_dqn/model_a.pt", "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"},
+  "prior_sampling_report": {"path": "experiments/logs/diagnostics/model-a-v4-sampling-distribution-ab-s136000/report.json", "sha256": "06747b8e82a5f87c600331736df9b1e21f02aad950c37f48c5f0daab28cf146c"},
+  "learning_contract": {
+    "architecture": "unchanged exact-v4 model-a-mlp-v4-global7",
+    "features": "unchanged 96-dimensional exact-v4 latent",
+    "action_mask": "unchanged exact-v4 legal mask",
+    "reward_and_shaping": "unchanged exact-v4 values and events",
+    "all_action_return_horizon": 8,
+    "gamma": 0.99,
+    "replay_capacity": 50000,
+    "batch_size": 64,
+    "no_rehearsal_batch": {"task4_uniform": 60, "task4_kill": 2, "task4_self": 2, "old_task": 0},
+    "rehearsal25_batch": {"task4_uniform": 44, "task4_kill": 2, "task4_self": 2, "task1": 4, "task2": 4, "task3_peaceful": 4, "task3_coin": 4},
+    "kill_chain_definition": "same-episode n=8 target includes official KILLED_OPPONENT and excludes KILLED_SELF",
+    "self_kill_chain_definition": "same-episode n=8 target includes official KILLED_SELF",
+    "optimizer": "resume source-r2 Adam state unchanged",
+    "epsilon": "resume source-r2 at unchanged 0.05 floor",
+    "loss": "unchanged Smooth-L1 beta=1 mean",
+    "teacher_or_oracle_in_training": "none"
+  },
+  "rehearsal_collection": {
+    "policy": "frozen source-r2 at epsilon 0.05; no optimizer and no policy updates",
+    "rounds_per_stratum": 25,
+    "strata": {
+      "task1": {"scenario": "coin-heaven", "opponents": [], "seeds_by_replica": {
+        "r1": {"world_seed": 137011, "agent_seed": 237011, "opponent_seed": 337011}, "r2": {"world_seed": 137021, "agent_seed": 237021, "opponent_seed": 337021}, "r3": {"world_seed": 137031, "agent_seed": 237031, "opponent_seed": 337031}}},
+      "task2": {"scenario": "classic", "opponents": [], "seeds_by_replica": {
+        "r1": {"world_seed": 137012, "agent_seed": 237012, "opponent_seed": 337012}, "r2": {"world_seed": 137022, "agent_seed": 237022, "opponent_seed": 337022}, "r3": {"world_seed": 137032, "agent_seed": 237032, "opponent_seed": 337032}}},
+      "task3_peaceful": {"scenario": "classic", "opponents": ["seeded_peaceful_agent"], "seeds_by_replica": {
+        "r1": {"world_seed": 137013, "agent_seed": 237013, "opponent_seed": 337013}, "r2": {"world_seed": 137023, "agent_seed": 237023, "opponent_seed": 337023}, "r3": {"world_seed": 137033, "agent_seed": 237033, "opponent_seed": 337033}}},
+      "task3_coin": {"scenario": "classic", "opponents": ["seeded_coin_collector_agent"], "seeds_by_replica": {
+        "r1": {"world_seed": 137014, "agent_seed": 237014, "opponent_seed": 337014}, "r2": {"world_seed": 137024, "agent_seed": 237024, "opponent_seed": 337024}, "r3": {"world_seed": 137034, "agent_seed": 237034, "opponent_seed": 337034}}}
+    }
+  },
+  "training": {
+    "scenario": "classic", "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+    "rounds_per_arm": 100, "selection": "fixed_round_100_only",
+    "seeds_by_replica": {
+      "r1": {"world_seed": 137101, "agent_seed": 237101, "opponent_seed": 337101},
+      "r2": {"world_seed": 137102, "agent_seed": 237102, "opponent_seed": 337102},
+      "r3": {"world_seed": 137103, "agent_seed": 237103, "opponent_seed": 337103}
+    }
+  },
+  "evaluation": {
+    "oracle_deadline_seconds": 0.03,
+    "validation": {
+      "strata": {
+        "task1": {"scenario": "coin-heaven", "opponents": [], "rounds_per_case": 25, "cases": [{"world_seed": 137201, "agent_seed": 237201, "opponent_seed": 337201}]},
+        "task2": {"scenario": "classic", "opponents": [], "rounds_per_case": 25, "cases": [{"world_seed": 137211, "agent_seed": 237211, "opponent_seed": 337211}]},
+        "task3_peaceful": {"scenario": "classic", "opponents": ["seeded_peaceful_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137221, "agent_seed": 237221, "opponent_seed": 337221}]},
+        "task3_coin": {"scenario": "classic", "opponents": ["seeded_coin_collector_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137231, "agent_seed": 237231, "opponent_seed": 337231}]},
+        "task4b_duel": {"scenario": "classic", "opponents": ["seeded_rule_based_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137241, "agent_seed": 237241, "opponent_seed": 337241}, {"world_seed": 137242, "agent_seed": 237242, "opponent_seed": 337242}]},
+        "task4c_three_rule": {"scenario": "classic", "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137251, "agent_seed": 237251, "opponent_seed": 337251}, {"world_seed": 137252, "agent_seed": 237252, "opponent_seed": 337252}]}
+      },
+      "decision_rule": {"minimum_supportive_pairs": 2, "pair_minimum_retention_index_gain": 0.05, "pooled_minimum_task1_score_gain": 3.0, "pooled_minimum_task2_score_gain": 0.25, "pooled_minimum_task3_peaceful_score_gain": 0.5, "maximum_task4_kills_drop": 0.02, "maximum_task4_conversion_drop": 0.001, "maximum_task4_score_drop": 0.25, "maximum_task4_suicide_increase": 0.03}
+    },
+    "confirmation": {
+      "strata": {
+        "task1": {"scenario": "coin-heaven", "opponents": [], "rounds_per_case": 25, "cases": [{"world_seed": 137401, "agent_seed": 237401, "opponent_seed": 337401}]},
+        "task2": {"scenario": "classic", "opponents": [], "rounds_per_case": 25, "cases": [{"world_seed": 137411, "agent_seed": 237411, "opponent_seed": 337411}]},
+        "task3_peaceful": {"scenario": "classic", "opponents": ["seeded_peaceful_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137421, "agent_seed": 237421, "opponent_seed": 337421}]},
+        "task3_coin": {"scenario": "classic", "opponents": ["seeded_coin_collector_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137431, "agent_seed": 237431, "opponent_seed": 337431}]},
+        "task4b_duel": {"scenario": "classic", "opponents": ["seeded_rule_based_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137441, "agent_seed": 237441, "opponent_seed": 337441}, {"world_seed": 137442, "agent_seed": 237442, "opponent_seed": 337442}]},
+        "task4c_three_rule": {"scenario": "classic", "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rounds_per_case": 25, "cases": [{"world_seed": 137451, "agent_seed": 237451, "opponent_seed": 337451}, {"world_seed": 137452, "agent_seed": 237452, "opponent_seed": 337452}]}
+      },
+      "decision_rule": {"minimum_task1_fraction_of_source": 0.9, "maximum_task2_score_drop_from_source": 0.5, "maximum_task3_score_drop_from_source": 0.5, "maximum_task3_kills_drop_from_source": 0.05, "maximum_task3_suicide_increase_over_source": 0.05, "minimum_task4_kills_gain_over_source": 0.02, "minimum_task4_conversion_gain_over_source": 0.0005, "maximum_task4_score_drop_from_source": 0.25, "maximum_task4_suicide_increase_over_source": 0.05, "maximum_task4_stratum_kills_drop_from_source": 0.02, "maximum_task4_stratum_score_drop_from_source": 0.5, "maximum_task4_stratum_suicide_increase_over_source": 0.05}
+    }
+  },
+  "rehearsal_dataset_directory": "experiments/checkpoints/model-a-v4-rehearsal-pilot-s137000/rehearsal-data",
+  "collection_manifest_directory": "experiments/logs/runs/model-a-v4-rehearsal-pilot-s137000/collection",
+  "checkpoint_directory": "experiments/checkpoints/model-a-v4-rehearsal-pilot-s137000/endpoints",
+  "training_manifest_directory": "experiments/logs/runs/model-a-v4-rehearsal-pilot-s137000/training",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-rehearsal-pilot-s137000",
+  "evaluation_diagnostic_directory": "experiments/logs/diagnostics/model-a-v4-rehearsal-pilot-s137000/evaluations",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-rehearsal-pilot-s137000/report.json",
+  "automatic_followup": false,
+  "source_bindings": {
+    "agents.py": "582a96cc27ba7dd246f248b316e7808d82a07b29fd0139dc44a6ec9a696a49a8",
+    "environment.py": "75b40b8bc5dd1fec7d584ba1dc3a15de060e0bfe1afcfed769d553f5d5d0fd36",
+    "events.py": "8d7633de52d7abdc021e1ccfbf759f3fbc71c84be96445665fcdd82910739ed5",
+    "settings.py": "f0b97a16aae57bfc0131d76fca064749435e4d82c23fb967f7e09bd1ace9603a",
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_dqn/train.py": "16cc5ad2d8a7d395161fba71a6d5a255196ee1e73bbb52f2e3d97964674d7620",
+    "agent_code/model_a_v4_rehearsal/__init__.py": "a49181901373c9682e6c09695b7c7f78f15062edd182150cf228bcade6e21104",
+    "agent_code/model_a_v4_rehearsal/config.py": "f207731899c0d1690794cbb4cf7c7382e186be20a588a82f846575fc688b1b58",
+    "agent_code/model_a_v4_rehearsal/callbacks.py": "94b0b92cc984f090ba75f9fd2fad52605b6fda584dff6fce0242db3e2ab4953d",
+    "agent_code/model_a_v4_rehearsal/replay.py": "f32bcce716ce97ba058d6bdbe57e484cfbfb7c397f8cf32ccb6d659af0ebe9d9",
+    "agent_code/model_a_v4_rehearsal/train.py": "8a670c91b8c15df0600ff5d0d2aaf74a5f2d5d8982e782ea6ffe6707741a7933",
+    "agent_code/model_a_v4_sampling_ab/replay.py": "81bf72e7a51c32e3ebf3ba96c27923fd76ee5901ff76cb83711b3c8bad438288",
+    "agent_code/model_a_v4_sampling_ab/train.py": "13bde1b75adae7015fdc29f595d8c5faa0c34feb419e1fa1526306a28dd5368f",
+    "agent_code/model_a_v7b/tactical.py": "55e79d5ddcbe59fe994de388295dc02e8c06baa49f58c8261e83d71206c90b56",
+    "agent_code/seeded_peaceful_agent/callbacks.py": "6512ad1a3915f8aeffa3d5974efde5aadcde0351658e4bda2f239769cf94ec2f",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "tools/v4_task4_duel_training.py": "2736a2014771c68ff4c87ae5330fb4aa8061801a713acee5285779a4d3ed4ac3",
+    "tools/v4_rehearsal_pilot.py": "9df120c913f0515fdd3dc997212d0a2160594d2f679458b55682b3971cdb4791"
+  }
+}

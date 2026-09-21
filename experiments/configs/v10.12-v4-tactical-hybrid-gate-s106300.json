@@ -1,0 +1,67 @@
+{
+  "kind": "v10.12-frozen-v4-tactical-hybrid-official-gate-preregistration-v1",
+  "run_id": "v10.12-v4-tactical-hybrid-gate-s106300",
+  "purpose": "Test whether a narrowly gated, value-qualified tactical search overlay improves the frozen v4 official classic score without retraining or weakening its ordinary-state behavior.",
+  "hypothesis": "Most v4 decisions should remain unchanged; search can add value specifically around imminent blasts, nearby opponents, and proposed bomb placements if it is anchored to v4 priors and required to clear a root-value evidence threshold.",
+  "candidate_config": "experiments/configs/v10.12-v4-tactical-hybrid-candidate-s106300.json",
+  "opponents": [
+    "rule_based_agent",
+    "coin_collector_agent",
+    "peaceful_agent"
+  ],
+  "paired_seed_contract": "Within each stage and seed, v4 and hybrid use the same world seed, evaluated-agent RNG seed, opponent roster/order, scenario, and round count. Pilot outcomes are not pooled into confirmation selection.",
+  "stages": {
+    "pilot": {
+      "seeds": [106300, 106301],
+      "rounds_per_seed": 30,
+      "purpose": "Early regression and latency screen only.",
+      "gate": {
+        "minimum_mean_score_per_round_delta": -0.1,
+        "minimum_paired_net_wins": -2,
+        "minimum_median_score_per_round_delta": -0.1,
+        "maximum_single_seed_score_per_round_regression": 0.5,
+        "maximum_suicides_per_round_increase": 0.03,
+        "maximum_invalid_action_increase": 0,
+        "maximum_seed_mean_decision_time_ms": 450.0
+      }
+    },
+    "confirmation": {
+      "seeds": [106302, 106303, 106304, 106305, 106306, 106307],
+      "rounds_per_seed": 50,
+      "purpose": "Fresh-seed selection gate; pilot data excluded.",
+      "gate": {
+        "minimum_mean_score_per_round_delta": 0.15,
+        "minimum_paired_net_wins": 2,
+        "minimum_median_score_per_round_delta": 0.1,
+        "maximum_single_seed_score_per_round_regression": 0.5,
+        "maximum_suicides_per_round_increase": 0.01,
+        "maximum_invalid_action_increase": 0,
+        "maximum_seed_mean_decision_time_ms": 450.0
+      }
+    }
+  },
+  "selection_rule": "Run confirmation only if every pilot safeguard passes. Select the hybrid only if every confirmation check passes on its six fresh seed pairs. Never pool pilot and confirmation outcomes or tune thresholds after seeing results.",
+  "decision_branches": {
+    "select_v4_tactical_hybrid": "Freeze the hybrid code/config and run one final independent canonical confirmation before considering it for v10; do not train automatically.",
+    "reject_after_confirmation": "Retain frozen v4, inspect per-seed tactical failure cases, and do not train or loosen this gate.",
+    "reject_after_pilot": "Retain frozen v4 and stop this route before confirmation; do not train or tune on the two pilot seeds."
+  },
+  "evaluation_output_directory": "experiments/logs/evaluations/v10.12-v4-tactical-hybrid-s106300",
+  "output_path": "experiments/logs/evaluations/v10.12-v4-tactical-hybrid-gate-s106300.json",
+  "bindings": {
+    "agent_code/model_a_dqn/model_a.pt": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239",
+    "experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz": "ea681938f696183132db3a23eb3d47ed4cb9ddb38a5a0105d989d46a6bbb610b",
+    "agent_code/model_a_v10/callbacks.py": "251e4e229b9b95cc15ee91e9ed31d3091007aa1012c6775a96a22d81cd69005d",
+    "agent_code/model_a_v10/runtime.py": "e09c109a83881d91508960ce17ac26a58ed3e5152c7340f1f318ff2ed1262b4d",
+    "agent_code/model_a_v10/search.py": "b85d8afe0cab792de130d166351efcede4b4cda80a1ff7bbf1b82ac48e68454b",
+    "agent_code/model_a_v10/v4_adapter.py": "c98c3a7c249cb3bba57b5b9fd196077179130eb4317ab1dd467772023def12c0",
+    "agent_code/model_a_v10/v4_hybrid.py": "eeb20863e92c69de99cfe086bfcd9bb0b7210ed8a6e31e4b9e9054fbba0f5da4",
+    "agent_code/model_a_v10/hybrid_search.py": "1b02fd9385bedf1ca6611b8fd0459e6eec78e7bd4a84591a01b14eddec147ee7",
+    "experiments/evaluate.py": "25f1e968b07b2d6398d9762e970142ec6669c5b39ee475fdd067b0adfe43d911",
+    "experiments/configs/v10.12-v4-tactical-hybrid-candidate-s106300.json": "c8c78976a8de2fa0ddeac0ad3d171f8934049a6f3dfab331dad810490425732a",
+    "tools/v10_v4_hybrid_gate.py": "4760cd641c677924a60a8e43bc29d4e31a8447ee0161d69c38565abb516e675c"
+  },
+  "training": false,
+  "automatic_training": false,
+  "h2h": false
+}

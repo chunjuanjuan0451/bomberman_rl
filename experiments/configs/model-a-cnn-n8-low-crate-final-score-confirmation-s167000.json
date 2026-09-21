@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-low-crate-final-score-confirmation",
+  "protocol_id": "model-a-cnn-n8-low-crate-final-score-confirmation-s167000",
+  "status": "preregistered_selection_free_terminal",
+  "question": "Does the post-hoc fixed low-crate-r1-round0025 checkpoint reproduce its official-score advantage over control-r2-round0150 on fresh seeds?",
+  "post_hoc_origin_disclosed": true,
+  "selection_source": {
+    "path": "experiments/logs/diagnostics/model-a-cnn-n8-crate-reward-ab-s166000/report.json",
+    "sha256": "e7bfc816315e8171a063cd951a3b181a8566ff9867a2682a90c51bb952377b63",
+    "required_arm": "low_crate",
+    "required_selected_label": "low_crate-r1-round0025"
+  },
+  "identities": {
+    "candidate": {
+      "path": "experiments/checkpoints/model-a-cnn-n8-crate-reward-ab-s166000/low_crate/r1/round-0025.pt",
+      "sha256": "a9a20823e0b4be1c4d3de9aa626b8c309f4cb6d0c33ec8eebca2acc503f66bc1"
+    },
+    "control": {
+      "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+      "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee"
+    }
+  },
+  "confirmation": {
+    "scenario": "classic",
+    "rounds_per_identity_case": 25,
+    "identities": 2,
+    "cases": [
+      {"case_id": "rule-a", "stratum": "rule", "world_seed": 167201, "agent_seed": 267201, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rule_seed": 367201},
+      {"case_id": "mixed-a", "stratum": "mixed", "world_seed": 167202, "agent_seed": 267202, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"], "rule_seed": 367202, "coin_seed": 467202, "random_seed": 567202},
+      {"case_id": "rule-b", "stratum": "rule", "world_seed": 167203, "agent_seed": 267203, "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"], "rule_seed": 367203},
+      {"case_id": "mixed-b", "stratum": "mixed", "world_seed": 167204, "agent_seed": 267204, "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"], "rule_seed": 367204, "coin_seed": 467204, "random_seed": 567204}
+    ],
+    "rounds_per_identity": 100,
+    "total_rounds": 200
+  },
+  "decision_rule": {
+    "minimum_score_gain_per_round": 0.15,
+    "minimum_case_score_wins_out_of_4": 3,
+    "minimum_rule_score_delta_per_round": -0.05,
+    "minimum_mixed_score_delta_per_round": -0.05,
+    "maximum_suicide_increase_per_round": 0.05,
+    "pass_decision": "low_crate_r1_round0025_confirmed_as_final_score_candidate",
+    "fail_decision": "low_crate_r1_round0025_not_confirmed_retain_control_r2_round0150"
+  },
+  "manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-low-crate-final-score-confirmation-s167000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-low-crate-final-score-confirmation-s167000/report.json",
+  "training_allowed": false,
+  "checkpoint_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "candidate_deployment_allowed": false,
+  "automatic_followup": false
+}

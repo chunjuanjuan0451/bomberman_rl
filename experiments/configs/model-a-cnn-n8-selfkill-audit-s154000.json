@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-selfkill-audit",
+  "protocol_id": "model-a-cnn-n8-selfkill-audit-s154000",
+  "question": "Which observable failure mode causes the frozen CNN candidate's residual self-kills?",
+  "status": "preregistered",
+  "checkpoint": {
+    "label": "task4-r3-round0800",
+    "path": "experiments/checkpoints/model-a-cnn-n8-task4-s151000/r3/round-0800.pt",
+    "sha256": "7c35d969f5d798c6ab3135f8bb919e19c99767bad2db4e372146a07024059332"
+  },
+  "collection": {
+    "rounds_per_case": 50,
+    "trace_window_steps": 8,
+    "policy_updates": 0,
+    "actions_overridden": 0,
+    "cases": {
+      "task4_rule_c1": {
+        "stratum": "task4_rule",
+        "world_seed": 154201,
+        "agent_seed": 254201,
+        "rule_seed": 354201,
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+      },
+      "task4_rule_c2": {
+        "stratum": "task4_rule",
+        "world_seed": 154202,
+        "agent_seed": 254202,
+        "rule_seed": 354202,
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]
+      },
+      "task4_mixed_c1": {
+        "stratum": "task4_mixed",
+        "world_seed": 154301,
+        "agent_seed": 254301,
+        "rule_seed": 354301,
+        "coin_seed": 454301,
+        "random_seed": 554301,
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+      },
+      "task4_mixed_c2": {
+        "stratum": "task4_mixed",
+        "world_seed": 154302,
+        "agent_seed": 254302,
+        "rule_seed": 354302,
+        "coin_seed": 454302,
+        "random_seed": 554302,
+        "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]
+      }
+    }
+  },
+  "classification": {
+    "minimum_selfkill_cases": 20,
+    "dynamic_gap_fraction": 0.5,
+    "recent_bomb_window_steps": 6,
+    "categories": [
+      "fragile_contestable_bomb",
+      "fragile_single_exit_bomb",
+      "route_became_unavoidable",
+      "mask_predicted_safe_but_died",
+      "missing_recent_own_bomb",
+      "other"
+    ]
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-cnn-n8-selfkill-audit-s154000/traces",
+  "manifest_directory": "experiments/logs/runs/model-a-cnn-n8-selfkill-audit-s154000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-selfkill-audit-s154000/report.json",
+  "training_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false
+}

@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "kind": "task3-training-distribution-matched-v1",
+  "run_id": "task3-training-distribution-matched-s112000",
+  "task": 3,
+  "includes_task4": false,
+  "training": true,
+  "automatic_followup": false,
+  "hypothesis": "A kill-rich training episode/state distribution supplies diverse attack credit that uniform classic training and kill-causal replay repetition did not, while the frozen-D learner and official evaluation remain unchanged.",
+  "only_variable": {
+    "name": "training_episode_state_distribution",
+    "control": "official classic: 17x17, crate density 0.75, 9 coins, standard corner starts",
+    "candidate": "isolated training-only reset sampler: official 17x17 rules and classic flag, crate density 0.15, 0 coins, one of 12 fixed near/offset two-agent start pairs",
+    "unchanged": [
+      "frozen v4 parent and action-conditioned bounded residual architecture",
+      "Task-3 D features and safe legal-action mask",
+      "uniform replay batch 64 and capacity 50000",
+      "3-step Double DQN targets and Smooth-L1 loss",
+      "official-aligned rewards and danger shaping",
+      "optimizer, schedules, D4 regularization, exploration and 300-round budget",
+      "one unchanged alternating peaceful/coin-collector curriculum opponent",
+      "all selection evaluation on official classic"
+    ]
+  },
+  "fresh_seed_floor": 112000,
+  "formal_budget": {
+    "signal_runs": 16,
+    "signal_rounds": 400,
+    "conditional_training_runs": 6,
+    "conditional_training_rounds": 1800,
+    "conditional_evaluation_runs": 56,
+    "conditional_evaluation_rounds": 2800
+  },
+  "v4": {
+    "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+    "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "signal_gate": {
+    "rounds_per_case": 25,
+    "cases": [
+      {"world_seed": 112000, "agent_seed": 212000, "opponent_seed": 312000},
+      {"world_seed": 112001, "agent_seed": 212001, "opponent_seed": 312001},
+      {"world_seed": 112002, "agent_seed": 212002, "opponent_seed": 312002},
+      {"world_seed": 112003, "agent_seed": 212003, "opponent_seed": 312003},
+      {"world_seed": 112004, "agent_seed": 212004, "opponent_seed": 312004},
+      {"world_seed": 112005, "agent_seed": 212005, "opponent_seed": 312005},
+      {"world_seed": 112006, "agent_seed": 212006, "opponent_seed": 312006},
+      {"world_seed": 112007, "agent_seed": 212007, "opponent_seed": 312007}
+    ],
+    "minimum_candidate_kills": 40,
+    "minimum_positive_cases": 6,
+    "minimum_kill_step_rate": "1/250",
+    "minimum_rate_multiplier": 10,
+    "maximum_suicides_per_round": "3/20"
+  },
+  "replicas": {
+    "R1": {
+      "labels": {"control": "C1", "killrich": "K1"},
+      "control": {"config_path": "experiments/configs/task3-distribution-control-r1-s112100.json", "config_sha256": "aac23e4858e2d41add6a8a2c2298cd3e839f79b292baf328d2cb26fe788d1a49"},
+      "killrich": {"config_path": "experiments/configs/task3-distribution-killrich-r1-s112100.json", "config_sha256": "d8604a599b28fc8e7e9538d8550c400b08f200f92fd6ce1f25f3f6936d06a66b"}
+    },
+    "R2": {
+      "labels": {"control": "C2", "killrich": "K2"},
+      "control": {"config_path": "experiments/configs/task3-distribution-control-r2-s112101.json", "config_sha256": "9ca41b9325e9da3174779947ad40e9f33abf78b74feb7d9bd9a4f48476836d10"},
+      "killrich": {"config_path": "experiments/configs/task3-distribution-killrich-r2-s112101.json", "config_sha256": "a28d906a4cfcdbdf5e76ccd14c9014b345d8f87b215112e86b84779c11fdfc4a"}
+    },
+    "R3": {
+      "labels": {"control": "C3", "killrich": "K3"},
+      "control": {"config_path": "experiments/configs/task3-distribution-control-r3-s112102.json", "config_sha256": "9cc5fa89a41406d3a47d346206639bcb21a8a7c1c73fd4616607ca9cf0c324ea"},
+      "killrich": {"config_path": "experiments/configs/task3-distribution-killrich-r3-s112102.json", "config_sha256": "01fd266082dcf1e269b4ac86286ad85d359900d1bfd950f5cd7d09466e00df18"}
+    }
+  },
+  "strata": {
+    "peaceful": {
+      "opponent": "seeded_peaceful_agent",
+      "rounds_per_seed": 50,
+      "cases": [
+        {"world_seed": 112200, "agent_seed": 212200, "opponent_seed": 312200},
+        {"world_seed": 112201, "agent_seed": 212201, "opponent_seed": 312201},
+        {"world_seed": 112202, "agent_seed": 212202, "opponent_seed": 312202},
+        {"world_seed": 112203, "agent_seed": 212203, "opponent_seed": 312203}
+      ]
+    },
+    "coin_collector": {
+      "opponent": "seeded_coin_collector_agent",
+      "rounds_per_seed": 50,
+      "cases": [
+        {"world_seed": 112300, "agent_seed": 212300, "opponent_seed": 312300},
+        {"world_seed": 112301, "agent_seed": 212301, "opponent_seed": 312301},
+        {"world_seed": 112302, "agent_seed": 212302, "opponent_seed": 312302},
+        {"world_seed": 112303, "agent_seed": 212303, "opponent_seed": 312303}
+      ]
+    }
+  },
+  "vs_v4_gate": {
+    "minimum_stratum_score_delta": "-1/10", "minimum_stratum_kills_delta": "0/1",
+    "maximum_stratum_suicides_increase": "1/25", "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "1/10", "minimum_overall_kills_delta": "1/50",
+    "maximum_overall_coin_regression": "1/10", "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20", "minimum_paired_net_wins": 0,
+    "maximum_single_cell_score_regression": "3/4", "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "vs_control_gate": {
+    "minimum_stratum_score_delta": "-1/10", "minimum_stratum_kills_delta": "0/1",
+    "maximum_stratum_suicides_increase": "1/25", "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "-1/10", "minimum_overall_kills_delta": "1/50",
+    "maximum_overall_coin_regression": "1/10", "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20", "minimum_paired_net_wins": 0,
+    "maximum_single_cell_score_regression": "3/4", "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "replica_gate": {
+    "minimum_stratum_score_delta": "-1/10", "minimum_stratum_kills_delta": "-1/50",
+    "maximum_stratum_suicides_increase": "1/25", "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "-1/10", "minimum_overall_kills_delta": "0/1",
+    "maximum_overall_coin_regression": "1/10", "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20", "minimum_paired_net_wins": -8,
+    "maximum_single_cell_score_regression": "3/4", "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "replica_v4_floor": {
+    "minimum_stratum_score_delta": "-1/10", "minimum_stratum_kills_delta": "-1/50",
+    "maximum_stratum_suicides_increase": "1/25", "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "-1/10", "minimum_overall_kills_delta": "-1/50",
+    "maximum_overall_coin_regression": "1/10", "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20", "minimum_paired_net_wins": -8,
+    "maximum_single_cell_score_regression": "3/4", "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "minimum_supportive_replicas": 2,
+  "selection": {"order": ["K1", "K2", "K3"], "rule": "lowest-index-supportive"},
+  "signal_output_directory": "experiments/logs/diagnostics/task3-training-distribution-s112000-signal",
+  "evaluation_output_directory": "experiments/logs/evaluations/task3-training-distribution-matched-s112000",
+  "output_path": "experiments/logs/evaluations/task3-training-distribution-matched-s112000.json",
+  "decision_branches": {
+    "environment_signal_failed_stop": "Stop before training. Report the failed environment-signal checks; do not tune the arena, train, or start Task 4.",
+    "killrich_distribution_confirmed": "Stop. Preserve the lowest-index supportive candidate and return to Codex; do not start Task 4 automatically.",
+    "killrich_distribution_not_confirmed_stop": "Stop Task 3 after this final distribution attempt. Do not tune maps, rewards, replay, architecture, or seeds; return to Codex before the separately scoped Task 4 work."
+  },
+  "bindings": {
+    "settings.py": "f0b97a16aae57bfc0131d76fca064749435e4d82c23fb967f7e09bd1ace9603a",
+    "environment.py": "75b40b8bc5dd1fec7d584ba1dc3a15de060e0bfe1afcfed769d553f5d5d0fd36",
+    "agent_code/model_a_task3_killrich/config.py": "8e9937e932fe6b547038034ca3a51ade25ae83738d466c14b4c93ca60399a3f3",
+    "agent_code/model_a_task3_killrich/callbacks.py": "64548346b8ac347eec49495054eae1092903a32b76299688951808cb52019a50",
+    "agent_code/model_a_task3_killrich/train.py": "3095038e9b4f009fa96a81233cfda22cfa4714c61b935c45ba91b9dee0c9be11",
+    "agent_code/model_a_task3_killrich/features.py": "b2cc82f7e2452d732d20a8b33cd6711b154fb49d91b994ac2dfac99167ebf4dc",
+    "agent_code/model_a_task3_killrich/network.py": "61d56421ed6834fc83db573c0c163f2a4c8cc7f9d3e6b546934b0f3482e85f70",
+    "agent_code/model_a_task3/train.py": "cdf15668545db08aa2be0cb444ac03361ecaf34ab3ff617c28c588eac82625fb",
+    "agent_code/model_a_task3/replay.py": "f3febe276e2f38560a776e6d5ede85bfd319e46d0bfe747643749d450cf6fe3b",
+    "agent_code/model_a_task3/features.py": "2d02f8542c7114f73279d5749cfc2aaf804ded39ebf33c95b217fb5629bf35e7",
+    "agent_code/model_a_task3/network.py": "6082b1aa44da5f8cf987d55585798e6af13b9518f819ecdbe49f7a2760123f1d",
+    "agent_code/model_a_v6/features.py": "248cc2ad91188d5d377642fd2e49799d7aeafd5417f5d711d88d559a35416cad",
+    "agent_code/model_a_v6/symmetry.py": "61d0c858342ef948568c2fd109ba82ba1c7ec8237e906e78b0951f027b6e4109",
+    "agent_code/task3_curriculum_agent/callbacks.py": "0bc53b66847ace2ec169faa7b9f9ffa6d9a6980be19a4b025e1b21f37c28ff23",
+    "tools/task3_four_arm.py": "2caa4f77adabb695a10db9991d5771c1100d01889e63ce511995617eeedbfcd5",
+    "tools/task3_replay_sampling.py": "3e85f4d7942aac1f57bae7e0a4f0810613eee7361b630d12be2770472f90f563",
+    "tools/task3_distribution_world.py": "cd03cccc5c0b5fd58093dc98ad41c5615042ba6086efd1a016df29b798a76074",
+    "tools/task3_distribution_play.py": "229b1496637600891b79bab7accf8c721264eb56a3919a69da26f4b74eaf7320",
+    "tools/task3_training_distribution.py": "19a29c09565ac2981af57e335d26baab01c9cfaecae9d8cd57880f5d061f29e9"
+  }
+}

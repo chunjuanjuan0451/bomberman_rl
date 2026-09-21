@@ -1,0 +1,26 @@
+{
+  "variant": "v10-phase3.3-policy-s103009-baseline",
+  "scenario": "coin-heaven",
+  "checkpoint_path": "experiments/checkpoints/model-a-v10-centered-blend-coin-heaven-s103004.npz",
+  "checkpoint_sha256": "ea681938f696183132db3a23eb3d47ed4cb9ddb38a5a0105d989d46a6bbb610b",
+  "student_head_weights": {
+    "policy": 0.0,
+    "value": 0.1,
+    "opponent": 0.0,
+    "risk": 0.0
+  },
+  "repetition": {
+    "enabled": true,
+    "history_window": 16,
+    "activation_steps": 8,
+    "lambda": 0.6,
+    "minimum_multiplier": 0.05
+  },
+  "search_budget_profile": "ryzen-safe-v1",
+  "nonlinear_policy": {
+    "enabled": false,
+    "weight": 0.0
+  },
+  "training": false,
+  "h2h": false
+}

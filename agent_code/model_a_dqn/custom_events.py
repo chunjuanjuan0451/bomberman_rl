@@ -1,0 +1,6 @@
+"""Custom event names owned by Model A (do not modify the global events.py)."""
+
+MOVED_TOWARD_COIN = "MOVED_TOWARD_COIN"
+MOVED_AWAY_FROM_DANGER = "MOVED_AWAY_FROM_DANGER"
+ENTERED_DANGER = "ENTERED_DANGER"
+INVALID_ACTION = "INVALID_ACTION"

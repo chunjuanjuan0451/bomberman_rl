@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-clean-curriculum",
+  "protocol_id": "model-a-cnn-n8-task4-s151000",
+  "status": "preregistered_stop_before_task4_execution",
+  "authorized_course": "task4",
+  "stage_order": ["task1", "task2", "task3_peaceful", "task3_coin", "task4"],
+  "question": "Can one unified three-rule course improve tournament performance, and which preregistered course champion is strongest afterward?",
+  "architecture": {
+    "name": "model-a-cnn-n8-full33-v1",
+    "spatial_shape": [11, 33, 33],
+    "scalar_size": 6,
+    "parameter_count": 367863,
+    "random_initialization": false,
+    "inherits_v4_weights": false
+  },
+  "learning": {
+    "algorithm": "dueling-double-dqn-uniform-nstep",
+    "n_step": 8,
+    "gamma": 0.99,
+    "batch_size": 256,
+    "update_every": 32,
+    "samples_per_environment_transition": 8,
+    "replay_capacity": 50000,
+    "warmup_transitions": 8192,
+    "learning_rate": 0.0001,
+    "gradient_clip": 10.0,
+    "target_sync_environment_steps": 8000,
+    "epsilon_start": 1.0,
+    "epsilon_final": 0.05,
+    "epsilon_decay_steps": 80000,
+    "checkpoint_every_rounds": 400,
+    "loss": "smooth_l1",
+    "resume_optimizer_target_counters_and_epsilon": true,
+    "clear_replay_at_course_boundary": true
+  },
+  "hardware": {
+    "training_device": "mps",
+    "evaluation_device": "cpu",
+    "replica_execution": "sequential",
+    "torch_cpu_threads_per_process": 1,
+    "mps_high_watermark_override_allowed": false,
+    "parallel_mps_training_processes": 1,
+    "spatial_replay_dtype": "uint8"
+  },
+  "reward_contract": {
+    "coin_collected": 1.0,
+    "killed_opponent": 5.0,
+    "survived_round": 1.0,
+    "got_killed": -5.0,
+    "killed_self_exclusive_total": -8.0,
+    "crate_destroyed": 0.2,
+    "invalid_action": -0.2,
+    "bomb_dropped": 0.0,
+    "ordinary_move": 0.0,
+    "maximum_no_official_event_shaping_absolute_sum": 0.2,
+    "task4_shaping_multiplier": 0.25,
+    "attack_potential_enabled": true
+  },
+  "course_reports": {
+    "task1": {
+      "path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s147000/task1.json",
+      "sha256": "363b5e50971d55c409c97f4687c63aa8e5102c4750bc9a14c5b91c06e9ae962a"
+    },
+    "task2": {
+      "path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s148000/task2.json",
+      "sha256": "63247df493063aa5d9102daed6523d30d89bc80a759e68d71466c22ddcf3b8b8"
+    },
+    "task3_peaceful": {
+      "path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s149000/task3-peaceful.json",
+      "sha256": "b55b18fc6f546575ed068c346a0f8f756bc8a0094270eb855e5833b6b671571b"
+    },
+    "task3_coin": {
+      "path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s150000/task3-coin.json",
+      "sha256": "bdbb821b268f6f5a3843e15eec949d4462319243f9e7c65731803cea6d999aa9"
+    }
+  },
+  "parents": {
+    "r1": {
+      "path": "experiments/checkpoints/model-a-cnn-n8-task3-coin-s150000/r1/round-0150.pt",
+      "sha256": "1a1fb9f2e9a87aba95a415cfc70d1714974d7f1053ed8a56798fed12ce73c027"
+    },
+    "r2": {
+      "path": "experiments/checkpoints/model-a-cnn-n8-task3-coin-s150000/r2/round-0150.pt",
+      "sha256": "6473e05ca7fe0d024848591fd25a9a068d68e3b01b92e05e510893aa6abcb02f"
+    },
+    "r3": {
+      "path": "experiments/checkpoints/model-a-cnn-n8-task3-coin-s150000/r3/round-0150.pt",
+      "sha256": "55a49a401a3fb5484fb93d116047740226dab7b7a6ca2439f7e9a2c5f7776d26"
+    }
+  },
+  "course_champions": {
+    "task1": {
+      "r1": {"path": "experiments/checkpoints/model-a-cnn-n8-task1-s147000/r1/round-0400.pt", "sha256": "ead3075ab175db7f2e63fbaf9c0c7dc652978637118f2f6c1d8a5d3f2622322c"},
+      "r2": {"path": "experiments/checkpoints/model-a-cnn-n8-task1-s147000/r2/round-0400.pt", "sha256": "6e24ff3e8f78fb63c8e8c3b0fbe9dcbf23fce807b4a3f406bd830b66dffe9660"},
+      "r3": {"path": "experiments/checkpoints/model-a-cnn-n8-task1-s147000/r3/round-0400.pt", "sha256": "7670b90a7afc304a18db0632e1f39322fb4e2bd34b9651a0b3dfb98c443a1018"}
+    },
+    "task2": {
+      "r1": {"path": "experiments/checkpoints/model-a-cnn-n8-task2-s148000/r1/round-0800.pt", "sha256": "942c0a9d9d54797575e8799eacf4abcbeb977c1d2909244d59eea54c2a6936fd"},
+      "r2": {"path": "experiments/checkpoints/model-a-cnn-n8-task2-s148000/r2/round-0800.pt", "sha256": "70c2469d8b0ce0e1528e81a6c78bb4265c3f0618f7ed3322739b0ee2d6e45a60"},
+      "r3": {"path": "experiments/checkpoints/model-a-cnn-n8-task2-s148000/r3/round-0800.pt", "sha256": "e55c2081924713d119a14f72af914477d1d0626d05950956498bb6f1b815aad1"}
+    },
+    "task3_peaceful": {
+      "r1": {"path": "experiments/checkpoints/model-a-cnn-n8-task3-peaceful-s149000/r1/round-0600.pt", "sha256": "db1c89628e19999cc57767510b2bc443efe9a56a13e521e38e6c4397a5f33f6c"},
+      "r2": {"path": "experiments/checkpoints/model-a-cnn-n8-task3-peaceful-s149000/r2/round-0600.pt", "sha256": "3f8dfc92a7d4a814f8f77d0b10f134538276d4a60e509840fa8c3db04ef2ce76"},
+      "r3": {"path": "experiments/checkpoints/model-a-cnn-n8-task3-peaceful-s149000/r3/round-0600.pt", "sha256": "adb118a8d873639e042b542e3dc8bdf6e39557222592b56e408eb078ce9edf4a"}
+    },
+    "task3_coin": {
+      "r1": {"path": "experiments/checkpoints/model-a-cnn-n8-task3-coin-s150000/r1/round-0150.pt", "sha256": "1a1fb9f2e9a87aba95a415cfc70d1714974d7f1053ed8a56798fed12ce73c027"},
+      "r2": {"path": "experiments/checkpoints/model-a-cnn-n8-task3-coin-s150000/r2/round-0150.pt", "sha256": "6473e05ca7fe0d024848591fd25a9a068d68e3b01b92e05e510893aa6abcb02f"},
+      "r3": {"path": "experiments/checkpoints/model-a-cnn-n8-task3-coin-s150000/r3/round-0150.pt", "sha256": "55a49a401a3fb5484fb93d116047740226dab7b7a6ca2439f7e9a2c5f7776d26"}
+    }
+  },
+  "task4": {
+    "scenario": "classic",
+    "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+    "rounds_per_replica": 1600,
+    "milestones": [400, 800, 1200, 1600],
+    "replicas": {
+      "r1": {"world_seed": 151101, "agent_seed": 251101, "rule_seed": 351101},
+      "r2": {"world_seed": 151102, "agent_seed": 251102, "rule_seed": 351102},
+      "r3": {"world_seed": 151103, "agent_seed": 251103, "rule_seed": 351103}
+    },
+    "total_training_rounds": 4800
+  },
+  "validation": {
+    "task4_rule_selection": {
+      "scenario": "classic",
+      "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 151201, "agent_seed": 251201, "rule_seed": 351201},
+        {"world_seed": 151202, "agent_seed": 251202, "rule_seed": 351202},
+        {"world_seed": 151203, "agent_seed": 251203, "rule_seed": 351203},
+        {"world_seed": 151204, "agent_seed": 251204, "rule_seed": 351204}
+      ],
+      "milestone_labels": 14,
+      "course_pool_labels": 17,
+      "new_rounds": 2600
+    },
+    "task4_mixed_selection": {
+      "scenario": "classic",
+      "opponents": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"],
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 151301, "agent_seed": 251301, "rule_seed": 351301, "coin_seed": 451301, "random_seed": 551301},
+        {"world_seed": 151302, "agent_seed": 251302, "rule_seed": 351302, "coin_seed": 451302, "random_seed": 551302},
+        {"world_seed": 151303, "agent_seed": 251303, "rule_seed": 351303, "coin_seed": 451303, "random_seed": 551303},
+        {"world_seed": 151304, "agent_seed": 251304, "rule_seed": 351304, "coin_seed": 451304, "random_seed": 551304}
+      ],
+      "milestone_labels": 14,
+      "course_pool_labels": 17,
+      "new_rounds": 2600
+    },
+    "task3c_retention": {
+      "scenario": "classic",
+      "opponents": ["seeded_coin_collector_agent"],
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 151401, "agent_seed": 251401, "coin_seed": 451401},
+        {"world_seed": 151402, "agent_seed": 251402, "coin_seed": 451402},
+        {"world_seed": 151403, "agent_seed": 251403, "coin_seed": 451403},
+        {"world_seed": 151404, "agent_seed": 251404, "coin_seed": 451404}
+      ],
+      "labels": 8,
+      "new_rounds": 800
+    },
+    "task3p_retention": {
+      "scenario": "classic",
+      "opponents": ["seeded_peaceful_agent"],
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 151501, "agent_seed": 251501, "peaceful_seed": 351501},
+        {"world_seed": 151502, "agent_seed": 251502, "peaceful_seed": 351502},
+        {"world_seed": 151503, "agent_seed": 251503, "peaceful_seed": 351503},
+        {"world_seed": 151504, "agent_seed": 251504, "peaceful_seed": 351504}
+      ],
+      "labels": 8,
+      "new_rounds": 800
+    },
+    "task2_retention": {
+      "scenario": "classic",
+      "opponents": [],
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 151601, "agent_seed": 251601},
+        {"world_seed": 151602, "agent_seed": 251602},
+        {"world_seed": 151603, "agent_seed": 251603},
+        {"world_seed": 151604, "agent_seed": 251604}
+      ],
+      "labels": 8,
+      "new_rounds": 800
+    },
+    "task1_retention": {
+      "scenario": "coin-heaven",
+      "opponents": [],
+      "rounds_per_case": 25,
+      "cases": [
+        {"world_seed": 151701, "agent_seed": 251701},
+        {"world_seed": 151702, "agent_seed": 251702},
+        {"world_seed": 151703, "agent_seed": 251703},
+        {"world_seed": 151704, "agent_seed": 251704}
+      ],
+      "labels": 8,
+      "new_rounds": 800
+    },
+    "total_rounds": 8400
+  },
+  "selection": {
+    "task4_common_milestone_unit": "one milestone shared by all three Task4 replicas",
+    "task4_primary_metric": "pooled official score_per_round over Task4-R and Task4-M",
+    "near_best_tolerance_per_round": 0.1,
+    "task4_rule": "choose the earliest milestone within 0.10 score/round of the best combined Task4-R+M milestone",
+    "course_pool_size": 15,
+    "course_pool_primary_metric": "combined Task4-R and Task4-M official score_per_round",
+    "course_pool_tiebreaks": ["lower suicides", "higher coins", "lower WAIT", "lower latency", "earlier course", "lower replica index"],
+    "individual_replica_checkpoint_cherry_picking_allowed": false,
+    "retention_is_diagnostic_not_a_selection_gate": true,
+    "confirmation_seeds_visible": false
+  },
+  "baselines": {
+    "frozen-v4": {"path": "agent_code/model_a_dqn/model_a.pt", "sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"},
+    "source-r2": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt", "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"}
+  },
+  "checkpoint_directory": "experiments/checkpoints/model-a-cnn-n8-task4-s151000",
+  "training_manifest_directory": "experiments/logs/runs/model-a-cnn-n8-task4-s151000",
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-task4-s151000",
+  "report_path": "experiments/logs/course-reports/model-a-cnn-n8-clean-curriculum-s151000/task4.json",
+  "training_allowed": true,
+  "next_stage_started": false,
+  "checkpoint_copy_allowed": false,
+  "default_model_replacement_allowed": false,
+  "automatic_followup": false,
+  "source_bindings": {
+    "agent_code/model_a_cnn_n8/__init__.py": "8562eaf29805c38edb08f56189b39452bf9917515bd4cf03d60d5c3cab9ef8ea",
+    "agent_code/model_a_cnn_n8/callbacks.py": "6f741cb370d217e4ebcb26cd9cb2d7430a8c07d7e9bd03c56416a8f4f49168b2",
+    "agent_code/model_a_cnn_n8/features.py": "3d31fff209b140830e7badf2665de87ee613a2b0e27e554e7ae6e50c2434a606",
+    "agent_code/model_a_cnn_n8/network.py": "b3cc72364f66f3d65cdc0d6aaffba45c6438521a85146bc3c8272335e12e4343",
+    "agent_code/model_a_cnn_n8/replay.py": "971577a167aa277d431e358aaeb4754e9953f27868dce8d5eb636d01b98fb27f",
+    "agent_code/model_a_cnn_n8/rewards.py": "c760f526780f74b18777bb8ef0909dbe8b5c546e474fdc941793bdffa26364ac",
+    "agent_code/model_a_cnn_n8/train.py": "c1884d17bde96c8c80537b350d8828ebc4f4f9398fef4f048e696aceb0ba3de0",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "agent_code/seeded_coin_collector_agent/callbacks.py": "65ca86acdcbd11df944fdd224a2a12b16ac5a1b11b3bdf4dce6ba524da2d9ff9",
+    "agent_code/seeded_random_agent/callbacks.py": "2ea4723b985481cc37807221558e3dec6f459e65cdb4ce085090d723ff9f11a7",
+    "agent_code/seeded_peaceful_agent/callbacks.py": "6512ad1a3915f8aeffa3d5974efde5aadcde0351658e4bda2f239769cf94ec2f",
+    "tools/cnn_n8_task1.py": "a11e7ca62f77a99ad7cc2dd8b595187a1460c6fa9c3002cb96b61d3a3ceca7b0",
+    "tools/cnn_n8_task4.py": "e993e09310e32a77b669bfede7d43a1b59ed72527c434b8bb486380239d7560d"
+  }
+}

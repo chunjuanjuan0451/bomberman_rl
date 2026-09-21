@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-counterfactual-signal-audit",
+  "protocol_id": "model-a-v4-counterfactual-signal-s129000",
+  "question": "Does unchanged source-r2 naturally produce enough high-precision counterfactual guaranteed-trap BOMB attempts and successful escape continuations to justify a later replay-sampling-only A/B?",
+  "scope": "phase0_oracle_validation_and_phase1_passive_signal_only",
+  "hypothesis": "A later causal replay experiment is justified only if the already implemented conservative v7b rollout, used passively on source-r2, identifies enough actually chosen BOMB attempts that realize kills without self-death in both Task4B and Task4C.",
+  "source_parent": {
+    "path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt",
+    "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40",
+    "lineage": {
+      "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+      "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+      "arm": "curriculum",
+      "replica": "r2",
+      "stage_id": "task2"
+    }
+  },
+  "historical_v7b_result": {
+    "path": "experiments/logs/evaluations/v7b-quick-gate/SUMMARY.md",
+    "sha256": "73b5f716bfbe14968507bebba88df8ece641e12b035d9b7e8752520b90c742be"
+  },
+  "previous_kill_probe_report": {
+    "path": "experiments/logs/diagnostics/model-a-v4-kill-probe-audit-s128000/report.json",
+    "sha256": "8af9aed46c4f7a87515e65d487659ef05b9002afc7e9f1b19d8b898a24cf36ba"
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_case": 50,
+    "epsilon": 0.05,
+    "oracle_deadline_seconds": 0.03,
+    "policy_updates": 0,
+    "strata": {
+      "task4b_duel": {
+        "opponents": ["seeded_rule_based_agent"],
+        "cases": ["duel_c1", "duel_c2", "duel_c3", "duel_c4"]
+      },
+      "task4c_three_rule": {
+        "opponents": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"],
+        "cases": ["three_c1", "three_c2", "three_c3", "three_c4"]
+      }
+    },
+    "cases": {
+      "duel_c1": {"world_seed": 129101, "agent_seed": 229101, "opponent_seed": 329101},
+      "duel_c2": {"world_seed": 129102, "agent_seed": 229102, "opponent_seed": 329102},
+      "duel_c3": {"world_seed": 129103, "agent_seed": 229103, "opponent_seed": 329103},
+      "duel_c4": {"world_seed": 129104, "agent_seed": 229104, "opponent_seed": 329104},
+      "three_c1": {"world_seed": 129201, "agent_seed": 229201, "opponent_seed": 329201},
+      "three_c2": {"world_seed": 129202, "agent_seed": 229202, "opponent_seed": 329202},
+      "three_c3": {"world_seed": 129203, "agent_seed": 229203, "opponent_seed": 329203},
+      "three_c4": {"world_seed": 129204, "agent_seed": 229204, "opponent_seed": 329204}
+    }
+  },
+  "labeling": {
+    "strict_opportunity": "BOMB is legal; counterfactual rollout finds at least one newly guaranteed trapped opponent; own bomb rollout survives with bottleneck >=2 and terminal positions >=3",
+    "attempt": "strict_opportunity and the unchanged source-r2 behavior actually selects BOMB",
+    "missed_opportunity": "strict_opportunity and the unchanged source-r2 behavior selects a non-BOMB action",
+    "kill_horizon_steps": 6,
+    "self_risk_horizon_steps": 8,
+    "successful_causal_segment": "attempt followed by KILLED_OPPONENT within the same episode and six-transition window, with no KILLED_SELF within the same episode and eight-transition window",
+    "terminal_transition_deduplication": "one row per observed (round, step, action)"
+  },
+  "decision_gate": {
+    "minimum_total_attempts": 20,
+    "minimum_total_successful_causal_segments": 8,
+    "minimum_kill_realization_rate": 0.4,
+    "maximum_self_risk_rate": 0.15,
+    "minimum_successful_causal_segments_per_stratum": 2,
+    "maximum_oracle_timeout_fraction": 0.001,
+    "pass_decision": "counterfactual_causal_signal_supported_stop_before_replay_training",
+    "fail_decision": "counterfactual_causal_signal_not_supported_stop"
+  },
+  "trace_directory": "experiments/logs/diagnostics/model-a-v4-counterfactual-signal-s129000/traces",
+  "collection_manifest_directory": "experiments/logs/runs/model-a-v4-counterfactual-signal-s129000",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-counterfactual-signal-s129000/report.json",
+  "phase2_training_enabled": false,
+  "automatic_followup": false,
+  "source_bindings": {
+    "environment.py": "75b40b8bc5dd1fec7d584ba1dc3a15de060e0bfe1afcfed769d553f5d5d0fd36",
+    "settings.py": "f0b97a16aae57bfc0131d76fca064749435e4d82c23fb967f7e09bd1ace9603a",
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_v7a/planner.py": "a9c846f844d458f9b386b280b5ce3402f51b4a538f875ff0b138027a5169fa9c",
+    "agent_code/model_a_v7b/tactical.py": "55e79d5ddcbe59fe994de388295dc02e8c06baa49f58c8261e83d71206c90b56",
+    "agent_code/model_a_v4_causal_signal/config.py": "542645ab73eea3fe0165d6f6e17b00dc4e2a890ffeb3f63db60eb1bab63e090b",
+    "agent_code/model_a_v4_causal_signal/callbacks.py": "415262a351a87de8aeac3b5352727bbfc4ad8334ca5d3db24001d2233fb9954a",
+    "agent_code/model_a_v4_causal_signal/train.py": "c560e9fb821a9b07ac798abba9a11aaa7f6053b5c70e238d6e7e12ed70da1b91",
+    "agent_code/seeded_rule_based_agent/callbacks.py": "c0dd9d1660219d1c5a0fc6d67482b6dcc622a9cbadca3bd9c9f3452838d1aff7",
+    "tools/v4_task4_counterfactual_signal.py": "df2b84d4dc3f6e087a69fb9097aac8e49b60eef526390d5723e7b66063032bd5"
+  }
+}

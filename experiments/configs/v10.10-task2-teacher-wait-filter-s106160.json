@@ -1,0 +1,89 @@
+{
+  "kind": "v10-task2-teacher-wait-filter-preregistration-v1",
+  "run_id": "v10.10-task2-teacher-wait-filter-s106160",
+  "purpose": "Test whether preserving the planner over low-margin WAIT search corrections repairs the unstable Task 2 teacher target without reducing board performance.",
+  "predecessor_report": "experiments/logs/diagnostics/v10.9-task2-teacher-budget-gate-s106140.json",
+  "predecessor_report_sha256": "7114ad67d53eb0f966be17d4db4d322226ba4b2a8f6d52686fe6194ce6447010",
+  "required_predecessor_decision": "reject_256_regression",
+  "repeatability_report": "experiments/logs/diagnostics/v10.8.1-task2-teacher-repeatability-s106120.json",
+  "repeatability_report_sha256": "a7c5edfd4c3eff28e8e8fc094aa228b02527904abfa0ed1609ac2cbd1c605858",
+  "registered_evidence": {
+    "budget_flip_count": 14,
+    "reference_128_wait_flip_count": 11,
+    "reference_128_wait_flips_below_margin_threshold": 11,
+    "threshold_origin": "The 0.15 confidence margin was frozen in v10.6/v10.7 before these fresh episode seeds; all 11 reference-128 WAIT budget flips in v10.8.1 were below it."
+  },
+  "base_teacher_config": "experiments/configs/v10.6-task2-target-aware-correction-s105200.json",
+  "base_teacher_config_sha256": "35b6f3b4a9cac4f063d5babb389764a203adfc47e21221de76cdc7a198b39e5d",
+  "episode_seeds": [
+    106160,
+    106161,
+    106162,
+    106163,
+    106164,
+    106165,
+    106166,
+    106167,
+    106168,
+    106169,
+    106170,
+    106171
+  ],
+  "opponent_count": 0,
+  "teacher_search_simulations": 128,
+  "state_sample_stride": 4,
+  "wait_filter_margin_threshold": 0.15,
+  "wait_filter_rule": "After productive-BOMB protection, replace the protected search action with the planner action iff the protected search action is WAIT, the planner action is not WAIT, and the root visit margin is strictly below 0.15.",
+  "arms": [
+    {
+      "name": "control_128",
+      "low_margin_wait_filter": false
+    },
+    {
+      "name": "candidate_wait_margin_015",
+      "low_margin_wait_filter": true
+    }
+  ],
+  "controlled_variables": {
+    "persistent_target": true,
+    "productive_bomb_protection": true,
+    "search_horizon_plies": 8,
+    "teacher_crate_progress_weight": 0.08,
+    "teacher_crate_frontier_weight": 0.32,
+    "maximum_steps": 400,
+    "search_seed_rule": "episode_seed * 1000 + step",
+    "only_difference_between_arms": "whether the registered low-margin WAIT correction filter is enabled"
+  },
+  "teacher_gate": {
+    "control_arm": "control_128",
+    "candidate_arm": "candidate_wait_margin_015",
+    "minimum_survival_rate": 1.0,
+    "maximum_mean_crate_regression": 0.25,
+    "maximum_mean_score_regression": 0.25,
+    "maximum_single_seed_crate_regression": 3,
+    "maximum_candidate_worst_seed_crates": 12,
+    "minimum_wait_filter_activations": 12,
+    "minimum_search_wait_fraction_reduction": 0.01,
+    "minimum_search_planner_agreement_gain": 0.01,
+    "selection_rule": "Select the WAIT filter only when every safeguard passes, at least 12 interventions occur, mean search WAIT falls by at least 1 percentage point, and mean search-planner agreement rises by at least 1 percentage point."
+  },
+  "decision_branches": {
+    "select_wait_filter_teacher": "Stop. Freeze the candidate WAIT-filter teacher and next preregister a student-only correction-target experiment; do not start it automatically.",
+    "keep_control_no_target_repair": "Stop. Keep the unfiltered 128-simulation teacher because the filter did not materially repair the target; inspect high-margin WAIT semantics before any student training.",
+    "reject_wait_filter_regression": "Stop. Reject the WAIT filter because it violated a teacher safeguard; retain the unfiltered 128-simulation teacher and do not train from this candidate."
+  },
+  "source_sha256": {
+    "agent_code/model_a_v10/interfaces.py": "fd775edd5c9426416709656080de6cb844b14b6b6d028377a963ece052c69fd2",
+    "agent_code/model_a_v10/planner.py": "b8cd90a9e7421c00db92ba88db5c672effb9ad614e2146bde5b97c386b19a760",
+    "agent_code/model_a_v10/runtime.py": "e09c109a83881d91508960ce17ac26a58ed3e5152c7340f1f318ff2ed1262b4d",
+    "agent_code/model_a_v10/search.py": "b85d8afe0cab792de130d166351efcede4b4cda80a1ff7bbf1b82ac48e68454b",
+    "agent_code/model_a_v10/simulator.py": "dc9e01fdd89c991f75d18188ff8662648447f70aefeeb3d35b7df48f3e7d1f49",
+    "tools/v10_classic_residual_train.py": "ac54f2011f5cde9d8bd8596872e21305f2d94a5a25fa45b3848b66314657c41f",
+    "tools/v10_teacher_repeatability.py": "a7f9ac3d2762e983d4195cd83d41db9587778358a3cf5e545de9bc9a7d63bc30",
+    "tools/v10_teacher_wait_filter_gate.py": "897f0049a0f5ba57ec1f4ecd27e4cbf789beedb5a745bab24f63ced2e40fa3b0"
+  },
+  "output_path": "experiments/logs/diagnostics/v10.10-task2-teacher-wait-filter-s106160.json",
+  "automatic_training": false,
+  "training": false,
+  "h2h": false
+}

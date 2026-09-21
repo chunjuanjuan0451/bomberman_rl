@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-cnn-n8-d4-symmetry-ab",
+  "protocol_id": "model-a-cnn-n8-d4-symmetry-ab-s170000",
+  "status": "preregistered_stop_before_execution",
+  "question": "Does eight-view D4 test-time Q averaging improve the frozen control-r2 checkpoint across both opponent strata and all four seats?",
+  "evidence_source": {
+    "path": "experiments/logs/diagnostics/model-a-cnn-n8-productive-bomb-final-s169000/report.json",
+    "sha256": "946e3481263ed1c1cec5f13c3b68afd9f7470c2ed1a3185c24a847986f5dc600",
+    "required_decision": "productive_bomb_mask_not_confirmed_retain_control_r2_round0150_stop"
+  },
+  "checkpoint": {
+    "label": "control-r2-round0150",
+    "path": "experiments/checkpoints/model-a-cnn-n8-opponent-league-ab-s162000/control/r2/round-0150.pt",
+    "sha256": "3fe04112793ea8fd8fde7f72e7da40f4bb5e54f7ebe0a45f5f1b92f378ac3dee"
+  },
+  "provenance": {
+    "external_source_imported": false,
+    "external_weights_actions_labels_or_trajectories_used": false,
+    "training_data_added": false,
+    "checkpoint_or_mask_modified": false,
+    "geometry": "Project-owned exact D4 coordinate and action permutations; no external-agent implementation is used."
+  },
+  "arms": {
+    "control": "Current frozen single-view control-r2 Q values followed by the unchanged collision-consistent mask.",
+    "treatment": "Mean of eight aligned D4-view Q vectors from the same frozen network, followed by the same unchanged mask."
+  },
+  "collection": {
+    "scenario": "classic",
+    "rounds_per_arm_case": 20,
+    "rounds_per_arm": 160,
+    "total_environment_rounds": 320,
+    "policy_updates": 0,
+    "cases": {
+      "rule-seat0": {"stratum": "rule", "seat": 0, "arm_order": ["control", "treatment"], "world_seed": 170201, "agent_seed": 270201, "rule_seed": 370201, "roster": ["target", "seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-seat1": {"stratum": "rule", "seat": 1, "arm_order": ["treatment", "control"], "world_seed": 170202, "agent_seed": 270202, "rule_seed": 370202, "roster": ["seeded_rule_based_agent", "target", "seeded_rule_based_agent", "seeded_rule_based_agent"]},
+      "rule-seat2": {"stratum": "rule", "seat": 2, "arm_order": ["treatment", "control"], "world_seed": 170203, "agent_seed": 270203, "rule_seed": 370203, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "target", "seeded_rule_based_agent"]},
+      "rule-seat3": {"stratum": "rule", "seat": 3, "arm_order": ["control", "treatment"], "world_seed": 170204, "agent_seed": 270204, "rule_seed": 370204, "roster": ["seeded_rule_based_agent", "seeded_rule_based_agent", "seeded_rule_based_agent", "target"]},
+      "mixed-seat0": {"stratum": "mixed", "seat": 0, "arm_order": ["treatment", "control"], "world_seed": 170301, "agent_seed": 270301, "rule_seed": 370301, "coin_seed": 470301, "random_seed": 570301, "roster": ["target", "seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-seat1": {"stratum": "mixed", "seat": 1, "arm_order": ["control", "treatment"], "world_seed": 170302, "agent_seed": 270302, "rule_seed": 370302, "coin_seed": 470302, "random_seed": 570302, "roster": ["seeded_rule_based_agent", "target", "seeded_coin_collector_agent", "seeded_random_agent"]},
+      "mixed-seat2": {"stratum": "mixed", "seat": 2, "arm_order": ["control", "treatment"], "world_seed": 170303, "agent_seed": 270303, "rule_seed": 370303, "coin_seed": 470303, "random_seed": 570303, "roster": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "target", "seeded_random_agent"]},
+      "mixed-seat3": {"stratum": "mixed", "seat": 3, "arm_order": ["treatment", "control"], "world_seed": 170304, "agent_seed": 270304, "rule_seed": 370304, "coin_seed": 470304, "random_seed": 570304, "roster": ["seeded_rule_based_agent", "seeded_coin_collector_agent", "seeded_random_agent", "target"]}
+    }
+  },
+  "decision_rule": {
+    "minimum_score_gain_per_round": 0.10,
+    "minimum_winning_blocks_out_of_8": 5,
+    "minimum_rule_score_delta_per_round": -0.05,
+    "minimum_mixed_score_delta_per_round": -0.05,
+    "maximum_suicide_increase_per_round": 0.0,
+    "maximum_kill_loss_per_round": 0.02,
+    "maximum_invalid_increase_per_round": 0.0,
+    "maximum_treatment_mean_decision_time_ms": 50.0,
+    "pass_decision": "d4_symmetry_supported_for_selection_free_confirmation_stop",
+    "fail_decision": "d4_symmetry_not_supported_retain_control_r2_round0150_stop"
+  },
+  "manifest_directory": "experiments/logs/evaluations/model-a-cnn-n8-d4-symmetry-ab-s170000",
+  "report_path": "experiments/logs/diagnostics/model-a-cnn-n8-d4-symmetry-ab-s170000/report.json",
+  "training_allowed": false,
+  "checkpoint_selection_allowed": false,
+  "checkpoint_copy_allowed": false,
+  "candidate_deployment_allowed": false,
+  "automatic_followup": false
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "kind": "model-a-v4-task1-retention-audit",
+  "protocol_id": "model-a-v4-task1-retention-audit-s118100",
+  "question": "On identical unseen Task1 seeds, did clean-v4 Task2 training cause reproducible loss of the Task1 policy?",
+  "scope": "frozen-checkpoint evaluation only; no training, checkpoint selection, Task3, rehearsal or architecture change",
+  "replicas": ["r1", "r2", "r3"],
+  "evaluation_manifest_directory": "experiments/logs/evaluations/model-a-v4-task1-retention-audit-s118100",
+  "report_path": "experiments/logs/diagnostics/model-a-v4-task1-retention-audit-s118100.json",
+  "evaluation": {
+    "scenario": "coin-heaven",
+    "opponents": [],
+    "rounds_per_case": 25,
+    "cases": [
+      {"world_seed": 118101, "agent_seed": 218101, "opponent_seed": 318101},
+      {"world_seed": 118102, "agent_seed": 218102, "opponent_seed": 318102}
+    ]
+  },
+  "decision_rule": {
+    "minimum_absolute_drop_per_round": 5.0,
+    "maximum_retained_fraction": 0.7,
+    "minimum_affected_replicas": 2,
+    "minimum_family_drop_per_round": 5.0,
+    "maximum_task1_gap_to_v4_for_joint_parent": 0.25,
+    "joint_parent_current_task_requirement": "existing after-Task2 Task2 score_per_round must be at least frozen v4",
+    "confirmed_action": "stop and ask the user whether to preregister retention-aware immutable checkpoint selection",
+    "not_confirmed_action": "stop and classify the prior apparent drop as evaluation-seed/checkpoint variance",
+    "automatic_selection": false
+  },
+  "source_experiment": {
+    "protocol_path": "experiments/configs/model-a-v4-clean-curriculum-s114000.json",
+    "protocol_sha256": "73ad859c37698d9c0a069364a723a0827ae98782df61712c0048d9a7b2f386a4",
+    "task1_report": {
+      "path": "experiments/logs/course-reports/model-a-v4-clean-curriculum-s114000/task1.json",
+      "sha256": "be9e8e2b1ffc962ef63f4a79a7aa1bb6d51db3e91675dea1aeae869c33002aa1"
+    },
+    "task2_report": {
+      "path": "experiments/logs/course-reports/model-a-v4-clean-curriculum-s114000/task2.json",
+      "sha256": "d640434f1af6064cb7985728d23025fba16b85395a5a3b8bae74426fe1c9b3c7"
+    },
+    "checkpoints": {
+      "r1": {
+        "task1": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r1/task1.pt", "sha256": "050e1628221bd4bc9ed1a4453592acd024efff61e60ddae6fef01a3f9b04369a"},
+        "task2": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r1/task2.pt", "sha256": "c1b0b93861c8d26393242be135c3cb1702f6e5b35d793cbf9dc87c5b9d274353"}
+      },
+      "r2": {
+        "task1": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task1.pt", "sha256": "0a87d278052d3ff5409de67171c28a46f09d43ef0acd63ee4cf6a62151c3fa21"},
+        "task2": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r2/task2.pt", "sha256": "6ab7b65aced2e3e2edeae68668ffa7f713cf7fd9f495c5c89201cdbfbaf35d40"}
+      },
+      "r3": {
+        "task1": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r3/task1.pt", "sha256": "49ed4e121bc015211dbc623c38cd034cc090b383c3f9d6dd81fbc10d0934d799"},
+        "task2": {"path": "experiments/checkpoints/model-a-v4-clean-curriculum-s114000/curriculum/r3/task2.pt", "sha256": "fa2129edbaa07f1ddc95b0e209604956e85e17e0c99eca7cfbacbf160fe2bca3"}
+      }
+    }
+  },
+  "frozen_v4_baseline": {
+    "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+    "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "source_bindings": {
+    "agent_code/model_a_dqn/callbacks.py": "7093360ce754ecb41827b1f873b77a38433f0e6ab4f84f1537b15793a9c873f9",
+    "agent_code/model_a_dqn/features.py": "2176e1fdce2acb84ed999e9f8bc404f6a4fe3a6df8a7fcb21b774f6b8ab059de",
+    "agent_code/model_a_dqn/network.py": "46a974db78914564b72453582dc8db06bdaced8770bd925971e2e86d25f62a28",
+    "agent_code/model_a_v4_curriculum/config.py": "0ff651fc7e4607c59f74c78cba1a53e7cabfc6d1dc108a139200b063ead596cc",
+    "agent_code/model_a_v4_curriculum/callbacks.py": "f280d6858e276e1ddb0f70091ef5ba9a7e3d71680d38d41e5f99a6d79431fd4b",
+    "tools/v4_clean_curriculum.py": "9590878a6d0644a42a2704fc07ad21de736e95c94504b380b978649651c64c1b",
+    "tools/v4_task1_retention_audit.py": "1539a454d28cbe987c1099cfb2d4b46ca56f7f5eaa2c252abeb2cc7519396b54"
+  }
+}

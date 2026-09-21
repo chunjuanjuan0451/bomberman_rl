@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "kind": "task3-replay-sampling-matched-v1",
+  "run_id": "task3-replay-sampling-matched-s110000",
+  "task": 3,
+  "includes_task4": false,
+  "training": true,
+  "automatic_followup": false,
+  "hypothesis": "Kill-causal replay sampling prevents rare attack credit from being drowned by coin transitions while preserving the frozen-D policy and learning rule.",
+  "only_variable": {
+    "name": "replay_sampling_distribution",
+    "control": "uniform without replacement: 64 of 64",
+    "stratified": "16 of 64 kill-causal plus 48 ordinary when tags exist; exact uniform fallback before the first tag",
+    "kill_causal_definition": "If KILLED_OPPONENT occurs at episode step t, tag stored n-step transitions whose start_step is in [t-11,t].",
+    "unchanged": [
+      "single circular replay capacity and retention",
+      "frozen-v4 base and action-conditioned residual architecture",
+      "features and legal-action mask",
+      "3-step Double DQN targets and Smooth-L1 loss",
+      "reward and danger shaping",
+      "optimizer, schedule, D4 regularization, exploration, opponents and round budget"
+    ]
+  },
+  "fresh_seed_floor": 110000,
+  "formal_budget": {
+    "training_runs": 6,
+    "training_rounds": 1800,
+    "evaluation_runs": 56,
+    "evaluation_rounds": 2800
+  },
+  "v4": {
+    "checkpoint_path": "agent_code/model_a_dqn/model_a.pt",
+    "checkpoint_sha256": "d5fe215b1f909149e1eefa2ee6ac00d7365e61343b333ba91b900e11e911d239"
+  },
+  "replicas": {
+    "R1": {
+      "labels": {"control": "C1", "stratified": "S1"},
+      "control": {
+        "config_path": "experiments/configs/task3-replay-control-r1-s110000.json",
+        "config_sha256": "a077cc046cc7da3ab2d113b76d8fbce2b28c9bee9c4b380211ae35e5e1342d0d"
+      },
+      "stratified": {
+        "config_path": "experiments/configs/task3-replay-stratified-r1-s110000.json",
+        "config_sha256": "1aed8952f868ae053a477d61bc0b944fb6ccf72943ef0c8a821f0c67459dedc9"
+      }
+    },
+    "R2": {
+      "labels": {"control": "C2", "stratified": "S2"},
+      "control": {
+        "config_path": "experiments/configs/task3-replay-control-r2-s110001.json",
+        "config_sha256": "dcc3d0c6f744e472490b717d524eb7bd3a69f7be58990d28e141bf5e75ba8f2a"
+      },
+      "stratified": {
+        "config_path": "experiments/configs/task3-replay-stratified-r2-s110001.json",
+        "config_sha256": "ff9f096b276a341357e01b9ff6d42d38625cb0108f557a19318f5d42a03b3791"
+      }
+    },
+    "R3": {
+      "labels": {"control": "C3", "stratified": "S3"},
+      "control": {
+        "config_path": "experiments/configs/task3-replay-control-r3-s110002.json",
+        "config_sha256": "73538475aaf9caeb5d552d53f736883401c31551454ef1a76abb9bed14b3e63e"
+      },
+      "stratified": {
+        "config_path": "experiments/configs/task3-replay-stratified-r3-s110002.json",
+        "config_sha256": "cfcd89a4e030f9eaae192303d3e7ede869f90dc2c3338650d43bd7edc838e572"
+      }
+    }
+  },
+  "strata": {
+    "peaceful": {
+      "opponent": "seeded_peaceful_agent",
+      "rounds_per_seed": 50,
+      "cases": [
+        {"world_seed": 110100, "agent_seed": 210100, "opponent_seed": 310100},
+        {"world_seed": 110101, "agent_seed": 210101, "opponent_seed": 310101},
+        {"world_seed": 110102, "agent_seed": 210102, "opponent_seed": 310102},
+        {"world_seed": 110103, "agent_seed": 210103, "opponent_seed": 310103}
+      ]
+    },
+    "coin_collector": {
+      "opponent": "seeded_coin_collector_agent",
+      "rounds_per_seed": 50,
+      "cases": [
+        {"world_seed": 110200, "agent_seed": 210200, "opponent_seed": 310200},
+        {"world_seed": 110201, "agent_seed": 210201, "opponent_seed": 310201},
+        {"world_seed": 110202, "agent_seed": 210202, "opponent_seed": 310202},
+        {"world_seed": 110203, "agent_seed": 210203, "opponent_seed": 310203}
+      ]
+    }
+  },
+  "vs_v4_gate": {
+    "minimum_stratum_score_delta": "-1/10",
+    "minimum_stratum_kills_delta": "0/1",
+    "maximum_stratum_suicides_increase": "1/25",
+    "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "1/10",
+    "minimum_overall_kills_delta": "1/50",
+    "maximum_overall_coin_regression": "1/10",
+    "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20",
+    "minimum_paired_net_wins": 0,
+    "maximum_single_cell_score_regression": "3/4",
+    "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "vs_control_gate": {
+    "minimum_stratum_score_delta": "-1/10",
+    "minimum_stratum_kills_delta": "0/1",
+    "maximum_stratum_suicides_increase": "1/25",
+    "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "-1/10",
+    "minimum_overall_kills_delta": "1/100",
+    "maximum_overall_coin_regression": "1/10",
+    "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20",
+    "minimum_paired_net_wins": 0,
+    "maximum_single_cell_score_regression": "3/4",
+    "maximum_seed_mean_decision_time_ms": 100.0,
+    "minimum_supportive_replicas": 2
+  },
+  "replica_gate": {
+    "minimum_stratum_score_delta": "-1/10",
+    "minimum_stratum_kills_delta": "-1/50",
+    "maximum_stratum_suicides_increase": "1/25",
+    "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "-1/10",
+    "minimum_overall_kills_delta": "0/1",
+    "maximum_overall_coin_regression": "1/10",
+    "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20",
+    "minimum_paired_net_wins": -8,
+    "maximum_single_cell_score_regression": "3/4",
+    "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "replica_v4_floor": {
+    "minimum_stratum_score_delta": "-1/10",
+    "minimum_stratum_kills_delta": "-1/50",
+    "maximum_stratum_suicides_increase": "1/25",
+    "maximum_stratum_invalid_increase": "2/25",
+    "minimum_overall_score_delta": "-1/10",
+    "minimum_overall_kills_delta": "-1/50",
+    "maximum_overall_coin_regression": "1/10",
+    "maximum_overall_suicides_increase": "1/50",
+    "maximum_overall_invalid_increase": "1/20",
+    "minimum_paired_net_wins": -8,
+    "maximum_single_cell_score_regression": "3/4",
+    "maximum_seed_mean_decision_time_ms": 100.0
+  },
+  "selection": {
+    "order": ["S1", "S2", "S3"],
+    "rule": "lowest-index-supportive"
+  },
+  "evaluation_output_directory": "experiments/logs/evaluations/task3-replay-sampling-matched-s110000",
+  "output_path": "experiments/logs/evaluations/task3-replay-sampling-matched-s110000.json",
+  "decision_branches": {
+    "replay_sampling_confirmed": "Stop. Preserve the lowest-index supportive candidate and return to Codex for interpretation; do not start Task 4 or another experiment.",
+    "replay_sampling_not_confirmed_stop": "Stop. Report the failed checks and replay diagnostics to Codex; do not scan ratios/windows, add architecture, add shaping, start Task 4, or launch follow-up work."
+  },
+  "bindings": {
+    "agent_code/model_a_task3_replay/config.py": "1af18f545e5358d03ff9017ab7d06b349660c23dcc411507a76d5c62bb0c61cd",
+    "agent_code/model_a_task3_replay/replay.py": "ff7d5f4f19caca4e58ff4c93289be8f8db1586b738b02d0b1d3d8b0e586e6956",
+    "agent_code/model_a_task3_replay/callbacks.py": "2c698ca699d8786465f00bb0b1cdcf80ba8fadef8406ffee21e40b353e7d96bc",
+    "agent_code/model_a_task3_replay/train.py": "3ba2177c831cac69f7b92914c71fb1d1d7682aa90ebb995b1a5827cbcc538326",
+    "agent_code/model_a_task3/features.py": "2d02f8542c7114f73279d5749cfc2aaf804ded39ebf33c95b217fb5629bf35e7",
+    "agent_code/model_a_task3/network.py": "6082b1aa44da5f8cf987d55585798e6af13b9518f819ecdbe49f7a2760123f1d",
+    "agent_code/model_a_v6/features.py": "248cc2ad91188d5d377642fd2e49799d7aeafd5417f5d711d88d559a35416cad",
+    "agent_code/model_a_v6/symmetry.py": "61d0c858342ef948568c2fd109ba82ba1c7ec8237e906e78b0951f027b6e4109",
+    "agent_code/task3_curriculum_agent/callbacks.py": "0bc53b66847ace2ec169faa7b9f9ffa6d9a6980be19a4b025e1b21f37c28ff23",
+    "tools/task3_replay_sampling.py": "3e85f4d7942aac1f57bae7e0a4f0810613eee7361b630d12be2770472f90f563"
+  }
+}
